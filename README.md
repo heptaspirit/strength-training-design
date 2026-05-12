@@ -1,0 +1,180 @@
+# Strength Training Design Skill
+
+> 力量训练计划设计 Skill - 整合 JTS 周期化、Westside 共轭法、近年 ACSM 指南、MRV 审计等方法论
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version: 0.6.0](https://img.shields.io/badge/Version-0.6.0-green.svg)](CHANGELOG.md)
+
+本 Skill 为 AI 助手提供专业力量训练计划设计能力，适用于支持标准 skill 格式的 AI Agent 平台。
+
+## 🎯 功能特性
+
+- ✅ 设计 6/8/12/16 周力量周期计划
+- ✅ 基于 JTS 原则设计 Top Set / Back-off 结构
+- ✅ 对现有计划进行 MRV（最大可恢复容量）审计
+- ✅ 根据 RPE/RIR 数据动态调整训练容量与强度
+- ✅ 输出 Markdown 或同步至在线文档（腾讯文档/金山文档/Notion）
+
+## 📚 方法论整合
+
+| 方法论 | 应用场景 | 参考文件 |
+|--------|----------|----------|
+| JTS 周期化 | 周期结构、TS/BO 设计 | `references/methodology/jts-periodization.md` |
+| Westside 共轭法 | 辅助动作选择、弱点针对性 | `references/methodology/westside-acsm.md` |
+| 近年 ACSM 指南 | 最新运动生理学研究 | `references/methodology/westside-acsm.md` |
+| MRV 审计 | 容量管理、过度训练预防 | `references/planning/mrv-audit.md` |
+| RPE/RIR 自我调节 | 强度自动调节 | `references/methodology/autoregulation.md` |
+
+## 📂 文件结构
+
+```
+strength-training-design/
+├── SKILL.md                          # 主文件（AI 加载入口）
+├── CHANGELOG.md                       # 版本变更记录
+├── README.md                          # 本文件
+├── LICENSE                            # MIT 许可证
+└── references/
+    ├── methodology/                  # 方法论详解
+    │   ├── jts-periodization.md
+    │   ├── westside-acsm.md
+    │   ├── autoregulation.md
+    │   └── recovery-and-frequency.md
+    ├── planning/                     # 计划设计工具
+    │   ├── mrv-audit.md
+    │   ├── pr-estimation.md
+    │   ├── rpe-reference-and-progressive-overload.md
+    │   └── plan-modification.md
+    ├── exercises/                    # 动作数据库
+    │   ├── weak-points-and-olympic-lifting.md
+    │   └── assistance-exercise-database.md
+    ├── accessories/                  # 辅助训练
+    │   └── ohp-core-aerobic.md
+    └── output/                       # 输出模板与设计哲学
+        └── output-templates.md
+```
+
+## 🚀 安装使用
+
+### 方式一：直接安装 .skill 文件（推荐）
+
+适用于支持 `.skill` 格式的所有 AI Agent：
+
+1. 下载 `strength-training-design.skill` 文件
+2. 在你的 AI Agent 中导入 skill（具体方式见下方各平台说明）
+3. AI 会自动加载 `SKILL.md` 作为入口
+
+### 方式二：手动部署（源码方式）
+
+将 `strength-training-design/` 目录复制到对应 Agent 的 skills 目录。
+
+**通用安装路径示例**：
+
+```bash
+# User-level（所有项目可用）
+cp -r strength-training-design ~/.agent/skills/
+
+# Project-level（仅当前项目可用）
+cp -r strength-training-design {workspace}/.agent/skills/
+```
+
+> **💡 提示**：请将 `{workspace}/.agent/` 替换为你的 Agent 实际使用的 skills 目录路径。各 Agent 的目录结构可能不同，请查阅对应 Agent 的文档。
+
+**WorkBuddy / CodeBuddy**（已测试 ✅）：
+```bash
+cp -r strength-training-design ~/.workbuddy/skills/
+```
+
+## 📝 使用示例
+
+**用户提问**：
+```
+帮我设计一个 8 周力量举训练计划，目标是深蹲 140kg、卧推 100kg、硬拉 160kg
+```
+
+**AI 响应流程**：
+1. 收集用户信息（训练经验、当前 PR、可用频率）
+2. 如果用户无 1RM 数据，引导进行 PR 估算（见 `references/planning/pr-estimation.md`）
+3. 设计周期结构（容量期 → 力量期 → 峰值期）
+4. 各动作 TS/BO 设计
+5. MRV 审计
+6. 输出确认 → 完整计划
+
+## 🔧 核心工作流
+
+```
+第一步：收集用户个性化信息（含 PR 估算）
+    ↓
+第二步：设计周期结构（含恢复周期检查）
+    ↓
+第三步：各动作类型设计（主动作 + 辅助）
+    ↓
+第四步：核心稳定训练设计
+    ↓
+第五步：适度有氧训练设计
+    ↓
+第六步：MRV 审计
+    ↓
+第七步：退阶方案与自我调节
+    ↓
+第八步：输出前确认 ← 展示概要，用户确认后再输出完整计划
+```
+
+## 🧠 关键技术概念
+
+- **MRV（Maximum Recoverable Volume）**：最大可恢复容量，超过此容量会导致过度训练
+- **RPE（Rating of Perceived Exertion）**：自觉疲劳度评分，RPE 8 = 还能做 2 次
+- **RIR（Reps in Reserve）**：剩余次数，RIR 2 = 还能做 2 次
+- **JTS 周期化**：容量期高容量中等强度 → 力量期中等容量高强度 → 峰值期低容量极高强度
+- **TS/BO（Top Set / Back-off）**：顶级组 + 降重组，JTS 核心训练结构
+
+## 🤝 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+**贡献前请阅读**：
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开 Pull Request
+
+**代码规范**：
+- 所有文档使用 Markdown 格式
+- 中文使用 UTF-8 编码
+- 参考文件之间避免内容重复，使用交叉引用
+- 保持 `SKILL.md` 简洁，详细信息放在 `references/` 目录
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
+
+## ✍️ 作者
+
+**heptaspirit**
+
+## 📋 更新日志
+
+详见 [CHANGELOG.md](CHANGELOG.md)
+
+---
+
+## 🌟 支持的平台
+
+本 Skill 使用标准 `.skill` 格式（Zip 压缩包，内含 `SKILL.md` 入口文件和 `references/` 参考文档目录）。
+
+**格式兼容性**：
+- ✅ **WorkBuddy / CodeBuddy**：原生支持 `.skill` 格式
+- ✅ **OpenClaw**：支持类似 skill 格式，可能需要调整目录结构
+- ✅ **其他 AI Agent**：若支持 `.skill` 格式或类似 skill 系统，可参考本 Skill 的方法论和参考文档，适配到对应格式
+
+**已测试平台**：
+- ✅ WorkBuddy / CodeBuddy
+
+**其他 AI Agent 平台适配**：
+本 Skill 的知识体系和方法论可用于任何 AI Agent，但不同 Agent 的 skill 格式可能不同。如果你的 Agent 使用不同的 skill 格式，可以参考本 Skill 的方法论和参考文档，适配到对应格式。
+
+欢迎提交其他 Agent 平台的适配方案！
+
+---
+
+**Keywords**: 力量训练, 力量举, 训练计划, JTS, Westside, MRV, RPE, ACSM, 周期化, AI Skill, Strength Training, Powerlifting, Program Design

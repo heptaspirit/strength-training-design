@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Skill 打包文件（从源码目录排除）
+*.skill
+*.zip
+
+# 备份文件
+*.bak
+*.backup
+*.tmp
+
+# 日志文件
+*.log
+
+# 操作系统
+Thumbs.db
