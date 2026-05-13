@@ -3,7 +3,7 @@
 > 力量训练计划设计 Skill - 整合 JTS 周期化、Westside 共轭法、近年 ACSM 指南、MRV 审计等方法论
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.6.1](https://img.shields.io/badge/Version-0.6.1-green.svg)](CHANGELOG.md)
+[![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-green.svg)](CHANGELOG.md)
 
 本 Skill 为 AI 助手提供专业力量训练计划设计能力，适用于支持标准 skill 格式的 AI Agent 平台。
 
