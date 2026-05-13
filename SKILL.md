@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练计划设计，支持 JTS 周期化、Westside 共轭、近年 ACSM 指南、MRV 审计等方法论。当用户请求设计/修改/审计力量训练计划、评估训练容量、或需要基于 RPE/RIR 制定周期化计划时触发此 skill。适用场景：(1) 设计 8 周/12 周力量周期计划，(2) 基于 JTS 原则做 TS/BO 结构，(3) 对现有计划做 MRV 审计，(4) 根据 RPE 数据调整训练容量/强度，(5) 生成适合 Obsidian 的 Markdown 训练计划文档。
-version: 0.6.0
+version: 0.6.1
 ---
 
 # 力量训练计划设计 Skill

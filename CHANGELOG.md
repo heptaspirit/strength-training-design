@@ -2,6 +2,23 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.6.1] - 2026-05-13
+
+### Added（新增）
+- **设计哲学整合到输出模板**：将"训练计划设计哲学"从注释改为实际输出内容，确保生成计划时包含
+- **Hermes Agent 兼容性确认**：朋友测试通过，添加至 README 已测试平台列表
+- **参考文档添加脚本引用**：`mrv-audit.md` 和 `rpe-reference-and-progressive-overload.md` 添加对应 Python 脚本引用
+
+### Changed（修改）
+- **README.md**：添加 Hermes Agent 到已测试平台（v0.6.0 确认可用）
+- **README.md**：更新平台兼容性说明，移除冗余的"欢迎提交适配方案"提示
+- **output-templates.md**：设计哲学添加到三个模板（4天/周、3天/周、5天/周）
+
+### Fixed（修复）
+- 修复设计哲学未出现在生成计划中的问题（之前仅是文档注释，未整合到输出模板）
+
+---
+
 ## [0.6.0] - 2026-05-12
 
 ### Added（新增）

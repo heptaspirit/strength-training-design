@@ -118,6 +118,24 @@
 
 ---
 
+## 减轻 token 消耗
+
+若计划涉及大量 MRV 计算，可调用 `scripts/calculate_mrv.py` 脚本辅助计算：
+
+```bash
+# 计算某肌群的容量是否超过 MRV
+python scripts/calculate_mrv.py --muscle_group chest --weekly_sets 18 --mrv 22
+
+# 输出示例：
+# Muscle Group: chest
+# Weekly Sets: 18
+# MRV: 22
+# Percentage: 81.8%
+# Status: ⚠️ 接近 MRV（≥80%），需监控疲劳
+```
+
+---
+
 ## 常见错误##
 
 1. ❌ 只统计主项，忘记辅助 → ✅ 主项 + 辅助都要统计

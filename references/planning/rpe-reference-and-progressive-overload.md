@@ -317,6 +317,36 @@ W5 卧推 TS：
 
 ---
 
+## 减轻 token 消耗
+
+若需频繁进行 RPE ↔ %1RM 转换或重量取整计算，可调用以下脚本辅助：
+
+### 1. RPE ↔ %1RM 转换（scripts/rpe_to_percentage.py）
+
+```bash
+# 根据 RPE 和次数查询对应的 %1RM
+python scripts/rpe_to_percentage.py --reps 5 --rpe 8 --one_rm 140
+
+# 输出示例：
+# RPE: 8, Reps: 5
+# Percentage of 1RM: 80%
+# Estimated Weight: 112.0 kg
+```
+
+### 2. 重量步进取整（scripts/round_weight.py）
+
+```bash
+# 根据健身房哑铃片步进取整重量
+python scripts/round_weight.py --weight 93.2 --plate_step 2.5
+
+# 输出示例：
+# Original Weight: 93.2 kg
+# Plate Step: 2.5 kg
+# Rounded Weight: 92.5 kg
+```
+
+---
+
 ## 常见错误
 
 1. ❌ 整个计划用初始 PR 计算所有重量 → ✅ 参考 PR 应随周期进度逐步提升
