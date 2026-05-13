@@ -55,34 +55,65 @@ strength-training-design/
 
 ## 🚀 安装使用
 
-### 方式一：直接安装 .skill 文件（推荐）
+本 Skill 提供两种安装方式，推荐使用**方式一（源码安装）**。
 
-适用于支持 `.skill` 格式的所有 AI Agent：
+### 方式一：源码安装（推荐）
 
-1. 下载 `strength-training-design.skill` 文件
-2. 在你的 AI Agent 中导入 skill（具体方式见下方各平台说明）
-3. AI 会自动加载 `SKILL.md` 作为入口
+适用于所有支持 `.skill` 格式的 AI Agent：
 
-### 方式二：手动部署（源码方式）
-
-将 `strength-training-design/` 目录复制到对应 Agent 的 skills 目录。
-
-**通用安装路径示例**：
+#### 1. 克隆仓库到本地
 
 ```bash
-# User-level（所有项目可用）
-cp -r strength-training-design ~/.agent/skills/
-
-# Project-level（仅当前项目可用）
-cp -r strength-training-design {workspace}/.agent/skills/
+git clone https://github.com/heptaspirit/strength-training-design.git
 ```
 
-> **💡 提示**：请将 `{workspace}/.agent/` 替换为你的 Agent 实际使用的 skills 目录路径。各 Agent 的目录结构可能不同，请查阅对应 Agent 的文档。
+#### 2. 复制到 Agent 的 skills 目录
 
 **WorkBuddy / CodeBuddy**（已测试 ✅）：
 ```bash
 cp -r strength-training-design ~/.workbuddy/skills/
 ```
+
+**Hermes Agent**（已测试 ✅）：
+```bash
+cp -r strength-training-design ~/.hermes/skills/
+```
+
+**其他 AI Agent**：
+将 `strength-training-design/` 目录复制到对应 Agent 的 skills 目录（请查阅对应 Agent 的文档）。
+
+---
+
+### 方式二：手动打包 .skill 文件（高级用户）
+
+如果你需要将 Skill 分享给没有 Git 的用户，可以手动打包：
+
+```bash
+# 进入 skill 目录
+cd strength-training-design/
+
+# 打包为 .skill 文件（本质是 Zip 压缩包）
+# macOS/Linux:
+zip -r strength-training-design.skill * -x "*.git*"
+
+# Windows (PowerShell):
+Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
+```
+
+然后将 `.skill` 文件分享给其他用户，在他们的 AI Agent 中导入即可。
+
+> 💡 **提示**：`.skill` 文件本质上是 Zip 压缩包，只是扩展名改成了 `.skill`。AI Agent 导入时会自动解压到 skills/ 目录。
+
+---
+
+### 验证安装
+
+安装完成后，在 AI Agent 中提问：
+```
+帮我设计一个 8 周力量训练计划
+```
+
+如果 AI 正确触发 skill 并询问你的训练信息，说明安装成功。
 
 ## 📝 使用示例
 
