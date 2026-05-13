@@ -17,8 +17,8 @@ ENV/
 .DS_Store
 
 # Skill 打包文件（从源码目录排除）
-*.skill
-*.zip
+# *.skill
+# *.zip
 
 # 备份文件
 *.bak
