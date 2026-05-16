@@ -2,6 +2,21 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.7.1] - 2026-05-16
+
+### Added（新增）
+- **膝上高翻/膝上高拉作为硬拉日热身/启动训练**：`references/exercises/weak-points-and-olympic-lifting.md` 新增完整章节，包含理论依据、适用/不适用场景、安排建议、注意事项（基于实证反馈与运动科学研究）
+- **BO 组逐级减重指引**：`references/output/output-templates.md` 退阶方案新增 BO 组第 3 组起主动减重、训练者按感觉自行调整的指引，避免累积疲劳导致受伤（基于用户实证反馈）
+
+### Changed（修改）
+- **SKILL.md 结构优化**：将"功能一"（PR 估算）、"功能二"（修改计划）、"功能三"（完整计划设计）的详细流程迁移到对应参考文件，SKILL.md 仅保留触发条件和参考文件指针，支持 AI 触发时渐进式查询，减少 token 消耗
+- **SKILL.md 版本号**：v0.7.0 → v0.7.1
+
+### Fixed（修复）
+- 无
+
+---
+
 ## [0.7.0] - 2026-05-13
 
 ### Added（新增）
