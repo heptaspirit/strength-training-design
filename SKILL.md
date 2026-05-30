@@ -15,12 +15,16 @@ version: 0.8.0
 详细方法论参考以下文件（按需加载）：
 
 - **JTS 周期化原则** → `references/methodology/jts-periodization.md`
-- **MRV 审计方法与数据** → `references/planning/mrv-audit.md`
 - **Westside 共轭法 & 近年 ACSM 指南** → `references/methodology/westside-acsm.md`
 - **RPE/RIR 自我调节** → `references/methodology/autoregulation.md`
-- **身高/肢体比例与弱点分析** → `references/methodology/anthropometry-and-weak-points.md`（按需）
-- **热身、放松与灵活度** → `references/methodology/warmup-flexibility.md`（按需）
-- **实力推 OHP、核心稳定与有氧** → `references/accessories/ohp-core-aerobic.md`（按需）
+- **MRV 审计方法与数据** → `references/volume-recovery/mrv-audit.md`
+- **恢复周期与训练频率** → `references/volume-recovery/recovery-and-frequency.md`
+- **身高/肢体比例与弱点分析** → `references/exercises/anthropometry-and-weak-points.md`（按需）
+- **热身、放松与灵活度** → `references/health/warmup-flexibility.md`（按需）
+- **伤病预防** → `references/health/injury-prevention.md`（按需）
+- **实力推 OHP** → `references/exercises/ohp-training.md`（按需）
+- **核心稳定训练** → `references/health/core-training.md`（按需）
+- **有氧训练** → `references/exercises/aerobic-training.md`（按需）
 
 ---
 
@@ -38,7 +42,7 @@ version: 0.8.0
 
 ### 执行流程
 
-详细流程、估算方法、输出格式等，请**先读取** `references/planning/pr-estimation.md`，包括：
+详细流程、估算方法、输出格式等，请**先读取** `references/intensity/pr-estimation.md`，包括：
 1. 询问用户信息（训练经验、性别、体重）
 2. 选择估算方法（AMRAP 测试 / 体重倍数法 / RPE 反推）
 3. 输出估算结果（保守值 + 参考范围 + 校准建议）
@@ -74,26 +78,28 @@ version: 0.8.0
 设计完整训练计划时，请按以下顺序**渐进式读取**参考文件：
 
 1. **确定目标与约束** → 收集用户信息（PR、目标、频率、伤病、肢体比例等）
-   - 若未测试过 1RM，先读取 `references/planning/pr-estimation.md`
-   - 身高/肢体比例与弱点分析：`references/methodology/anthropometry-and-weak-points.md`
-   - 伤病预防自测：`references/methodology/injury-prevention.md`
+   - 若未测试过 1RM，先读取 `references/intensity/pr-estimation.md`
+   - 身高/肢体比例与弱点分析：`references/exercises/anthropometry-and-weak-points.md`
+   - 伤病预防自测：`references/health/injury-prevention.md`
 
 2. **设计周期结构** → JTS 风格周期（容量期 → 减载 → 力量期 → 冲刺期 → 测试周）
    - 详细周期化原则：`references/methodology/jts-periodization.md`
-   - 恢复周期与训练频率：`references/methodology/recovery-and-frequency.md`
+   - 恢复周期与训练频率：`references/volume-recovery/recovery-and-frequency.md`
 
 3. **各动作类型设计** → 主项 TS/BO 结构、辅助动作选择
-   - RPE ↔ %1RM 参考表：`references/planning/rpe-reference-and-progressive-overload.md`
+   - RPE ↔ %1RM 参考表：`references/intensity/rpe-reference-and-progressive-overload.md`
    - 辅助动作数据库：`references/exercises/assistance-exercise-database.md`
    - 动作进退阶链（伤病/限制时的降级方案）：`references/exercises/assistance-exercise-database.md` 第九节
    - 薄弱点与奥举辅助：`references/exercises/weak-points-and-olympic-lifting.md`
 
 4. **核心稳定与有氧设计** → OHP、核心训练、有氧安排
-   - 详细内容：`references/accessories/ohp-core-aerobic.md`
+   - OHP 训练：`references/exercises/ohp-training.md`
+   - 核心稳定：`references/health/core-training.md`
+   - 有氧训练：`references/exercises/aerobic-training.md`
 
 5. **MRV 审计** → 确保各肌群容量 ≤ MRV
-   - MRV 数据表与审计方法：`references/planning/mrv-audit.md`
-   - 加权疲劳审计（进阶）：`references/planning/mrv-audit.md` 加权疲劳审计章节
+   - MRV 数据表与审计方法：`references/volume-recovery/mrv-audit.md`
+   - 加权疲劳审计（进阶）：`references/volume-recovery/mrv-audit.md` 加权疲劳审计章节
 
 6. **退阶方案与自我调节** → JTS 自我调节原则
    - 详细内容：`references/methodology/autoregulation.md`

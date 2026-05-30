@@ -10,7 +10,7 @@
 > **原则**：本文档是"核心知识库"，但不是"全部知识库"。
 
 本文件聚焦 **训练中的 RPE 自我调节方法**，RPE↔%1RM 对照表与重量计算请参考：
-`references/planning/rpe-reference-and-progressive-overload.md`
+`references/intensity/rpe-reference-and-progressive-overload.md`
 
 ---
 

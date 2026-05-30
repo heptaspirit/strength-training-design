@@ -132,7 +132,7 @@ JTS 提倡**高频率、中等强度**的训练模式：
 ## 五、PR 估算流程（用户未测试过 1RM 时）
 
 > **完整 PR 估算方法、体重倍数表、百分位数参考**：
-> 请查阅 `references/planning/pr-estimation.md`
+> 请查阅 `references/intensity/pr-estimation.md`
 > 
 > 包含：AMRAP 估算、训练经验估算、RPE 反推、各水平体重倍数表。
 

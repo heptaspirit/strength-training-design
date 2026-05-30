@@ -111,7 +111,7 @@
 告诉我这些数据，我来帮你估算 1RM。"
 ```
 
-然后用 RPE 表（见 `references/planning/rpe-reference-and-progressive-overload.md`）反推：
+然后用 RPE 表（见 `references/intensity/rpe-reference-and-progressive-overload.md`）反推：
 
 - 例如：能做 5 次 → 约 RPE 8 → 约 80% 1RM → 1RM ≈ 重量 / 0.8
 

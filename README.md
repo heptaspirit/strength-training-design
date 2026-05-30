@@ -22,7 +22,7 @@
 | JTS 周期化 | 周期结构、TS/BO 设计 | `references/methodology/jts-periodization.md` |
 | Westside 共轭法 | 辅助动作选择、弱点针对性 | `references/methodology/westside-acsm.md` |
 | 近年 ACSM 指南 | 最新运动生理学研究 | `references/methodology/westside-acsm.md` |
-| MRV 审计 | 容量管理、过度训练预防 | `references/planning/mrv-audit.md` |
+| MRV 审计 | 容量管理、过度训练预防 | `references/volume-recovery/mrv-audit.md` |
 | RPE/RIR 自我调节 | 强度自动调节 | `references/methodology/autoregulation.md` |
 
 ## 📂 文件结构
@@ -34,22 +34,29 @@ strength-training-design/
 ├── README.md                          # 本文件
 ├── LICENSE                            # MIT 许可证
 └── references/
-    ├── methodology/                  # 方法论详解
+    ├── methodology/                  # 核心方法论
     │   ├── jts-periodization.md
     │   ├── westside-acsm.md
-    │   ├── autoregulation.md
-    │   └── recovery-and-frequency.md
-    ├── planning/                     # 计划设计工具
-    │   ├── mrv-audit.md
+    │   └── autoregulation.md
+    ├── intensity/                    # 强度与重量计算
     │   ├── pr-estimation.md
-    │   ├── rpe-reference-and-progressive-overload.md
-    │   └── plan-modification.md
-    ├── exercises/                    # 动作数据库
+    │   └── rpe-reference-and-progressive-overload.md
+    ├── volume-recovery/              # 容量与恢复管理
+    │   ├── mrv-audit.md
+    │   └── recovery-and-frequency.md
+    ├── health/                       # 健康与安全
+    │   ├── injury-prevention.md
+    │   ├── warmup-flexibility.md
+    │   └── core-training.md
+    ├── exercises/                    # 动作库与专项
+    │   ├── assistance-exercise-database.md
     │   ├── weak-points-and-olympic-lifting.md
-    │   └── assistance-exercise-database.md
-    ├── accessories/                  # 辅助训练
-    │   └── ohp-core-aerobic.md
-    └── output/                       # 输出模板与设计哲学
+    │   ├── anthropometry-and-weak-points.md
+    │   ├── ohp-training.md
+    │   └── aerobic-training.md
+    ├── planning/                     # 计划设计工具
+    │   └── plan-modification.md
+    └── output/                       # 输出模板
         └── output-templates.md
 ```
 
@@ -124,7 +131,7 @@ Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
 
 **AI 响应流程**：
 1. 收集用户信息（训练经验、当前 PR、可用频率）
-2. 如果用户无 1RM 数据，引导进行 PR 估算（见 `references/planning/pr-estimation.md`）
+2. 如果用户无 1RM 数据，引导进行 PR 估算（见 `references/intensity/pr-estimation.md`）
 3. 设计周期结构（容量期 → 力量期 → 峰值期）
 4. 各动作 TS/BO 设计
 5. MRV 审计
