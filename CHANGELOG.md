@@ -2,6 +2,28 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.8.0] - 2026-05-30
+
+### Added（新增）
+- **疲劳系数加权 MRV 系统**：`references/planning/mrv-audit.md` 新增"加权疲劳审计"章节
+  - 动作疲劳系数（FC）：区分主项 TS/BO/复合辅助/孤立动作的真实疲劳负荷
+  - RPE 修正系数：高 RPE 组的疲劳权重更大
+  - CNS 疲劳独立维度：追踪神经疲劳（硬拉 TS 最高），设定单次训练 CNS 阈值
+  - 跨肌群重叠表：复合动作对次要肌群的疲劳叠加计算
+  - 加权 MRV 参考阈值（10-14 单位/周，替代简单组数统计）
+- **心率区间指引**：`references/accessories/ohp-core-aerobic.md` 新增 Zone 1-5 心率区间表，力量训练者黄金区间 = Zone 2
+- **有氧容量进阶递减逻辑**：不同周期阶段的有氧频率/时长/强度递减方案
+- **减脂期 vs 增肌期有氧差异**：明确两者在有氧频率、类型、时长上的区别
+- **双进阶（Double Progression）方法**：`references/planning/rpe-reference-and-progressive-overload.md` 新增
+- **Cluster Set（组簇训练）方法**：同文件新增，5×1 @ 20s 休息替代 1×5，降低 CNS 疲劳
+- **训练日志模板**：`references/output/output-templates.md` 新增每日/每周/RPE 追踪模板
+- **动作进退阶链**：`references/exercises/assistance-exercise-database.md` 新增第九章，覆盖深蹲/卧推/硬拉/背部/OHP 的进退阶链条
+
+### Changed（修改）
+- **SKILL.md 版本号**：v0.7.1 → v0.8.0
+- **工作流步骤更新**：步骤 3（动作设计）增加进退阶链引用；步骤 5（MRV 审计）增加加权疲劳审计引用；步骤 8（输出）增加训练日志模板引用
+- **MRV 审计方法**：新增"加权疲劳审计（进阶）"作为补充审计手段
+
 ## [0.7.1] - 2026-05-16
 
 ### Added（新增）

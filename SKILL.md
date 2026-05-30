@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练计划设计，支持 JTS 周期化、Westside 共轭、近年 ACSM 指南、MRV 审计等方法论。当用户请求设计/修改/审计力量训练计划、评估训练容量、根据 RPE/RIR 制定周期化计划、**估算 1RM（PR）**、**修改现有训练计划**时触发此 skill。适用场景：(1) 设计 8 周/12 周力量周期计划，(2) 基于 JTS 原则做 TS/BO 结构，(3) 对现有计划做 MRV 审计，(4) 根据 RPE 数据调整训练容量/强度，(5) 生成适合 Obsidian 的 Markdown 训练计划文档，(6) 估算用户 1RM（PR），(7) 修改训练了一段时间后的现有计划。
-version: 0.7.1
+version: 0.8.0
 ---
 
 # 力量训练计划设计 Skill
@@ -85,6 +85,7 @@ version: 0.7.1
 3. **各动作类型设计** → 主项 TS/BO 结构、辅助动作选择
    - RPE ↔ %1RM 参考表：`references/planning/rpe-reference-and-progressive-overload.md`
    - 辅助动作数据库：`references/exercises/assistance-exercise-database.md`
+   - 动作进退阶链（伤病/限制时的降级方案）：`references/exercises/assistance-exercise-database.md` 第九节
    - 薄弱点与奥举辅助：`references/exercises/weak-points-and-olympic-lifting.md`
 
 4. **核心稳定与有氧设计** → OHP、核心训练、有氧安排
@@ -92,6 +93,7 @@ version: 0.7.1
 
 5. **MRV 审计** → 确保各肌群容量 ≤ MRV
    - MRV 数据表与审计方法：`references/planning/mrv-audit.md`
+   - 加权疲劳审计（进阶）：`references/planning/mrv-audit.md` 加权疲劳审计章节
 
 6. **退阶方案与自我调节** → JTS 自我调节原则
    - 详细内容：`references/methodology/autoregulation.md`
@@ -99,6 +101,7 @@ version: 0.7.1
 7. **输出前确认** → 展示概要供用户确认，不得擅自输出完整计划
 
 8. **输出并与在线文档同步**（可选） → 支持多平台
+   - 输出后附训练日志模板，供用户追踪实际 RPE 和调节计划
 
 ### 输出格式
 
