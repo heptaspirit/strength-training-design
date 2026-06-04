@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练计划设计，支持 JTS 周期化、Westside 共轭、近年 ACSM 指南、MRV 审计等方法论。当用户请求设计/修改/审计力量训练计划、评估训练容量、根据 RPE/RIR 制定周期化计划、**估算 1RM（PR）**、**修改现有训练计划**时触发此 skill。适用场景：(1) 设计 8 周/12 周力量周期计划，(2) 基于 JTS 原则做 TS/BO 结构，(3) 对现有计划做 MRV 审计，(4) 根据 RPE 数据调整训练容量/强度，(5) 生成适合 Obsidian 的 Markdown 训练计划文档，(6) 估算用户 1RM（PR），(7) 修改训练了一段时间后的现有计划。
-version: 0.8.0
+version: 0.8.2
 ---
 
 # 力量训练计划设计 Skill
@@ -92,22 +92,54 @@ version: 0.8.0
    - 动作进退阶链（伤病/限制时的降级方案）：`references/exercises/assistance-exercise-database.md` 第九节
    - 薄弱点与奥举辅助：`references/exercises/weak-points-and-olympic-lifting.md`
 
+   **🔧 批计算脚本（减轻 token 消耗，必须使用）**：
+   - **RPE → %1RM 转换**：批量转换时调用 `python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>`，不要手动查表或心算
+   - **重量取整**：批量取整时调用 `python scripts/round_weight.py --weight <值> --plate_step <步进>`，不要逐一手动取整
+   - **典型用法**：生成计划时，对每个主项的每组（TS + BO）和每周的动态 PR 调整批量跑脚本，输出结果填入模板。详细示例见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十一节
+
+   **⚠️ 生成计划时强制执行的规则（不得跳过）**：
+   - **主项 TS/BO 结构**：所有主项（深蹲/卧推/硬拉）在 W5-W8 必须包含 TS（Top Set）+ BO（Back Off）结构，严格按照 `references/output/output-templates.md` 的组次和 RPE 模板生成。容量期（W1-3）无 TS，减载周（W4）无 TS/BO
+   - **辅助动作双进阶（Double Progression）**：所有孤立/轻量辅助动作（夹胸、面拉、腿伸展、侧平举、核心训练等）必须使用双进阶递增方式（先增加次数至范围上限 → 到达后加重 → 回到次数下限），禁止对辅助动作使用"每周+2.5kg"。详细规则见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十节
+   - **Cluster Set（组簇训练）**：力量期/冲刺期的任何主项 TS 如果目标 RPE ≥ 8.5，必须同时提供 Cluster Set 作为备选方案（如 TS 1×5 @ RPE 8.5 → Cluster 5×1 @ 20s 休息）。尤其适用于 RPE 敏感或恢复能力较弱的用户。详细规则见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十节
+
 4. **核心稳定与有氧设计** → OHP、核心训练、有氧安排
    - OHP 训练：`references/exercises/ohp-training.md`
    - 核心稳定：`references/health/core-training.md`
    - 有氧训练：`references/exercises/aerobic-training.md`
 
+   **⚠️ 有氧安排的强制要求**：
+   - **必须包含心率区间**：所有 LISS 安排必须标注目标心率区间（Zone 2 = 60-70% HRmax 为主要有氧区间），并给出用户的具体心率范围（如"28岁男性，Zone 2 ≈ 115-134 bpm"）。不能说"快走 30 分钟"而不说强度
+   - **必须包含有氧进阶递减表**：根据周期阶段（容量期→减载→力量期→冲刺期→测试周），明确列出有氧频率、时长、强度的进阶与递减关系。详细数据见 `references/exercises/aerobic-training.md`
+
 5. **MRV 审计** → 确保各肌群容量 ≤ MRV
    - MRV 数据表与审计方法：`references/volume-recovery/mrv-audit.md`
    - 加权疲劳审计（进阶）：`references/volume-recovery/mrv-audit.md` 加权疲劳审计章节
+   - **🔧 批计算脚本**：MRV 审计调用 `python scripts/calculate_mrv.py --muscle_group <肌群> --weekly_sets <组数>`；加权疲劳审计调用 `python scripts/calculate_fatigue.py --sets <组数> --exercise <动作> --rpe <RPE> --cns`。禁止手动逐个计算 MRV 百分比
 
 6. **退阶方案与自我调节** → JTS 自我调节原则
    - 详细内容：`references/methodology/autoregulation.md`
 
 7. **输出前确认** → 展示概要供用户确认，不得擅自输出完整计划
 
-8. **输出并与在线文档同步**（可选） → 支持多平台
-   - 输出后附训练日志模板，供用户追踪实际 RPE 和调节计划
+8. **最终输出** → 以下内容为计划输出的**强制组成部分**，缺一不可：
+   - 完整训练计划（周次×动作×组次×重量×RPE）
+   - MRV 审计表（简单 MRV + 加权疲劳审计）
+   - 退阶方案与自我调节指引
+   - **训练日志模板**（每日训练日志 + RPE 追踪表 + 周度总结模板）→ 模板见 `references/output/output-templates.md` 末尾「训练日志模板」章节。**必须附在计划末尾，不得省略**
+   - 可选：与腾讯文档/金山文档同步
+
+### 重量取整规则（全局）
+
+所有计算出的重量必须按**用户的实际哑铃片配置**取整，不得硬编码为 2.5kg 倍数：
+
+| 用户配置 | 最小步进 | 取整规则 | 示例（计算值 93.2kg） |
+|---------|---------|---------|---------------------|
+| 有 1.25kg 片（标准商业健身房） | 2.5kg | 取 2.5kg 的整数倍 | → 92.5kg |
+| 有 0.5kg 片 | 1kg | 取 1kg 的整数倍 | → 93kg |
+| 用户自备小片 | 0.5kg 或更小 | 取用户指定步进的整数倍 | → 按实际 |
+
+**设计计划前务必询问用户**："你健身房的哑铃片最小是多少？" 若用户未回复，默认按最小 1.25kg 片（步进 2.5kg）处理。
+批量取整时**必须调用** `python scripts/round_weight.py --weight <值> --plate_step <步进>`，禁止手动心算取整。
 
 ### 输出格式
 

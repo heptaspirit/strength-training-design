@@ -3,17 +3,24 @@
 > 力量训练计划设计 Skill - 整合 JTS 周期化、Westside 共轭法、近年 ACSM 指南、MRV 审计等方法论
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-green.svg)](CHANGELOG.md)
+[![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-green.svg)](CHANGELOG.md)
 
 本 Skill 为 AI 助手提供专业力量训练计划设计能力，适用于支持标准 skill 格式的 AI Agent 平台。
 
 ## 🎯 功能特性
 
-- ✅ 设计 6/8/12/16 周力量周期计划
-- ✅ 基于 JTS 原则设计 Top Set / Back-off 结构
-- ✅ 对现有计划进行 MRV（最大可恢复容量）审计
+- ✅ 设计 6/8/12/16 周力量周期计划（JTS 风格）
+- ✅ 主项 TS/BO（Top Set / Back-off）结构，W5-W8 强制使用
+- ✅ MRV（最大可恢复容量）审计 + 加权疲劳审计 + CNS 疲劳独立追踪
 - ✅ 根据 RPE/RIR 数据动态调整训练容量与强度
-- ✅ 输出 Markdown 或同步至在线文档（腾讯文档/金山文档/Notion）
+- ✅ 辅助动作双进阶（Double Progression）+ Cluster Set 备选方案
+- ✅ 动作进退阶链（伤病/新手/器械限制时的降级方案）
+- ✅ 心率区间指导有氧安排 + 有氧进阶递减逻辑
+- ✅ PR（1RM）估算（AMRAP / RPE 反推 / 体重倍数法）
+- ✅ 修改现有训练计划（基于实测 RPE 反馈迭代）
+- ✅ 内置训练日志模板（每日 + 周度 + RPE 追踪）
+- ✅ 批计算脚本辅助（RPE 转换、重量取整、MRV/疲劳计算）
+- ✅ 输出 Markdown 或同步至在线文档（腾讯文档/金山文档）
 
 ## 📚 方法论整合
 
@@ -21,9 +28,11 @@
 |--------|----------|----------|
 | JTS 周期化 | 周期结构、TS/BO 设计 | `references/methodology/jts-periodization.md` |
 | Westside 共轭法 | 辅助动作选择、弱点针对性 | `references/methodology/westside-acsm.md` |
-| 近年 ACSM 指南 | 最新运动生理学研究 | `references/methodology/westside-acsm.md` |
-| MRV 审计 | 容量管理、过度训练预防 | `references/volume-recovery/mrv-audit.md` |
-| RPE/RIR 自我调节 | 强度自动调节 | `references/methodology/autoregulation.md` |
+| 近年 ACSM 指南 | 最新运动生理学研究、RPE/RIR | `references/methodology/westside-acsm.md` |
+| 加权疲劳 MRV | 容量管理、疲劳负荷量化 | `references/volume-recovery/mrv-audit.md` |
+| RPE/RIR 自我调节 | 强度自动调节、退阶 | `references/methodology/autoregulation.md` |
+| 双进阶 + Cluster Set | 辅助递增、高强度替代 | `references/intensity/rpe-reference-and-progressive-overload.md` |
+| 心率区间指导 | 有氧容量周期化管理 | `references/exercises/aerobic-training.md` |
 
 ## 📂 文件结构
 
@@ -33,30 +42,35 @@ strength-training-design/
 ├── CHANGELOG.md                       # 版本变更记录
 ├── README.md                          # 本文件
 ├── LICENSE                            # MIT 许可证
+├── scripts/                           # 批计算脚本（设计计划时调用）
+│   ├── rpe_to_percentage.py           # RPE ↔ %1RM 批量转换
+│   ├── round_weight.py                # 重量按哑铃片步进取整
+│   ├── calculate_mrv.py               # MRV 审计批量计算
+│   └── calculate_fatigue.py           # 加权疲劳 + CNS 疲劳计算
 └── references/
-    ├── methodology/                  # 核心方法论
+    ├── methodology/                   # 核心方法论
     │   ├── jts-periodization.md
     │   ├── westside-acsm.md
     │   └── autoregulation.md
-    ├── intensity/                    # 强度与重量计算
+    ├── intensity/                     # 强度与重量计算
     │   ├── pr-estimation.md
     │   └── rpe-reference-and-progressive-overload.md
-    ├── volume-recovery/              # 容量与恢复管理
+    ├── volume-recovery/               # 容量与恢复管理
     │   ├── mrv-audit.md
     │   └── recovery-and-frequency.md
-    ├── health/                       # 健康与安全
+    ├── health/                        # 健康与安全
     │   ├── injury-prevention.md
     │   ├── warmup-flexibility.md
     │   └── core-training.md
-    ├── exercises/                    # 动作库与专项
+    ├── exercises/                     # 动作库与专项
     │   ├── assistance-exercise-database.md
     │   ├── weak-points-and-olympic-lifting.md
     │   ├── anthropometry-and-weak-points.md
     │   ├── ohp-training.md
     │   └── aerobic-training.md
-    ├── planning/                     # 计划设计工具
+    ├── planning/                      # 计划设计工具
     │   └── plan-modification.md
-    └── output/                       # 输出模板
+    └── output/                        # 输出模板
         └── output-templates.md
 ```
 
@@ -140,30 +154,37 @@ Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
 ## 🔧 核心工作流
 
 ```
-第一步：收集用户个性化信息（含 PR 估算）
+第一步：确定目标与约束（PR 估算、伤病、肢体比例）
     ↓
-第二步：设计周期结构（含恢复周期检查）
+第二步：设计周期结构（容量期 → 减载 → 力量期 → 冲刺期 → 测试周）
     ↓
-第三步：各动作类型设计（主动作 + 辅助）
+第三步：各动作类型设计（主项 TS/BO + 辅助双进阶 + Cluster Set）
+          🔧 批计算：rpe_to_percentage.py / round_weight.py
     ↓
-第四步：核心稳定训练设计
+第四步：核心稳定 + 有氧设计（含心率区间 + 进阶递减表）
     ↓
-第五步：适度有氧训练设计
+第五步：MRV 审计 + 加权疲劳审计
+          🔧 批计算：calculate_mrv.py / calculate_fatigue.py
     ↓
-第六步：MRV 审计
+第六步：退阶方案与自我调节
     ↓
-第七步：退阶方案与自我调节
+第七步：输出前确认 ← 展示概要，用户确认后再输出完整计划
     ↓
-第八步：输出前确认 ← 展示概要，用户确认后再输出完整计划
+第八步：最终输出（计划 + MRV 审计 + 退阶方案 + 训练日志模板）
 ```
 
 ## 🧠 关键技术概念
 
 - **MRV（Maximum Recoverable Volume）**：最大可恢复容量，超过此容量会导致过度训练
+- **加权疲劳审计**：基于动作疲劳系数（FC）× RPE 修正的真实疲劳负荷，替代简单组数统计
+- **CNS 疲劳**：中枢神经系统疲劳独立维度，硬拉 TS 最高，设定单次训练 CNS 阈值 3.0
 - **RPE（Rating of Perceived Exertion）**：自觉疲劳度评分，RPE 8 = 还能做 2 次
 - **RIR（Reps in Reserve）**：剩余次数，RIR 2 = 还能做 2 次
 - **JTS 周期化**：容量期高容量中等强度 → 力量期中等容量高强度 → 峰值期低容量极高强度
-- **TS/BO（Top Set / Back-off）**：顶级组 + 降重组，JTS 核心训练结构
+- **TS/BO（Top Set / Back-off）**：顶级组 + 降重组，JTS 核心训练结构，W5-W8 强制使用
+- **双进阶（Double Progression）**：辅助动作递增方式——先加次数再加重量，禁止"每周+2.5kg"
+- **Cluster Set**：组簇训练，如 5×1 @ 20s 休息替代 1×5，降低 CNS 疲劳
+- **心率区间（Heart Rate Zones）**：Zone 2（60-70% HRmax）为力量训练者有氧黄金区间
 
 ## 🤝 贡献指南
 

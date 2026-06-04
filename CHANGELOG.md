@@ -2,6 +2,55 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.8.2] - 2026-06-04
+
+### Added（新增）
+- **脚本 `scripts/calculate_fatigue.py`**：补建加权疲劳 + CNS 疲劳双计算脚本（之前 mrv-audit.md 引用了但文件不存在）
+- **SKILL.md 新增强制规则块**（步骤 3）：
+  - 主项 TS/BO 结构：W5-W8 必须包含，容量期无 TS，减载周无 TS/BO
+  - 辅助动作双进阶（Double Progression）：孤立动作禁止"每周+2.5kg"，强制使用双进阶
+  - Cluster Set：RPE ≥ 8.5 的 TS 必须提供 Cluster 备选方案
+- **SKILL.md 新增有氧强制要求**（步骤 4）：必须含心率区间（Zone 2）+ 有氧进阶递减表
+- **SKILL.md 新增加批计算脚本调用**（步骤 3 + 步骤 5）：rpe_to_percentage.py、round_weight.py、calculate_mrv.py、calculate_fatigue.py 从弱引用提升为强制调用
+- **SKILL.md 新增全局重量取整规则**：按实际哑铃片配置取整，禁止硬编码 2.5kg
+
+### Changed（修改）
+- **SKILL.md 版本号**：v0.8.0 → v0.8.2
+- **步骤 3（动作设计）**：新增脚本调用 + 强制规则两个子块
+- **步骤 5（MRV 审计）**：新增加批计算脚本强制调用
+- **步骤 8（输出）**：从"可选"升级为"最终输出强制组成"，训练日志模板升为必附
+- **output-templates.md**：有氧表新增心率区间、RPE、递减逻辑；使用说明新增双进阶/Cluster Set/重量步进规则
+
+### Fixed（修复）
+- 修复 `mrv-audit.md` 引用的 `scripts/calculate_fatigue.py` 不存在的死引用问题
+- 修复 SKILL.md 对 `rpe_to_percentage.py` 和 `calculate_mrv.py` 零引用的问题（之前只在参考文件深处弱引用）
+- 修复 `round_weight.py` 在 SKILL.md 中仅标注"可使用"（弱语气），改为"必须调用"
+
+## [0.8.1] - 2026-06-04
+
+### Added（新增）
+- 无
+
+### Changed（修改）
+- **文件结构重组**：将 references/ 从 4 个目录重组为 7 个功能目录
+  - 新增 `intensity/`：pr-estimation.md、rpe-reference-and-progressive-overload.md
+  - 新增 `volume-recovery/`：mrv-audit.md、recovery-and-frequency.md
+  - 新增 `health/`：injury-prevention.md、warmup-flexibility.md、core-training.md
+  - 拆解 `accessories/ohp-core-aerobic.md` 为三个独立文件：
+    - `exercises/ohp-training.md`
+    - `health/core-training.md`
+    - `exercises/aerobic-training.md`
+- **SKILL.md 版本号**：v0.8.0 → v0.8.1
+- **SKILL.md 参考文件引用更新**：所有文件路径更新为新结构
+
+### Fixed（修复）
+- 修复 references/ 目录结构混乱、功能边界不清的问题
+- 修复 ohp-core-aerobic.md 内容过于臃肿、不利于按需加载的问题
+
+### Removed（删除）
+- 移除 `references/accessories/` 目录（内容已迁移到 exercises/ 和 health/）
+- 移除 `references/planning/` 目录下的旧路径文件（已迁移到新目录）
+
 ## [0.8.0] - 2026-05-30
 
 ### Added（新增）
