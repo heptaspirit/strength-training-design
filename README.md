@@ -1,38 +1,48 @@
-# Strength Training Design Skill
+# 🏋️ Strength Training Coach Skill
 
-> 力量训练计划设计 Skill - 整合 JTS 周期化、Westside 共轭法、近年 ACSM 指南、MRV 审计等方法论
+> **科学训练教练** —— 不仅能设计训练计划，更能解答训练科学问题。基于 JTS 两本官方手册等权威来源，让 AI 成为你的力量训练顾问。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.8.2](https://img.shields.io/badge/Version-0.8.2-green.svg)](CHANGELOG.md)
+[![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-green.svg)](CHANGELOG.md)
 
-本 Skill 为 AI 助手提供专业力量训练计划设计能力，适用于支持标准 skill 格式的 AI Agent 平台。
+加载本 Skill 后，AI 具备两大核心能力：
+
+| 能力 | 说明 |
+|------|------|
+| 🎓 **知识咨询** | 解答"为什么"类问题——SRA 曲线、疲劳机制、mTOR/AMPk、MEV/MRV 个体化、Bridge Phase 等 |
+| 📋 **计划生成** | 设计周期计划、MRV 审计、PR 估算、计划修改 |
 
 ## 🎯 功能特性
 
-- ✅ 设计 6/8/12/16 周力量周期计划（JTS 风格）
-- ✅ 主项 TS/BO（Top Set / Back-off）结构，W5-W8 强制使用
-- ✅ MRV（最大可恢复容量）审计 + 加权疲劳审计 + CNS 疲劳独立追踪
-- ✅ 根据 RPE/RIR 数据动态调整训练容量与强度
-- ✅ 辅助动作双进阶（Double Progression）+ Cluster Set 备选方案
-- ✅ 动作进退阶链（伤病/新手/器械限制时的降级方案）
-- ✅ 心率区间指导有氧安排 + 有氧进阶递减逻辑
-- ✅ PR（1RM）估算（AMRAP / RPE 反推 / 体重倍数法）
-- ✅ 修改现有训练计划（基于实测 RPE 反馈迭代）
-- ✅ 内置训练日志模板（每日 + 周度 + RPE 追踪）
-- ✅ 批计算脚本辅助（RPE 转换、重量取整、MRV/疲劳计算）
-- ✅ 输出 Markdown 或同步至在线文档（腾讯文档/金山文档）
+### 🎓 科学训练咨询（功能四）
 
-## 📚 方法论整合
+作为教练的核心能力，解答一切关于力量训练的科学问题：
 
-| 方法论 | 应用场景 | 参考文件 |
-|--------|----------|----------|
+- ✅ **疲劳机制**：判断你是糖原耗尽、CNS 疲劳、化学信使失衡还是肌肉损伤
+- ✅ **SRA 曲线**：理解为什么硬拉恢复最慢，如何根据恢复周期安排训练频率
+- ✅ **MEV/MRV 个体化**：9 因素系统（性别/体重/身高/力量/经验/年龄/饮食/睡眠/压力）精确调整容量
+- ✅ **mTOR/AMPk 机制**：从分子层面理解减载为什么不能跳过，为什么不能同时大量做有氧
+- ✅ **Bridge Phase**：周期之间的过渡期设计，打破训练倦怠和适应性抵抗
+- ✅ **训练科学原理**：肌肉纤维类型变化、神经适应、特异性原则等
+- ✅ **ACSM 2026 循证指南**：137 篇系统评价的最新证据——推翻 7 个误区，澄清力竭/周期化/频率的科学真相
+
+### 📋 训练计划生成（功能一/二/三）
+
+## 📚 知识体系
+
+| 知识领域 | 内容 | 参考文件 |
+|--------|------|----------|
+| **疲劳管理进阶** | 4 来源 + mTOR/AMPk + 症状判断 | `references/consultation/fatigue-sources.md` |
+| **SRA 曲线体系** | 4 维曲线 + 三大项排序 + SSR 范式 | `references/consultation/sra-curves.md` |
+| **MEV/MRV 个体化** | 9 因素详细机制 + 调整示例 | `references/consultation/mev-mrv-individual-differences.md` |
+| **Bridge Phase** | 周期过渡设计 + 适应性抵抗 | `references/consultation/bridge-phase.md` |
+| **ACSM 2026 立场声明** | 137 篇系统评价概览 + 7 个误区 + ACSM vs JTS 对比 | `references/consultation/acsm-2026-position-stand.md` |
+| JTS 官方手册 | 七大原则 + 周期/MEV/MRV/动作选择 | Scientific Principles of Strength Training & Program Design Manual |
 | JTS 周期化 | 周期结构、TS/BO 设计 | `references/methodology/jts-periodization.md` |
-| Westside 共轭法 | 辅助动作选择、弱点针对性 | `references/methodology/westside-acsm.md` |
-| 近年 ACSM 指南 | 最新运动生理学研究、RPE/RIR | `references/methodology/westside-acsm.md` |
-| 加权疲劳 MRV | 容量管理、疲劳负荷量化 | `references/volume-recovery/mrv-audit.md` |
-| RPE/RIR 自我调节 | 强度自动调节、退阶 | `references/methodology/autoregulation.md` |
-| 双进阶 + Cluster Set | 辅助递增、高强度替代 | `references/intensity/rpe-reference-and-progressive-overload.md` |
-| 心率区间指导 | 有氧容量周期化管理 | `references/exercises/aerobic-training.md` |
+| Westside 共轭法 | 辅助动作、弱点针对性 | `references/methodology/westside-acsm.md` |
+| ACSM 指南 | RPE/RIR、恢复策略 | `references/methodology/westside-acsm.md` |
+| MRV 审计 | 容量管理、加权疲劳 | `references/volume-recovery/mrv-audit.md` |
+| RPE 自我调节 | 强度自动调节、退阶 | `references/methodology/autoregulation.md` |
 
 ## 📂 文件结构
 
@@ -48,6 +58,11 @@ strength-training-design/
 │   ├── calculate_mrv.py               # MRV 审计批量计算
 │   └── calculate_fatigue.py           # 加权疲劳 + CNS 疲劳计算
 └── references/
+    ├── consultation/                   # 🎓 科学训练咨询（功能四）
+    │   ├── fatigue-sources.md          # 疲劳四来源 + mTOR/AMPk
+    │   ├── sra-curves.md               # SRA 曲线体系详解
+    │   ├── mev-mrv-individual-differences.md  # MEV/MRV 个体差异系统
+    │   └── bridge-phase.md             # Bridge Phase 过渡期
     ├── methodology/                   # 核心方法论
     │   ├── jts-periodization.md
     │   ├── westside-acsm.md
@@ -131,14 +146,41 @@ Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
 
 安装完成后，在 AI Agent 中提问：
 ```
+为什么硬拉比卧推恢复慢那么多？
+```
+
+如果 AI 从 JTS 官方手册的角度科学地解答了 SRA 曲线原理和三大项恢复差异，说明安装成功。
+
+也可以试试计划生成：
+```
 帮我设计一个 8 周力量训练计划
 ```
 
-如果 AI 正确触发 skill 并询问你的训练信息，说明安装成功。
-
 ## 📝 使用示例
 
+### 🎓 咨询问答示例
+
 **用户提问**：
+```
+为什么硬拉恢复比卧推慢那么多？我该多久练一次硬拉？
+```
+
+**AI 响应**（基于 `references/consultation/sra-curves.md`）：
+
+根据 JTS 官方手册，不同动作的 SRA（刺激-恢复-适应）曲线长度不同：硬拉 > 深蹲 > 卧推。硬拉对身体的神经和物理压力最大，SRA 曲线最长，建议每周 1-1.5 次。如果你的硬拉是相扑式，可以比传统硬拉略频繁一些。
+
+---
+
+**用户提问**：
+```
+我感觉一直很累但 MRV 审计说没超，怎么回事？
+```
+
+**AI 响应**（基于 `references/consultation/fatigue-sources.md`）：
+
+疲劳不只是容量的函数。JTS 手册分解为 4 种疲劳来源：糖原耗尽（几天恢复）、CNS 疲劳（数天到数周）、化学信使失衡（数周到数月）、肌肉损伤（数天到数周）。你可能是 CNS 疲劳——特点是"杠铃感觉异常沉重"而不仅仅是酸痛。建议降低训练强度（不是容量），同时检查睡眠和压力。
+
+### 📋 计划生成示例
 ```
 帮我设计一个 8 周力量举训练计划，目标是深蹲 140kg、卧推 100kg、硬拉 160kg
 ```
@@ -173,18 +215,21 @@ Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
 第八步：最终输出（计划 + MRV 审计 + 退阶方案 + 训练日志模板）
 ```
 
-## 🧠 关键技术概念
+## 🧠 关键训练科学概念
 
+- **SRA 四曲线**：技术适应（~1天）< 肌肥大（2-4天）< 神经力量（~1周）< 结缔组织（最长）——直接决定训练频率
+- **疲劳四来源**：糖原耗尽（数天）、CNS 疲劳（数天-数周）、化学信使失衡（数周-数月）、肌肉损伤（数天-数周）
+- **mTOR/AMPk**：合成代谢 vs 分解代谢的细胞开关，解释了减载为什么不能跳过
+- **MEV/MRV 个体差异**：9 因素系统——性别、体重、身高、力量、经验、年龄、饮食、睡眠、压力
+- **Bridge Phase**：周期之间的 1-2 周过渡期，用于心理休息、伤病康复、打破适应性抵抗
 - **MRV（Maximum Recoverable Volume）**：最大可恢复容量，超过此容量会导致过度训练
-- **加权疲劳审计**：基于动作疲劳系数（FC）× RPE 修正的真实疲劳负荷，替代简单组数统计
-- **CNS 疲劳**：中枢神经系统疲劳独立维度，硬拉 TS 最高，设定单次训练 CNS 阈值 3.0
+- **加权疲劳审计**：基于动作疲劳系数（FC）× RPE 修正的真实疲劳负荷
 - **RPE（Rating of Perceived Exertion）**：自觉疲劳度评分，RPE 8 = 还能做 2 次
-- **RIR（Reps in Reserve）**：剩余次数，RIR 2 = 还能做 2 次
 - **JTS 周期化**：容量期高容量中等强度 → 力量期中等容量高强度 → 峰值期低容量极高强度
 - **TS/BO（Top Set / Back-off）**：顶级组 + 降重组，JTS 核心训练结构，W5-W8 强制使用
-- **双进阶（Double Progression）**：辅助动作递增方式——先加次数再加重量，禁止"每周+2.5kg"
+- **双进阶（Double Progression）**：辅助动作递增方式——先加次数再加重量
 - **Cluster Set**：组簇训练，如 5×1 @ 20s 休息替代 1×5，降低 CNS 疲劳
-- **心率区间（Heart Rate Zones）**：Zone 2（60-70% HRmax）为力量训练者有氧黄金区间
+- **心率区间**：Zone 2（60-70% HRmax）为力量训练者有氧黄金区间
 
 ## 🤝 贡献指南
 

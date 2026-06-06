@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: exercises
+description: 身高/肢体比例与弱点分析——股骨/肱骨/躯干比例对深蹲/卧推/硬拉动作选择的影响、不同体型的优势动作。
+load_condition: 功能三步骤1——收集用户身体特征时按需读取
+---
+
 # 身高/肢体比例与训练弱点参考
 
 ## 身高对训练的影响概述

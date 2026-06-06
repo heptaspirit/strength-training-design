@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: methodology
+description: Westside共轭法与ACSM指南整合——高容量与高强度永不配对原则、共轭法在力量举中的应用、RPE/RIR验证。
+load_condition: 功能三步骤3——辅助动作选择和弱点针对性设计时参考
+---
+
 # Westside 共轭法 & 近年 ACSM 指南参考#
 
 > 💡 **使用兜底条款**：

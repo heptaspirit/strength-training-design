@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: intensity
+description: PR（1RM）估算方法——AMRAP测试法、体重倍数法（含各水平参考表）、RPE反推法。基于Epley公式和Strength Level最新标准数据。
+load_condition: 功能一——用户估算1RM时读取；功能三步骤1——用户未测试过1RM时先读取本文档
+---
+
 # PR 估算流程（用户未测试过 1RM 时）
 
 > 💡 **使用兜底条款**：

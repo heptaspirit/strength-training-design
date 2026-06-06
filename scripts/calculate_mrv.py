@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """
+strength-training-design skill — MRV audit batch calculator
+Used by: 功能三 step 5 — checking weekly sets against MRV thresholds
+Usage: python scripts/calculate_mrv.py --muscle_group <group> --weekly_sets <sets>
+"""
 MRV 审计计算脚本
 用法：python calculate_mrv.py --muscle_group chest --weekly_sets 18 --mrv 22
 """

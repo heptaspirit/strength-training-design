@@ -1,132 +1,115 @@
 ---
 name: strength-training-design
-description: 力量训练计划设计，支持 JTS 周期化、Westside 共轭、近年 ACSM 指南、MRV 审计等方法论。当用户请求设计/修改/审计力量训练计划、评估训练容量、根据 RPE/RIR 制定周期化计划、**估算 1RM（PR）**、**修改现有训练计划**时触发此 skill。适用场景：(1) 设计 8 周/12 周力量周期计划，(2) 基于 JTS 原则做 TS/BO 结构，(3) 对现有计划做 MRV 审计，(4) 根据 RPE 数据调整训练容量/强度，(5) 生成适合 Obsidian 的 Markdown 训练计划文档，(6) 估算用户 1RM（PR），(7) 修改训练了一段时间后的现有计划。
-version: 0.8.2
+description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理等）。基于 JTS 两本官方手册、Westside 共轭法、ACSM 2026 立场声明等权威来源。
+version: 0.9.0
 ---
 
-# 力量训练计划设计 Skill
+# 力量训练科学教练 Skill
 
 ## 概述
 
-本 skill 提供基于多派系整合的力量训练计划设计能力，整合 JTS、Westside Barbell、近年 ACSM 指南 等方法论，支持 MRV（最大可恢复容量）审计和 RPE 自我调节。
+本 skill 将 AI 转化为一个**科学训练教练**，两大核心能力：
 
-## 核心方法论
+| 能力 | 说明 |
+|------|------|
+| 📋 **计划生成** | 设计周期计划、MRV 审计、PR 估算、计划修改（功能一/二/三） |
+| 🎓 **知识咨询** | 解答训练科学问题——SRA、疲劳机制、个体差异、ACSM 循证（功能四） |
 
-详细方法论参考以下文件（按需加载）：
+方法论来源：JTS 两本官方手册、Westside 共轭法、ACSM 2026、Dr. Mike Israetel Volume Landmarks。
 
-- **JTS 周期化原则** → `references/methodology/jts-periodization.md`
-- **Westside 共轭法 & 近年 ACSM 指南** → `references/methodology/westside-acsm.md`
-- **RPE/RIR 自我调节** → `references/methodology/autoregulation.md`
-- **MRV 审计方法与数据** → `references/volume-recovery/mrv-audit.md`
-- **恢复周期与训练频率** → `references/volume-recovery/recovery-and-frequency.md`
-- **身高/肢体比例与弱点分析** → `references/exercises/anthropometry-and-weak-points.md`（按需）
-- **热身、放松与灵活度** → `references/health/warmup-flexibility.md`（按需）
-- **伤病预防** → `references/health/injury-prevention.md`（按需）
-- **实力推 OHP** → `references/exercises/ohp-training.md`（按需）
-- **核心稳定训练** → `references/health/core-training.md`（按需）
-- **有氧训练** → `references/exercises/aerobic-training.md`（按需）
+---
+
+## 核心方法论参考
+
+按需加载，不要一次全部读取：
+
+| 主题 | 参考文件 |
+|------|---------|
+| JTS 周期化原则 + Bridge Phase | `references/methodology/jts-periodization.md` |
+| Westside 共轭法 & ACSM 指南 | `references/methodology/westside-acsm.md` |
+| RPE/RIR 自我调节 | `references/methodology/autoregulation.md` |
+| MRV 审计（含容量5区+个体差异+加权疲劳） | `references/volume-recovery/mrv-audit.md` |
+| 恢复周期与训练频率（含 SRA 曲线） | `references/volume-recovery/recovery-and-frequency.md` |
+| PR 估算 | `references/intensity/pr-estimation.md` |
+| RPE ↔ %1RM + 渐进超负荷 + 双进阶/Cluster Set | `references/intensity/rpe-reference-and-progressive-overload.md` |
+| 辅助动作数据库 + 进退阶链 | `references/exercises/assistance-exercise-database.md` |
+| 薄弱点与奥举辅助 | `references/exercises/weak-points-and-olympic-lifting.md` |
+| 输出模板 + 训练日志模板 | `references/output/output-templates.md` |
+| 计划修改工作流 | `references/planning/plan-modification.md` |
+| 咨询知识（疲劳/SRA/个体差异/Bridge/ACSM） | `references/consultation/` 目录 |
+| 身高/肢体比例、OHP、核心、有氧、伤病、热身等 | 其余 `references/` 文件（按需） |
 
 ---
 
 ## 功能一：PR（1RM）估算
 
-当用户**没有完整训练计划需求**，只是想估算自己的 1RM（PR）时，使用此功能。
+**触发**：用户想估算 1RM 但不需要完整计划（"帮我估一下XX的PR"）。
 
-### 触发条件
+**执行**：读取 `references/intensity/pr-estimation.md` → 收集训练经验/性别/体重 → 选择估算方法 → 输出保守值+范围。
 
-用户提问包含以下意图之一：
-- "帮我估算一下我的 1RM"
-- "我想知道我的深蹲/卧推/硬拉最大重量"
-- "用 XXkg 做了 YY 次，帮我算算 1RM"
-- "我没有测试过 1RM，怎么估算"
+> 估算结果仅作为起点，实际训练中 2-3 周通过 RPE 校准。
 
-### 执行流程
-
-详细流程、估算方法、输出格式等，请**先读取** `references/intensity/pr-estimation.md`，包括：
-1. 询问用户信息（训练经验、性别、体重）
-2. 选择估算方法（AMRAP 测试 / 体重倍数法 / RPE 反推）
-3. 输出估算结果（保守值 + 参考范围 + 校准建议）
-
-> ⚠️ **重要**：估算结果仅作为计划起点，实际训练中通过 RPE 快速校准（2-3 周内找到真实 PR）。
 ---
 
 ## 功能二：修改现有训练计划
 
-当用户**已经按照计划训练了一段时间**（通常 1-2 周），觉得某些地方不妥，希望修改计划时使用此功能。
+**触发**：用户已按计划训练 1-2 周，觉得不妥想改（"容量太大了""想换动作""恢复不过来"）。
 
-### 触发条件
-
-用户提问包含以下意图之一：
-- "我练了一周，觉得 XX 动作不合适，想换一下"
-- "这个计划的容量太大了，能不能调整一下"
-- "我想把训练日从周一到周三，改成周二到周四"
-- "硬拉后恢复不过来，能不能减少硬拉的容量"
-- "帮我修改一下现有的训练计划"
-
-### 执行流程
-
-完整修改工作流、需求收集、容量/强度/动作调整方法等，请**先读取** `references/planning/plan-modification.md`。
-
-**修改原则**：保守修改（每次只修改 1-2 个变量），保持方法论一致性，用户确认后再输出完整计划。
+**执行**：读取 `references/planning/plan-modification.md` → 每次只改 1-2 个变量 → 用户确认后输出。
 
 ---
 
-## 功能三：完整训练计划设计（原有功能）
+## 功能三：完整训练计划设计
 
-### 计划设计工作流
+### 工作流（8 步，按顺序渐进式读取）
 
-设计完整训练计划时，请按以下顺序**渐进式读取**参考文件：
+1. **确定目标与约束** → 收集 PR/目标/频率/伤病/肢体比例
+   → `pr-estimation.md` / `anthropometry-and-weak-points.md` / `injury-prevention.md`
 
-1. **确定目标与约束** → 收集用户信息（PR、目标、频率、伤病、肢体比例等）
-   - 若未测试过 1RM，先读取 `references/intensity/pr-estimation.md`
-   - 身高/肢体比例与弱点分析：`references/exercises/anthropometry-and-weak-points.md`
-   - 伤病预防自测：`references/health/injury-prevention.md`
+2. **设计周期结构** → JTS 周期（容量期→减载→力量期→冲刺期→测试周）
+   → `jts-periodization.md` / `recovery-and-frequency.md`
 
-2. **设计周期结构** → JTS 风格周期（容量期 → 减载 → 力量期 → 冲刺期 → 测试周）
-   - 详细周期化原则：`references/methodology/jts-periodization.md`
-   - 恢复周期与训练频率：`references/volume-recovery/recovery-and-frequency.md`
+3. **各动作类型设计** → 主项 TS/BO + 辅助动作选择
+   → `rpe-reference-and-progressive-overload.md` / `assistance-exercise-database.md` / `weak-points-and-olympic-lifting.md`
 
-3. **各动作类型设计** → 主项 TS/BO 结构、辅助动作选择
-   - RPE ↔ %1RM 参考表：`references/intensity/rpe-reference-and-progressive-overload.md`
-   - 辅助动作数据库：`references/exercises/assistance-exercise-database.md`
-   - 动作进退阶链（伤病/限制时的降级方案）：`references/exercises/assistance-exercise-database.md` 第九节
-   - 薄弱点与奥举辅助：`references/exercises/weak-points-and-olympic-lifting.md`
+   🔧 **批计算脚本（必须调用，禁止手动）**：
+   - RPE 转换：`python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>`
+   - 重量取整：`python scripts/round_weight.py --weight <值> --plate_step <步进>`
 
-   **🔧 批计算脚本（减轻 token 消耗，必须使用）**：
-   - **RPE → %1RM 转换**：批量转换时调用 `python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>`，不要手动查表或心算
-   - **重量取整**：批量取整时调用 `python scripts/round_weight.py --weight <值> --plate_step <步进>`，不要逐一手动取整
-   - **典型用法**：生成计划时，对每个主项的每组（TS + BO）和每周的动态 PR 调整批量跑脚本，输出结果填入模板。详细示例见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十一节
+   ⚠️ **强制规则（三条，详细规则见对应参考文件）**：
+   - 主项 TS/BO：W5-W8 强制，容量期无 TS，减载周无 TS/BO → 详见 `output-templates.md`
+   - 辅助双进阶：孤立动作禁止"每周+2.5kg" → 详见 `rpe-reference-and-progressive-overload.md` 第十节
+   - Cluster Set：RPE ≥8.5 的 TS 必须提供备选 → 详见 `rpe-reference-and-progressive-overload.md` 第十节
 
-   **⚠️ 生成计划时强制执行的规则（不得跳过）**：
-   - **主项 TS/BO 结构**：所有主项（深蹲/卧推/硬拉）在 W5-W8 必须包含 TS（Top Set）+ BO（Back Off）结构，严格按照 `references/output/output-templates.md` 的组次和 RPE 模板生成。容量期（W1-3）无 TS，减载周（W4）无 TS/BO
-   - **辅助动作双进阶（Double Progression）**：所有孤立/轻量辅助动作（夹胸、面拉、腿伸展、侧平举、核心训练等）必须使用双进阶递增方式（先增加次数至范围上限 → 到达后加重 → 回到次数下限），禁止对辅助动作使用"每周+2.5kg"。详细规则见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十节
-   - **Cluster Set（组簇训练）**：力量期/冲刺期的任何主项 TS 如果目标 RPE ≥ 8.5，必须同时提供 Cluster Set 作为备选方案（如 TS 1×5 @ RPE 8.5 → Cluster 5×1 @ 20s 休息）。尤其适用于 RPE 敏感或恢复能力较弱的用户。详细规则见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十节
+4. **核心稳定与有氧** → OHP/核心/有氧
+   → `ohp-training.md` / `core-training.md` / `aerobic-training.md`
+   ⚠️ 有氧必须含心率区间（Zone 2）+ 进阶递减表
 
-4. **核心稳定与有氧设计** → OHP、核心训练、有氧安排
-   - OHP 训练：`references/exercises/ohp-training.md`
-   - 核心稳定：`references/health/core-training.md`
-   - 有氧训练：`references/exercises/aerobic-training.md`
+5. **MRV 审计** → 简单 MRV + 容量5区 + 个体差异调整 + 加权疲劳
+   → `mrv-audit.md`
+   🔧 `python scripts/calculate_mrv.py` / `calculate_fatigue.py`
 
-   **⚠️ 有氧安排的强制要求**：
-   - **必须包含心率区间**：所有 LISS 安排必须标注目标心率区间（Zone 2 = 60-70% HRmax 为主要有氧区间），并给出用户的具体心率范围（如"28岁男性，Zone 2 ≈ 115-134 bpm"）。不能说"快走 30 分钟"而不说强度
-   - **必须包含有氧进阶递减表**：根据周期阶段（容量期→减载→力量期→冲刺期→测试周），明确列出有氧频率、时长、强度的进阶与递减关系。详细数据见 `references/exercises/aerobic-training.md`
+6. **退阶方案** → `autoregulation.md`
 
-5. **MRV 审计** → 确保各肌群容量 ≤ MRV
-   - MRV 数据表与审计方法：`references/volume-recovery/mrv-audit.md`
-   - 加权疲劳审计（进阶）：`references/volume-recovery/mrv-audit.md` 加权疲劳审计章节
-   - **🔧 批计算脚本**：MRV 审计调用 `python scripts/calculate_mrv.py --muscle_group <肌群> --weekly_sets <组数>`；加权疲劳审计调用 `python scripts/calculate_fatigue.py --sets <组数> --exercise <动作> --rpe <RPE> --cns`。禁止手动逐个计算 MRV 百分比
+7. 🔴 **确认点** → 展示周期概要 + MRV审计结果 + 动作清单，等待用户确认。**未确认前禁止输出完整计划**。
 
-6. **退阶方案与自我调节** → JTS 自我调节原则
-   - 详细内容：`references/methodology/autoregulation.md`
-
-7. **输出前确认** → 展示概要供用户确认，不得擅自输出完整计划
-
-8. **最终输出** → 以下内容为计划输出的**强制组成部分**，缺一不可：
+8. **最终输出**（四项强制）：
    - 完整训练计划（周次×动作×组次×重量×RPE）
-   - MRV 审计表（简单 MRV + 加权疲劳审计）
+   - MRV 审计表 + 加权疲劳审计
    - 退阶方案与自我调节指引
-   - **训练日志模板**（每日训练日志 + RPE 追踪表 + 周度总结模板）→ 模板见 `references/output/output-templates.md` 末尾「训练日志模板」章节。**必须附在计划末尾，不得省略**
-   - 可选：与腾讯文档/金山文档同步
+   - 训练日志模板 → `output-templates.md` 末尾
+
+### 异常处理（工作流中的 if-then 分支）
+
+| 触发条件 | 处理方式 |
+|---------|---------|
+| 用户未提供 1RM | 先切到功能一估算 PR，再返回步骤 1 |
+| 用户未回复哑铃片最小重量 | 默认按 1.25kg 片（步进 2.5kg），在输出中注明"假设标准片" |
+| 脚本执行失败（Python 不可用） | 手动查表计算，但必须标注"未使用脚本，可能存在取整偏差" |
+| 用户有伤病限制 | 读取 `injury-prevention.md` 和 `assistance-exercise-database.md` 进退阶链，替换受限动作 |
+| MRV 审计超限（>100% MRV） | 优先减少辅助动作组数（保留主项），最多减 3 组；如仍超限，减少 BO 组数 |
+| 参考文件内容不足以回答咨询问题 | 结合自身知识库补充，明确标注"此部分信息来自文档外，仅供参考" |
+| 用户咨询后想改计划 | 切到功能二；用户咨询后想新设计计划 | 切到功能三 |
 
 ### 重量取整规则（全局）
 
@@ -143,55 +126,56 @@ version: 0.8.2
 
 ### 输出格式
 
-完整的输出模板（含 4天/周、3天/周、5天/周三种模板）见 `references/output/output-templates.md`，生成计划前**必须先读取**该文件。
+读取 `references/output/output-templates.md`（含 3天/4天/5天三种模板），默认 Markdown。
 
-默认输出格式为 Markdown。如需 Word、PDF 等格式，用户可自行通过 Pandoc、Typora 等工具转换。
-
-## 计划修订记录规范
-
-> 💡 **修改现有计划**：若用户提出修改需求（如调整容量、替换动作、重新安排训练日），请参考 `references/planning/plan-modification.md` 的完整修改工作流。
-
-每次修订需在计划开头添加修订说明：
-
-```markdown
----
-title: 8周力量训练计划
 ---
 
-<BlockQuote>
-  **修订说明**：本版本在[原先版本]基础上，依据 JTS / ACSM / Westside 文献的 MRV 原则进行审计。
-  详细审计结论见文末「MRV 审计与文献参考」章节。
-</BlockQuote>
-```
+## 功能四：科学训练咨询问答
 
-并在「修订核心变化」章节记录：
+与计划生成**并列**的核心能力。凡"问为什么/怎么/应该"但不要求生成计划 → 功能四。
 
-```markdown
-## 修订核心变化
+### 知识匹配表
 
-- 目标 PR 下调：XXX
-- 重量跳跃平滑化：XXX
-- 容量期取消 Topset，力量/冲刺期 Topset 仅 1 组
-- （逐条列出）
-```
+| 用户问题 | 读取 |
+|---------|------|
+| 疲劳/恢复（"为什么累""CNS vs 糖原"） | `references/consultation/fatigue-sources.md` |
+| SRA/频率（"多久练一次""为什么硬拉恢复慢"） | `references/consultation/sra-curves.md` |
+| 容量个体化（"我该做多少组""女生不一样吗"） | `references/consultation/mev-mrv-individual-differences.md` |
+| 周期过渡（"周期之间怎么办""练腻了"） | `references/consultation/bridge-phase.md` |
+| 循证研究（"ACSM 怎么说""科学证据"） | `references/consultation/acsm-2026-position-stand.md` |
+
+### 回答规则
+
+1. 先读取对应咨询文件，不凭记忆
+2. 标注来源（"根据 JTS 官方手册/ACSM 2026…"）
+3. 结构化：简短结论 → 展开细节
+4. 超出参考文件范围的，结合自身知识补充并注明
+5. 🔴 **切换检查点**：咨询后用户说"那帮我调整计划" → 切功能二；用户说"帮我重新设计" → 切功能三；用户问"我的1RM大概多少" → 切功能一
+
+---
+
+## 操作反例（不要做这些事）
+
+| 反例 | 为什么 | 正确做法 |
+|------|--------|---------|
+| ❌ 对辅助动作每周 +2.5kg | 孤立小肌群无法线性加重 | ✅ 双进阶：先加次数 → 到上限后加重 → 回到次数下限 |
+| ❌ 在容量期（W1-3）加入 TS | 容量期目标是肌肥大，TS 增加不必要的 CNS 疲劳 | ✅ 容量期只用固定重量直组 |
+| ❌ TS 做到力竭（RPE 9.5-10） | ACSM 2026 确认力竭训练无额外收益，反而增加受伤风险和恢复时间 | ✅ TS 上限 RPE 8.5 |
+| ❌ 减载周（W4）使用 TS/BO | 减载的目的是恢复，不是刺激 | ✅ 减载周降容 40-50%，RPE ≤6 |
+| ❌ 手动心算 RPE 转换或重量取整 | 容易出错，且浪费 token | ✅ 必须调用批计算脚本 |
+| ❌ 硬拉和深蹲大重量日安排在相邻天 | 违反 SRA 曲线——两者 CNS 疲劳叠加 | ✅ 间隔 ≥72h |
+| ❌ 有氧安排只说"快走 30 分钟" | 缺少强度量化，无法确保在目标区间 | ✅ 必须标注心率区间（如 Zone 2: 115-134 bpm） |
+| ❌ 凭记忆回答咨询问题 | 可能遗漏或错误 | ✅ 先读对应咨询文件，标注来源 |
+| ❌ 生成计划前不确认直接输出 | 用户可能需要调整，浪费 token | ✅ 步骤 7 必须先确认 |
+
+---
 
 ## 参考文献
 
-本 skill 整合以下文献与方法论（具体版本和细节请参考官方最新资料）：
+1. **JTS** — Scientific Principles of Strength Training (Israetel/Hoffmann/Smith) + The Powerlifting Program Design Manual (Chad Wesley Smith)
+2. **Westside Barbell** — 共轭法
+3. **ACSM 2026** — Currier et al., MSSE; 137 篇系统评价概览，最高级别循证指南
+4. **Volume Landmarks** — Dr. Mike Israetel, MEV/MRV/MAV
+5. **Barbell Medicine** — 实务训练建议
 
-1. **JTS (Juggernaut Training Systems)** - 周期化原则、TS/BO 结构、RPE 调节
-2. **Westside Barbell** - 共轭法、高容量与高强度永不配对原则
-3. **ACSM 近年指南** - RIR/RPE 作为强度衡量标准
-4. **Volume Landmarks (Dr. Mike Israetel)** - MEV/MRV/MAV 框架
-5. **Barbell Medicine** - 实务训练建议、 injury prevention
-
-详细内容见 `references/` 目录下的各参考文件。
-
-> 💡 **AI 使用兜底条款**：
-> 
-> 当本 Skill 文档中的信息**不足以支撑用户的特定需求**时（如：特殊伤病情况、小众动作变式、最新研究进展），AI **不应拘泥于已有信息**，而应：
-> 1. 在自己的知识库中寻找相关答案（基于训练学、解剖学、生理学常识）
-> 2. 从外部权威信息中提取（如 PubMed、ACSM、NSCA、JTS 等官方资料）
-> 3. 明确告知用户：此信息来自文档外，仅供参考
-> 
-> **原则**：Skill 文档是"核心知识库"，但不是"全部知识库"。
+> 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。

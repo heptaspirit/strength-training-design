@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: exercises
+description: 辅助动作数据库——各肌群辅助动作分类、选择指南、动作进退阶链（伤病/新手/器械限制时的降级方案）。
+load_condition: 功能三步骤3——选择辅助动作时读取
+---
+
 # 辅助动作数据库（Exercise Database）
 
 > 💡 **使用兜底条款**：

@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: planning
+description: 训练计划修改工作流——需求收集、容量/强度/动作调整方法、修改原则（保守修改，每次1-2个变量）。
+load_condition: 功能二——用户要求修改现有训练计划时读取
+---
+
 # 现有计划修改参考
 
 ## 概述

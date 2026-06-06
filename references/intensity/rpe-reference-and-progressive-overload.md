@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: intensity
+description: RPE↔%1RM参考表与渐进超负荷方法——RPE/RIR转换、双进阶（Double Progression）方法、Cluster Set规则、批计算脚本使用示例。
+load_condition: 功能三步骤3——设计各组次的重量和RPE时读取
+---
+
 # RPE 参考表与重量计算指南
 
 > 💡 **使用兜底条款**：

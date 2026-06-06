@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """
+strength-training-design skill — weighted fatigue + CNS fatigue calculator
+Used by: 功能三 step 5 — weighted fatigue audit
+Usage: python scripts/calculate_fatigue.py --sets <N> --fc <coeff> --rpe <RPE> [--cns]
+"""
 加权疲劳计算脚本
 用法：python calculate_fatigue.py --sets 3 --fc 0.7 --rpe 7.5 --rpe_mod 0.85
 """

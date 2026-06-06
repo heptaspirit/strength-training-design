@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: exercises
+description: 有氧训练安排——Zone 2心率区间指导、有氧进阶递减表（按周期阶段）、LISS/HIIT在力量训练周期中的安排。
+load_condition: 功能三步骤4——设计有氧安排时读取（强制含心率区间+进阶递减表）
+---
+
 # 有氧训练参考
 
 > 💡 **使用兜底条款**：

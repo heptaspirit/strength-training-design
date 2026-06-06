@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: methodology
+description: RPE/RIR自我调节方法——基于训练反馈的动态调整原则、退阶方案、自我调节在JTS系统中的应用。
+load_condition: 功能三步骤6——设计退阶方案时读取；功能二修改计划时按需参考
+---
+
 # RPE/RIR 自我调节参考
 
 > 💡 **使用兜底条款**：

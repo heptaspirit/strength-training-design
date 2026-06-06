@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-RPE 转 %1RM 计算脚本
-用法：python rpe_to_percentage.py --reps 5 --rpe 8
+strength-training-design skill — RPE to %1RM batch converter
+Used by: 功能三 step 3 — converting RPE/reps to training weights
+Usage: python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>
 """
 
 import argparse

@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: health
+description: 核心稳定训练——抗伸展/抗旋转/抗侧屈分类、力量举专项核心训练选择。
+load_condition: 功能三步骤4——设计核心训练安排时读取
+---
+
 # 核心稳定训练参考
 
 > 💡 **使用兜底条款**：

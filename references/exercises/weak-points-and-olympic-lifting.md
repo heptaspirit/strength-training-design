@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: exercises
+description: 薄弱点分析与奥举辅助——力量举三大项的常见弱点识别和针对性训练动作、膝上高翻/高拉作为硬拉热身和爆发力训练。
+load_condition: 功能三步骤3——针对用户薄弱点选择辅助动作时读取
+---
+
 # 薄弱点分析与奥林匹克举重辅助参考
 
 > 💡 **使用兜底条款**：

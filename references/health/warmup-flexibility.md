@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: health
+description: 热身、放松与灵活度——力量训练前后的热身流程、动态拉伸、灵活度维护。基于ACSM指南。
+load_condition: 用户询问热身或灵活度相关问题时按需读取
+---
+
 # 热身、放松与灵活度参考
 
 > 💡 **AI 使用兜底条款**：

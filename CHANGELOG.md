@@ -2,6 +2,36 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.0] - 2026-06-06
+
+### 重大变化
+- **Skill 重新定位**：从"力量训练计划设计"升级为"力量训练科学教练"，具备两大并列能力
+- **版本跃升至 0.9.0**：反映 skill 能力范围的重大扩展
+
+### Added（新增）
+- **功能四：科学训练咨询问答**（5 个独立咨询文件）：references/consultation/
+  - fatigue-sources.md — 疲劳四来源 + mTOR/AMPk + 症状判断
+  - sra-curves.md — SRA 四曲线 + 三大项排序 + SSR 范式
+  - mev-mrv-individual-differences.md — 9 因素详细机制 + 调整示例
+  - bridge-phase.md — Bridge vs 减载 + 设计原则 + 场景 + 误区
+  - acsm-2026-position-stand.md — 137 篇系统评价 + Table 4 + 7 误区 + ACSM vs JTS
+- **JTS 官方手册知识整合**：SPST + PPDM 两本书
+- **MRV 增强**：容量 5 区 + MEV/MRV 个体差异（9 因素）
+- **恢复增强**：SRA 四曲线 + 三大项 SRA 排序
+- **ACSM 2026**：最高级别循证指南
+- **Darwin 优化**：反例黑名单（9 条）+ 异常处理（7 if-then）+ 检查点标记
+- **全部 26 个文件**：统一添加 YAML frontmatter/docstring
+
+### Changed（修改）
+- **SKILL.md**：双核教练、功能四正式化、299→181 行
+- **README.md**：教练定位前置、咨询示例优先
+- **设计文件精简**：咨询内容移至 references/consultation/ + 交叉引用
+
+### Darwin 评分
+- 基线 75.6 → 优化后 83.9（+8.3）
+
+---
+
 ## [0.8.2] - 2026-06-04
 
 ### Added（新增）

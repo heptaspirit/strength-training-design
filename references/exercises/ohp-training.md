@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: exercises
+description: 实力推（OHP）专项训练——OHP技术要点、周期化设计、辅助动作选择。
+load_condition: 功能三步骤4——用户需要OHP训练安排时读取
+---
+
 # 实力推（OHP）训练参考
 
 > 💡 **使用兜底条款**：

@@ -1,3 +1,10 @@
+---
+skill: strength-training-design
+category: methodology
+description: JTS周期化原则——容量期→减载→力量期→冲刺期→测试周的完整周期结构，TS/BO设计逻辑。基于 Juggernaut Training Systems 方法体系。
+load_condition: 功能三步骤2——设计周期结构时读取；功能二修改计划时按需参考
+---
+
 # JTS 周期化原则参考
 
 > 💡 **使用兜底条款**：
@@ -86,3 +93,21 @@ W3: 5×8 @ RPE 7, 95kg ×8 ×5
 2. ❌ TS 做到力竭 → ✅ TS 是探测，RPE 8.5 最多
 3. ❌ BO 重量降太少（<8%）→ ✅ BO 应明显比 TS 轻松
 4. ❌ 冲刺期 BO 组数不降 → ✅ W7-8 BO 只做 2 组
+
+---
+
+## Bridge Phase（过渡期）
+
+> 来源：The Powerlifting Program Design Manual, "Bridge Phases"
+>
+> 📖 **完整内容**：`references/consultation/bridge-phase.md`
+
+**核心要点**：Bridge Phase 是两个正式训练周期之间的 1-2 周过渡期，与减载周不同。目的是心理休息、小伤病康复、打破适应性抵抗。
+
+四大原则：让运动员开心、做运动员（跑跳投）、创造进步（不必是重量）、不忘记细节（呼吸/纠正训练）。
+
+**与减载周的关键区别**：减载仍在做比赛动作的轻版，Bridge 可以做完全不同的训练内容。
+
+> 详细的设计原则、训练内容示例、适用场景判断、常见误区，请阅读 `references/consultation/bridge-phase.md`。
+
+---

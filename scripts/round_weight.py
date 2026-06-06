@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 """
+strength-training-design skill — weight rounding to nearest plate step
+Used by: 功能三 step 3 — rounding calculated weights to actual gym plates
+Usage: python scripts/round_weight.py --weight <value> --plate_step <step>
+"""
 重量取整脚本
 用法：python round_weight.py --weight 93.2 --plate_step 2.5
 """
