@@ -1,7 +1,7 @@
 ---
 skill: strength-training-design
 category: exercises
-description: 辅助动作数据库——各肌群辅助动作分类、选择指南、动作进退阶链（伤病/新手/器械限制时的降级方案）。
+description: 辅助动作数据库——三层动作分类指南（Main/Supplemental/Accessory）、各肌群辅助动作分类、选择指南、动作进退阶链（伤病/新手/器械限制时的降级方案）。结合 Westside 动作分类体系与 JTS 改良原则。
 load_condition: 功能三步骤3——选择辅助动作时读取
 ---
 
@@ -30,6 +30,41 @@ load_condition: 功能三步骤3——选择辅助动作时读取
 | ⚠️ | 需注意限制条件 |
 | ❌ | 不推荐（在特定情况下） |
 | 🔧 | 需要特定器械 |
+
+---
+
+## 动作分类原则：Main / Supplemental / Accessory
+
+> 来自 Westside Barbell 体系（Simmons, 2007），JTS 改良——明确每个动作的**目的和优先级**，避免"什么都练却什么都不精"
+
+### 三层分类
+
+| 层级 | 目的 | 频率 | 特征 |
+|------|------|------|------|
+| **Main (主项)** | 直接提高比赛动作 1RM | 每 4-6 周轮换变式 | 先做、最重、最消耗 CNS |
+| **Supplemental (补充)** | 强化特定薄弱环节 | 2-3 个动作/训练日 | 比主项轻，与比赛动作高度相关 |
+| **Accessory (辅助)** | 强化薄弱肌群 + 预防损伤 | 2-4 个动作/训练日 | 最轻、最后做、高次数 |
+
+### 三类动作的目的和优先级
+
+**Main (主项)**：比赛动作或直接变式。应先做、最重，目标是提高 1RM。变式选择依赖于你的短板：
+- 深蹲：Box Squat / SSB Squat / Front Squat / Anderson Squat
+- 卧推：Board Press / Floor Press / Spoto Press / Close-grip Bench
+- 硬拉：Rack Pull / Deficit Deadlift / Snatch-grip Deadlift / Pause Deadlift
+
+**Supplemental (补充)**：针对特定薄弱环节的动作。主项之后做，组次数根据周期调整（容量期 3-4×8-10，力量期 3×5）。
+
+**Accessory (辅助)**：孤立动作或预防损伤动作。每次训练后做 2-4 个，2-3 组 × 10-15 次，不追求大重量。
+
+### Westside vs JTS：关键改良
+
+| 维度 | Westside 原版 | JTS 改良 |
+|------|-------------|---------|
+| 主项轮换频率 | 每周更换 | 每 4-6 周更换（便于追踪） |
+| 补充动作选择 | 固定配方 | 按个体短板选择 |
+| 辅助动作容量 | 高容量 | 中等容量（MRV 审计控制） |
+
+> 💡 下面按肌群组织的库中，大部分动作属于 Supplemental 和 Accessory 层级。主项变式选择参考 `weak-points.md`。
 
 ---
 
@@ -761,11 +796,11 @@ load_condition: 功能三步骤3——选择辅助动作时读取
 
 ## 七、奥林匹克举重辅助动作
 
-（本部分内容已整合到 `weak-points-and-olympic-lifting.md`，此处仅作索引）
+（详细内容见 `olympic-lifting-assistance.md`，此处仅作索引）
 
 | 动作 | 主要功能 | 参考文件 |
 |------|---------|---------|
-| **高翻（Power Clean）** | 全身爆发力，适用于冲刺期辅助 | `weak-points-and-olympic-lifting.md` |
+| **高翻（Power Clean）** | 全身爆发力，适用于冲刺期辅助 | `olympic-lifting-assistance.md` |
 | **抓举（Snatch）** | 全身协调性，可用性较低（技术难度高） | 同上 |
 | **高抓（Power Snatch）** | 抓举的简化版，更适合辅助训练 | 同上 |
 | **Clean Pull** | 高翻的"拉起阶段"，不需翻站/抓举接铃 | 同上 |

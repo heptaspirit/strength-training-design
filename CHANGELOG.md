@@ -2,6 +2,130 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.2] - 2026-06-09
+
+### Added（新增）
+
+**1. Barbell Medicine（BBM）循证医学框架整合**
+
+由 Jordan Feigenbaum, MD 和 Austin Baraki, MD 创立（2016年），是将循证医学系统引入力量训练的权威机构。新增两个参考文件：
+
+- `references/barbell-medicine/barbell-medicine-methodology.md` — BBM 核心方法论，包含：
+  - 创始人背景（均为 MD，曾任 Starting Strength 教练，后因理念分歧独立）
+  - 三大核心方法论：生物心理社会模型 / 压力-适应-恢复（适宜剂量）/ 基于证据的决策
+  - BBM 的 RPE 实操框架（内部负荷 vs 外部负荷、热身流程、状态波动应对）
+  - The Bridge 计划详解（8周，3天/周，新手→中级过渡）
+  - BBM 与 SS / JTS / RTS / Westside 的关系定位
+  - 对 skill 的集成价值（5个维度）
+
+- `references/barbell-medicine/pain-management.md` — BBM 疼痛管理框架，包含：
+  - 核心原则：疼痛 ≠ 结构性损伤
+  - 生物心理社会模型三维度详解（生物/心理/社会）
+  - 训练中出现疼痛的应对框架（排除红旗症状 → 修改训练计划 → 逐步回归）
+  - 各部位疼痛的具体建议（腰痛/肩痛/膝痛）
+  - 心理因素的管理（灾难化思维/恐惧回避/过度关注/身份危机）
+  - 红旗症状清单（需立即就医的情况）
+
+**2. 新增能力维度**
+
+BBM 的整合填补了 skill 中以下空白：
+- **疼痛/伤病管理**：现有 skill 几乎没有涉及"训练中出现疼痛怎么办"，BBM 的生物心理社会模型是最科学的框架
+- **循证决策风格**：BBM 的"敢怼共识"风格（如"跑步伤膝盖"是错误观念）可以作为 skill 回答争议性问题的参考立场
+- **适宜剂量量化**：BBM 的"10-20 组肌肥大容量"是比 MEV/MRV 更直观的快速参考
+- **新手过渡方案**：The Bridge 是 SS 线性进步后最经典的过渡方案
+
+### Changed（修改）
+
+- **SKILL.md**：
+  - 描述加入 BBM 作为第四大方法论文献来源
+  - 方法论文献来源加入 BBM
+  - 参考表新增 2 个 BBM 文件
+  - 功能四知识匹配表新增 3 个 BBM 相关条目（疼痛管理 / BBM 循证理念 / RTS 条目已存在）
+  - 版本号 → 0.9.2
+- **README.md**：
+  - 描述加入 BBM
+  - 版本号 → 0.9.2
+  - 功能特性新增 BBM 循证医学框架条目
+  - 知识表新增 3 个 BBM 条目
+  - 目录结构新增 `barbell-medicine/` 目录
+
+### Rationale
+
+**为什么整合 BBM**：
+- BBM 是美国科学健身领域的权威机构，与 JTS/RTS/Westside 并列
+- 现有 skill 缺少疼痛管理维度，BBM 的生物心理社会模型是最科学的框架
+- BBM 的循证决策风格（敢怼共识）可以作为 skill 回答争议性问题的参考立场
+- BBM 的"适宜剂量"理念与 JTS 的 MEV/MRV 互补，提供更直观的容量参考
+
+**BBM 与其他体系的关系**：
+- 与 Starting Strength：曾是 SS 教练，后分道扬镳（SS 教条化，BBM 循证灵活）
+- 与 JTS：互补（JTS 偏编程框架，BBM 偏医学/疼痛管理）
+- 与 RTS：互补（RTS 的 RPE 工具被 BBM 吸收，BBM 加入医学维度）
+
+---
+
+## [0.9.1] - 2026-06-08
+
+### Added（新增）
+
+**1. Westside 共轭法知识整合**
+从 *The Westside Barbell Book of Methods* (Louie Simmons, 2007, 237页) 提取核心原理，内容已内化到现有文件中：
+- `references/westside/westside-jts-integration.md` — Westside → JTS 方法论传承脉络（保留独立参考）
+- 三层动作分类系统 → 内化至 `references/exercises/assistance-exercise-database.md`
+- 四种特殊力量素质 → 内化至 `references/exercises/weak-points.md`
+- 所有三大项薄弱点表已加入"力量素质类型"列
+
+**2. RTS（Reactive Training Systems）方法论整合**
+从 *The Reactive Training Manual* (Mike Tuchscherer, 2007, 43页) 通过 PDFKit OCR 提取全部内容（111,764 字符），新增精选参考文件：
+- `references/rts/reactive-training-system.md` — RTS 核心方法论完整概述，包含：
+  - RTS 创始人 Mike Tuchscherer 与 JTS 创始人 Chad Wesley Smith 的关系说明（两个独立体系）
+  - RPE 的历史脉络：Borg (1960s) → Tuchscherer/RTS (2004-2007, 首次引入力量举) → JTS (后期吸收与普及)
+  - RPE 系统原始定义和百分比对应表
+  - 疲劳停止点（Fatigue Stop）
+  - 单向加载（Unidirectional Loading）
+  - 疲劳百分比（Fatigue Percents）——精确容量控制工具
+  - 额外训练结构（Extra Workouts）——五部分系统
+  - 6 个推荐使用场景
+
+### Technical Note
+- Westside PDF: 直接文本提取（pdfplumber）
+- RTS PDF: 扫描版，首次使用 PDFKit（pdfkit-py）的 `extract_text --ocr_fallback` 功能
+- OCR 需要 Tesseract 5.4.0 OCR 引擎 + 配置 PATH
+- OCR 准确率约 85-90%
+
+### Changed（修改）
+- **`assistance-exercise-database.md`**：新增"动作分类原则"章节（Main/Supplemental/Accessory 三层框架 + Westside vs JTS 改良对比）
+- **`weak-points.md`**：新增"四种特殊力量素质"诊断框架；三大项薄弱点表加入"力量素质类型"列
+- **SKILL.md**：参考表更新（Westside 独立文件从 3 个减至 1 个）；功能四知识匹配表更新
+- **README.md**：知识表 + 目录结构更新（删除已内化文件引用）
+- **CHANGELOG.md**：本条目（合并 Westside + RTS 两次变更）
+- **删除**：`exercise-classification.md`、`special-strengths.md`（内容已内化）、`references/methodology/westside-acsm.md`
+
+### Rationale
+
+**Westside → JTS 传承**：JTS 方法论大量吸收自 Westside（并发周期化、动作分类、波浪形加载），但 Westside 原版针对用药精英运动员，JTS 加入了 RPE 自我调节和个体差异系统使之为自然训练者可用。
+
+**RTS 的独立地位（重要修正）**：
+- **Mike Tuchscherer (RTS)** ≠ **Chad Wesley Smith (JTS)**——两人是不同个体，各自创立了独立体系
+- **RTS 是 RPE 的开创者**：Mike Tuchscherer 首次将 Borg 的 RPE 量表从有氧运动改编引入抗阻训练
+- **JTS 是 RPE 的普及与优化者**：Chad Wesley Smith 在 JTS 后期教材中大量吸收了 RTS 的 RPE 方法论
+- 关系是 **"开创-吸收-普及"**，而非"前身-后代"
+
+### 方法论传承链（修正后）
+
+```
+Borg RPE 量表 (1960s) —— 有氧运动用
+    ↓
+Westside 共轭法 (Louie Simmons, 1990s-2007)
+    ↓
+RTS (Mike Tuchscherer, 2004-2007) —— RPE 首次引入力量举
+    ↓  "开创-吸收-普及" 的关系
+JTS (Chad Wesley Smith, 2009-now) —— 吸收 RPE + 体系化周期化
+    + MEV/MRV 量化 + 9因素个体差异 + Bridge Phase
+```
+
+---
+
 ## [0.9.0] - 2026-06-06
 
 ### 重大变化
@@ -106,7 +230,7 @@
 ## [0.7.1] - 2026-05-16
 
 ### Added（新增）
-- **膝上高翻/膝上高拉作为硬拉日热身/启动训练**：`references/exercises/weak-points-and-olympic-lifting.md` 新增完整章节，包含理论依据、适用/不适用场景、安排建议、注意事项（基于实证反馈与运动科学研究）
+- **膝上高翻/膝上高拉作为硬拉日热身/启动训练**：`references/exercises/weak-points.md` 新增完整章节，包含理论依据、适用/不适用场景、安排建议、注意事项（基于实证反馈与运动科学研究）
 - **BO 组逐级减重指引**：`references/output/output-templates.md` 退阶方案新增 BO 组第 3 组起主动减重、训练者按感觉自行调整的指引，避免累积疲劳导致受伤（基于用户实证反馈）
 
 ### Changed（修改）

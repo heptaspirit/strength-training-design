@@ -1,9 +1,9 @@
 # 🏋️ Strength Training Coach Skill
 
-> **科学训练教练** —— 不仅能设计训练计划，更能解答训练科学问题。基于 JTS 两本官方手册等权威来源，让 AI 成为你的力量训练顾问。
+> **科学训练教练** —— 以 JTS 方法论（Chad Wesley Smith）为核心，追溯 Westside 共轭法源头（Louie Simmons），融入 RTS 的 RPE 开创（Mike Tuchscherer），整合 Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD），用 ACSM 2026 循证背书，让 AI 成为你的力量训练顾问。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.9.0](https://img.shields.io/badge/Version-0.9.0-green.svg)](CHANGELOG.md)
+[![Version: 0.9.2](https://img.shields.io/badge/Version-0.9.2-green.svg)](CHANGELOG.md)
 
 加载本 Skill 后，AI 具备两大核心能力：
 
@@ -25,6 +25,9 @@
 - ✅ **Bridge Phase**：周期之间的过渡期设计，打破训练倦怠和适应性抵抗
 - ✅ **训练科学原理**：肌肉纤维类型变化、神经适应、特异性原则等
 - ✅ **ACSM 2026 循证指南**：137 篇系统评价的最新证据——推翻 7 个误区，澄清力竭/周期化/频率的科学真相
+- ✅ **Westside 共轭法传承**：理解 JTS 从 Westside 继承的核心框架——Zatsiorsky 三大方法、波浪形加载、动作分类和短板诊断系统
+- ✅ **RTS 方法论**：Mike Tuchscherer 的独立体系——力量举 RPE 的开创者、疲劳停止点、单向加载、疲劳百分比、额外训练
+- ✅ **BBM 循证医学框架**：生物心理社会模型（疼痛管理）、压力-适应-恢复（适宜剂量）、基于证据的决策（敢怼共识）—— 填补技能中疼痛管理维度的空白结构
 
 ### 📋 训练计划生成（功能一/二/三）
 
@@ -39,8 +42,14 @@
 | **ACSM 2026 立场声明** | 137 篇系统评价概览 + 7 个误区 + ACSM vs JTS 对比 | `references/consultation/acsm-2026-position-stand.md` |
 | JTS 官方手册 | 七大原则 + 周期/MEV/MRV/动作选择 | Scientific Principles of Strength Training & Program Design Manual |
 | JTS 周期化 | 周期结构、TS/BO 设计 | `references/methodology/jts-periodization.md` |
-| Westside 共轭法 | 辅助动作、弱点针对性 | `references/methodology/westside-acsm.md` |
-| ACSM 指南 | RPE/RIR、恢复策略 | `references/methodology/westside-acsm.md` |
+| Westside 共轭法 | Westside→JTS 传承脉络 | `references/westside/westside-jts-integration.md` |
+| 辅助动作库 | 动作分类（Main/Supplemental/Accessory）、动作库、进退阶 | `references/exercises/assistance-exercise-database.md` |
+| 薄弱点分析 | 四种特殊力量诊断框架、三大项薄弱点 | `references/exercises/weak-points.md` |
+| 奥举辅助 | 高翻/抓举/高拉作为力量举辅助 | `references/exercises/olympic-lifting-assistance.md` |
+| ACSM 2026 | 137 篇系统评价、7 误区、ACSM vs JTS | `references/consultation/acsm-2026-position-stand.md` |
+| RTS 方法论 | Mike Tuchscherer: RPE开创者/疲劳停止点/单向加载/额外训练 | `references/rts/reactive-training-system.md` |
+| BBM 核心方法论 | 生物心理社会模型/适宜剂量/循证决策/与 SS 分道扬镳 | `references/barbell-medicine/barbell-medicine-methodology.md` |
+| BBM 疼痛管理 | 训练中疼痛应对/主动康复/红旗症状/心理因素影响 | `references/barbell-medicine/pain-management.md` |
 | MRV 审计 | 容量管理、加权疲劳 | `references/volume-recovery/mrv-audit.md` |
 | RPE 自我调节 | 强度自动调节、退阶 | `references/methodology/autoregulation.md` |
 
@@ -65,8 +74,14 @@ strength-training-design/
     │   └── bridge-phase.md             # Bridge Phase 过渡期
     ├── methodology/                   # 核心方法论
     │   ├── jts-periodization.md
-    │   ├── westside-acsm.md
     │   └── autoregulation.md
+    ├── westside/                       # Westside 共轭法
+    │   └── westside-jts-integration.md  # Westside → JTS 传承脉络
+    ├── rts/                             # RTS 方法论（Mike Tuchscherer, RPE 开创者）
+    │   └── reactive-training-system.md  # RPE/疲劳停止点/单向加载/疲劳百分比/额外训练
+    ├── barbell-medicine/                 # Barbell Medicine 循证医学框架
+    │   ├── barbell-medicine-methodology.md  # 三大核心方法论/RTS关系/The Bridge计划
+    │   └── pain-management.md            # 生物心理社会模型/疼痛应对框架/红旗症状
     ├── intensity/                     # 强度与重量计算
     │   ├── pr-estimation.md
     │   └── rpe-reference-and-progressive-overload.md
@@ -79,7 +94,8 @@ strength-training-design/
     │   └── core-training.md
     ├── exercises/                     # 动作库与专项
     │   ├── assistance-exercise-database.md
-    │   ├── weak-points-and-olympic-lifting.md
+    │   ├── weak-points.md
+    │   ├── olympic-lifting-assistance.md
     │   ├── anthropometry-and-weak-points.md
     │   ├── ohp-training.md
     │   └── aerobic-training.md
