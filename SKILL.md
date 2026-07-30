@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理、Westside 共轭法传承等）。基于 JTS 方法论（Chad Wesley Smith, 2009）、Westside 共轭法（Louie Simmons）、RTS 方法论（Mike Tuchscherer, 2007, RPE 开创者）、Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD, 2016）、ACSM 2026 立场声明（循证）等权威来源。
-version: 0.9.2
+version: 0.9.3
 ---
 
 # 力量训练科学教练 Skill
@@ -32,6 +32,7 @@ version: 0.9.2
 | 奥举辅助（高翻/抓举/高拉） | `references/exercises/olympic-lifting-assistance.md` |
 | RPE/RIR 自我调节 | `references/methodology/autoregulation.md` |
 | MRV 审计（含容量5区+个体差异+加权疲劳） | `references/volume-recovery/mrv-audit.md` |
+| **硬拉容量管理（分拆后侧链策略）** | `references/volume-recovery/deadlift-volume-management.md` |
 | 恢复周期与训练频率（含 SRA 曲线） | `references/volume-recovery/recovery-and-frequency.md` |
 | PR 估算 | `references/intensity/pr-estimation.md` |
 | RPE ↔ %1RM + 渐进超负荷 + 双进阶/Cluster Set | `references/intensity/rpe-reference-and-progressive-overload.md` |
@@ -82,17 +83,18 @@ version: 0.9.2
    - RPE 转换：`python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>`
    - 重量取整：`python scripts/round_weight.py --weight <值> --plate_step <步进>`
 
-   ⚠️ **强制规则（三条，详细规则见对应参考文件）**：
+   ⚠️ **强制规则（四条，详细规则见对应参考文件）**：
    - 主项 TS/BO：W5-W8 强制，容量期无 TS，减载周无 TS/BO → 详见 `output-templates.md`
    - 辅助双进阶：孤立动作禁止"每周+2.5kg" → 详见 `rpe-reference-and-progressive-overload.md` 第十节
    - Cluster Set：RPE ≥8.5 的 TS 必须提供备选 → 详见 `rpe-reference-and-progressive-overload.md` 第十节
+   - **硬拉容量上限**：全程传统硬拉工作组 ≤6 组/周（中级）；后侧链分散到多日、不全堆硬拉日；RDL 等髋铰链补充距硬拉 ≥72h → 详见 `deadlift-volume-management.md`
 
 4. **核心稳定与有氧** → OHP/核心/有氧
    → `ohp-training.md` / `core-training.md` / `aerobic-training.md`
    ⚠️ 有氧必须含心率区间（Zone 2）+ 进阶递减表
 
-5. **MRV 审计** → 简单 MRV + 容量5区 + 个体差异调整 + 加权疲劳
-   → `mrv-audit.md`
+5. **MRV 审计** → 简单 MRV + 容量5区 + 个体差异调整 + 加权疲劳 + **硬拉等效疲劳换算**
+   → `mrv-audit.md` / `deadlift-volume-management.md`
    🔧 `python scripts/calculate_mrv.py` / `calculate_fatigue.py`
 
 6. **退阶方案** → `autoregulation.md`
@@ -114,6 +116,7 @@ version: 0.9.2
 | 脚本执行失败（Python 不可用） | 手动查表计算，但必须标注"未使用脚本，可能存在取整偏差" |
 | 用户有伤病/疼痛限制 | 读取 `injury-prevention.md` + `pain-management.md`（BBM 疼痛应对框架）+ `assistance-exercise-database.md` 进退阶链；疼痛≠完全停训，优先用 BBM 主动康复策略修改计划而非直接排除动作 |
 | MRV 审计超限（>100% MRV） | 优先减少辅助动作组数（保留主项），最多减 3 组；如仍超限，减少 BO 组数 |
+| 硬拉容量超限（>6 组/周 或等效疲劳 >40% MRV） | 优先将 RDL/Good Morning 移至距硬拉 ≥72h 的其他训练日；用低 CNS 动作（腿弯举/臀推/背伸）替代多余的髋铰链组；详见 `deadlift-volume-management.md` |
 | 参考文件内容不足以回答咨询问题 | 结合自身知识库补充，明确标注"此部分信息来自文档外，仅供参考" |
 | 用户咨询后想改计划 | 切到功能二；用户咨询后想新设计计划 | 切到功能三 |
 
@@ -145,7 +148,7 @@ version: 0.9.2
 | 用户问题 | 读取 |
 |---------|------|
 | 疲劳/恢复（"为什么累""CNS vs 糖原"） | `references/consultation/fatigue-sources.md` |
-| SRA/频率（"多久练一次""为什么硬拉恢复慢"） | `references/consultation/sra-curves.md` |
+| SRA/频率（"多久练一次""为什么硬拉恢复慢"） | `references/consultation/sra-curves.md` / `deadlift-volume-management.md` |
 | 容量个体化（"我该做多少组""女生不一样吗"） | `references/consultation/mev-mrv-individual-differences.md` |
 | 周期过渡（"周期之间怎么办""练腻了"） | `references/consultation/bridge-phase.md` |
 | 循证研究（"ACSM 怎么说""科学证据"） | `references/consultation/acsm-2026-position-stand.md` |
@@ -156,6 +159,7 @@ version: 0.9.2
 | 疼痛管理（"训练疼痛怎么办""腰痛还能蹲吗""伤病康复"） | `references/barbell-medicine/pain-management.md` |
 | BBM 循证理念（"适宜剂量""生物心理社会""Feigenbaum""Baraki"） | `references/barbell-medicine/barbell-medicine-methodology.md` |
 | 训练误区（"跑步伤膝盖吗""深蹲必须全幅度吗""有氧会掉肌肉吗"） | `references/barbell-medicine/barbell-medicine-methodology.md`（BBM 反共识表） |
+| 硬拉容量/后侧链（"硬拉该做多少组""硬拉太多腰疼""后侧链怎么安排"） | `references/volume-recovery/deadlift-volume-management.md` |
 
 ### 回答规则
 
@@ -177,6 +181,9 @@ version: 0.9.2
 | ❌ 减载周（W4）使用 TS/BO | 减载的目的是恢复，不是刺激 | ✅ 减载周降容 40-50%，RPE ≤6 |
 | ❌ 手动心算 RPE 转换或重量取整 | 容易出错，且浪费 token | ✅ 必须调用批计算脚本 |
 | ❌ 硬拉和深蹲大重量日安排在相邻天 | 违反 SRA 曲线——两者 CNS 疲劳叠加 | ✅ 间隔 ≥72h |
+| ❌ 硬拉日堆大量后侧链（硬拉 4×6 + RDL 3×8） | 硬拉每组 CNS/疲劳代价相当于 2.5-3 组 RDL；同天叠加脊柱轴向负荷过度 | ✅ 硬拉日仅用低疲劳后侧链补充（背伸/臀桥）；RDL 移至深蹲日或辅助日 |
+| ❌ 后侧链容量不够就加硬拉组 | 硬拉组是后侧链容量"最贵"的选项 | ✅ 优先用腿弯举、臀推、背伸堆后侧链容量（CNS 代价极低）；详见 `deadlift-volume-management.md` |
+| ❌ 分拆后侧链后每天都有后侧链训练 | 看似"分开练了"，实则整周无恢复窗口；连续后侧链刺激导致疲劳堆积 | ✅ 确保 ≥1 天零后侧链刺激日；连续后侧链训练天数 ≤2；详见 `deadlift-volume-management.md` 第五节周疲劳曲线 |
 | ❌ 有氧安排只说"快走 30 分钟" | 缺少强度量化，无法确保在目标区间 | ✅ 必须标注心率区间（如 Zone 2: 115-134 bpm） |
 | ❌ 凭记忆回答咨询问题 | 可能遗漏或错误 | ✅ 先读对应咨询文件，标注来源 |
 | ❌ 生成计划前不确认直接输出 | 用户可能需要调整，浪费 token | ✅ 步骤 7 必须先确认 |
