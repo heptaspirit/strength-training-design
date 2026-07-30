@@ -2,6 +2,44 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.3] - 2026-07-30
+
+### Added（新增）
+
+**1. 硬拉容量管理原则**
+
+- `references/volume-recovery/deadlift-volume-management.md` — 全程硬拉为何不适合堆容量、容量上限参考表、后侧链分拆四模块策略、周疲劳曲线与恢复窗口验证规则
+- 所有硬拉变式全量标记：8 种全程硬拉 / 3 种半程可控 / 7 种非硬拉后侧链，统一标记 🔴/🟡/🟢
+- 补全三种缺失变式：触底硬拉 (Touch-and-Go)、直腿硬拉 (SLDL)、宽握硬拉 (Snatch-grip)
+
+**2. Nuzzo 2023 元分析引用**
+
+- `references/intensity/rpe-reference-and-progressive-overload.md` 末节新增 Nuzzo et al. 2023 研究参考章节
+- 含更新 REPS~%1RM 对照表、sex/age/status 无调节效应确认、上下肢差异参考值、个体间变异 SD
+
+### Changed（修改）
+
+- **SKILL.md**：
+  - 强制规则从三条扩为四条（新增硬拉容量上限）
+  - 异常处理新增硬拉容量超限分支
+  - 功能四知识匹配表新增 RPE/次数查询 + 硬拉容量后侧链条目
+  - 参考文献 +1（Nuzzo 2023）
+  - 操作反例新增 3 条（硬拉堆容量、后侧链不够加硬拉组、分拆后每天后侧链训练）
+- **MRV 审计 (`mrv-audit.md`)**：
+  - 后链 MRV 新增"仅硬拉"��限行（6 组/周）
+  - 等效疲劳系数表从 7 行扩至 13 行
+  - CNS 疲劳阈值增加 >5.0 危险级别 + 硬拉日 CNS 预算
+- **输出模板 (`output-templates.md`)**：
+  - 硬拉日减容量：容量期 3-4×6，BO 2 组
+  - RDL 移出硬��日，移至辅助日（距硬拉 ≥72h）
+  - 使用说明第 8 条新增周疲劳曲线验证
+- **辅助动作数据库 (`assistance-exercise-database.md`)**：
+  - 每个硬拉变式新增分类标签（🔴🟡🟢）
+  - 新增第十节"后侧链分拆策略"
+  - 决策树所有变式标注容量分类
+- **README.md** — 版本号 0.9.2 → 0.9.3
+- **rpe_to_percentage.py** — 不变（现有值与 Nuzzo 2023 主模型一致）
+
 ## [0.9.2] - 2026-06-09
 
 ### Added（新增）

@@ -156,6 +156,7 @@ version: 0.9.3
 | 动作分类/短板诊断（"我的短板是什么力量""动作怎么分类"） | `references/exercises/assistance-exercise-database.md` / `weak-points.md` |
 | 奥举辅助（"高翻怎么安排""膝上高拉"） | `references/exercises/olympic-lifting-assistance.md` |
 | RTS 方法论（"RTS 是什么""Reactive Training""单向加载""疲劳百分比""额外训练"） | `references/rts/reactive-training-system.md` |
+| RPE/次数与%1RM（"80%1RM能做几次""最新力竭次数研究""Nuzzo"） | `references/intensity/rpe-reference-and-progressive-overload.md`（末节：Nuzzo 2023 元分析） |
 | 疼痛管理（"训练疼痛怎么办""腰痛还能蹲吗""伤病康复"） | `references/barbell-medicine/pain-management.md` |
 | BBM 循证理念（"适宜剂量""生物心理社会""Feigenbaum""Baraki"） | `references/barbell-medicine/barbell-medicine-methodology.md` |
 | 训练误区（"跑步伤膝盖吗""深蹲必须全幅度吗""有氧会掉肌肉吗"） | `references/barbell-medicine/barbell-medicine-methodology.md`（BBM 反共识表） |
@@ -198,5 +199,6 @@ version: 0.9.3
 4. **ACSM 2026** — Currier et al., MSSE; 137 篇系统评价概览，最高级别循证指南
 5. **Volume Landmarks** — Dr. Mike Israetel, MEV/MRV/MAV
 6. **Barbell Medicine** — Jordan Feigenbaum, MD & Austin Baraki, MD（2016）：生物心理社会模型、适宜剂量、循证反共识；疼痛管理与主动康复框架
+7. **REPS~%1RM Updated (Nuzzo 2023)** — Nuzzo, Pinto, Nosaka & Steele. 元分析 7,270 人更新经典力竭次数表。确认 sex/age/status 无调节效应，腿举 vs 卧推差异显著。DOI: 10.51224/SRXIV.291。详见 `references/intensity/rpe-reference-and-progressive-overload.md` 末节。
 
 > 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。

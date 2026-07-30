@@ -3,7 +3,7 @@
 > **科学训练教练** —— 以 JTS 方法论（Chad Wesley Smith）为核心，追溯 Westside 共轭法源头（Louie Simmons），融入 RTS 的 RPE 开创（Mike Tuchscherer），整合 Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD），用 ACSM 2026 循证背书，让 AI 成为你的力量训练顾问。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.9.2](https://img.shields.io/badge/Version-0.9.2-green.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/github/v/tag/heptaspirit/strength-training-design?color=green&label=Version)](CHANGELOG.md)
 
 加载本 Skill 后，AI 具备两大核心能力：
 
@@ -51,6 +51,7 @@
 | BBM 核心方法论 | 生物心理社会模型/适宜剂量/循证决策/与 SS 分道扬镳 | `references/barbell-medicine/barbell-medicine-methodology.md` |
 | BBM 疼痛管理 | 训练中疼痛应对/主动康复/红旗症状/心理因素影响 | `references/barbell-medicine/pain-management.md` |
 | MRV 审计 | 容量管理、加权疲劳 | `references/volume-recovery/mrv-audit.md` |
+| 硬拉容量管理 | 全程硬拉容量上限、后侧链分拆策略、周疲劳曲线 | `references/volume-recovery/deadlift-volume-management.md` |
 | RPE 自我调节 | 强度自动调节、退阶 | `references/methodology/autoregulation.md` |
 
 ## 📂 文件结构
@@ -86,6 +87,7 @@ strength-training-design/
     │   ├── pr-estimation.md
     │   └── rpe-reference-and-progressive-overload.md
     ├── volume-recovery/               # 容量与恢复管理
+    │   ├── deadlift-volume-management.md  # 硬拉容量管理 + 后侧链分拆 + 周疲劳曲线
     │   ├── mrv-audit.md
     │   └── recovery-and-frequency.md
     ├── health/                        # 健康与安全
