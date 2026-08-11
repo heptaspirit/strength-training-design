@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理、Westside 共轭法传承等）。基于 JTS 方法论（Chad Wesley Smith, 2009）、Westside 共轭法（Louie Simmons）、RTS 方法论（Mike Tuchscherer, 2007, RPE 开创者）、Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD, 2016）、ACSM 2026 立场声明（循证）等权威来源。
-version: 0.9.3
+version: 0.9.4
 ---
 
 # 力量训练科学教练 Skill

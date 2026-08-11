@@ -8,13 +8,18 @@
 
 **1. 拉伸 Delphi 共识整合（Warneke et al. 2025, *J Sport Health Sci*）**
 
-- `references/health/assets/warneke2025_fig3_topics_overview.jpg` + `warneke2025_graphical_abstract.jpg` — 从共识 EPUB 提取 Fig.3（8 大主题效应总览）与 Graphical abstract（推荐/不推荐信息图）
-- `references/health/warmup-flexibility.md` 新增「拉伸共识速查图」小节，将两张图重写为 **AI 可读 Markdown 表格**（↑↓=/? 矩阵 + 推荐/不推荐 + 剂量/一致度）；原始 JPG 仅留人工备查，不内嵌图片（skill 参考被当纯文本上下文加载，内嵌图对 AI 无效）
+- 从共识 EPUB 提取 Fig.3（8 大主题效应总览）与 Graphical abstract（推荐/不推荐信息图），信息**全部重绘为 AI 可读 Markdown 表格**（见下文速查图小节）；原始 JPG 不保留
+- `references/health/warmup-flexibility.md` 新增「拉伸共识速查图」小节，将两张图重写为 **AI 可读 Markdown 表格**（↑↓=/? 矩阵 + 推荐/不推荐 + 剂量/一致度）；不内嵌图片（skill 参考被当纯文本上下文加载，内嵌图对 AI 无效）
 - 共识核心结论落地：练前 >60s 静态拉伸禁忌（急性力量/爆发力下降）、慢性 ROM 有效剂量（静态/PNF，2–3 组 × 30–120s/肌）、弹簧(SSC 反弹) caveat、拉伸不促恢复/DOMS/体态/防伤
 
 ### Changed（修改）
 
 - **灵活度锚定原则**：`warmup-flexibility.md` 练前动态 / 练后静态 / 日常灵活度三处统一改为按「训练日类型（部位/动作日）」锚定，**不绑周几**，便于周表重排时整块移动
+- **Westside 方法论修正**（基于原书交叉校对）：
+  - `westside-jts-integration.md`：Dynamic Method 百分比从 60-80% 修正为 50-60%（+弹力带/铁链），加注 JTS/RTS 演化为 70-80%
+  - `westside-jts-integration.md`：3-5-1 波浪格式修正为正确的「三周钟摆波」（50%→55%→60%），注明 Wendler 5/3/1 为同源独立发展
+  - `westside-jts-integration.md`：训练频率从"14次/周"修正为"4次/周（核心）+ GPP"
+- **MEV/MRV 来源标注**：`mrv-audit.md` 各肌群 MRV 表增加来源说明（数值来自 Dr. Mike Israetel RP Volume Landmarks，非 JTS 书原文）
 
 ## [0.9.3] - 2026-07-30
 

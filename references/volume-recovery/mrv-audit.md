@@ -91,6 +91,8 @@ MRV 概念的实际应用可以进一步细分为 5 个容量区域，帮助更�
 
 ## 各肌群 MRV 参考值##
 
+> ⚠️ **来源说明**：以下各肌群的具体 MEV/MRV 数值来自 **Dr. Mike Israetel Volume Landmarks**（Renaissance Periodization），非直接取自 JTS 两本手册的原文。JTS Scientific Principles 讨论了 MEV/MRV 的概念框架和9项个体差异因素，但未列出各肌群的具体数字。本 skill 将这些数字作为 JTS 概念框架下的实践参数使用。
+
 ### 上半身###
 
 | 肌群 | MEV（组/周） | MRV（组/周） | 备注 |
