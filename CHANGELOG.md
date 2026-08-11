@@ -2,6 +2,20 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.4] - 2026-08-11
+
+### Added（新增）
+
+**1. 拉伸 Delphi 共识整合（Warneke et al. 2025, *J Sport Health Sci*）**
+
+- `references/health/assets/warneke2025_fig3_topics_overview.jpg` + `warneke2025_graphical_abstract.jpg` — 从共识 EPUB 提取 Fig.3（8 大主题效应总览）与 Graphical abstract（推荐/不推荐信息图）
+- `references/health/warmup-flexibility.md` 新增「拉伸共识速查图」小节，将两张图重写为 **AI 可读 Markdown 表格**（↑↓=/? 矩阵 + 推荐/不推荐 + 剂量/一致度）；原始 JPG 仅留人工备查，不内嵌图片（skill 参考被当纯文本上下文加载，内嵌图对 AI 无效）
+- 共识核心结论落地：练前 >60s 静态拉伸禁忌（急性力量/爆发力下降）、慢性 ROM 有效剂量（静态/PNF，2–3 组 × 30–120s/肌）、弹簧(SSC 反弹) caveat、拉伸不促恢复/DOMS/体态/防伤
+
+### Changed（修改）
+
+- **灵活度锚定原则**：`warmup-flexibility.md` 练前动态 / 练后静态 / 日常灵活度三处统一改为按「训练日类型（部位/动作日）」锚定，**不绑周几**，便于周表重排时整块移动
+
 ## [0.9.3] - 2026-07-30
 
 ### Added（新增）
