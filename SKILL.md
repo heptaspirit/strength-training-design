@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理、Westside 共轭法传承等）。基于 JTS 方法论（Chad Wesley Smith, 2009）、Westside 共轭法（Louie Simmons）、RTS 方法论（Mike Tuchscherer, 2007, RPE 开创者）、Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD, 2016）、ACSM 2026 立场声明（循证）等权威来源。
-version: 0.9.4
+version: 0.9.5
 ---
 
 # 力量训练科学教练 Skill
@@ -28,6 +28,7 @@ version: 0.9.4
 | JTS 周期化原则 + Bridge Phase | `references/methodology/jts-periodization.md` |
 | Westside → JTS 方法论传承脉络 | `references/westside/westside-jts-integration.md` |
 | 辅助动作数据库 + 动作分类 + 进退阶链 | `references/exercises/assistance-exercise-database.md` |
+| **节奏与休息参数（TUT 码 + RPS，增肌辅助动作）** | `references/exercises/tempo-and-rest.md` |
 | 薄弱点分析与辅助动作选择（含四种特殊力量） | `references/exercises/weak-points.md` |
 | 奥举辅助（高翻/抓举/高拉） | `references/exercises/olympic-lifting-assistance.md` |
 | RPE/RIR 自我调节 | `references/methodology/autoregulation.md` |
@@ -78,16 +79,18 @@ version: 0.9.4
 
 3. **各动作类型设计** → 主项 TS/BO + 辅助动作选择
    → `rpe-reference-and-progressive-overload.md` / `assistance-exercise-database.md` / `weak-points.md` / `olympic-lifting-assistance.md`
+   💡 增肌辅助动作可按需标注 **TUT 节奏码 + 组间休息（RPS）** → `tempo-and-rest.md`（节奏是执行规范，不是进阶工具）
 
    🔧 **批计算脚本（必须调用，禁止手动）**：
    - RPE 转换：`python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>`
    - 重量取整：`python scripts/round_weight.py --weight <值> --plate_step <步进>`
 
-   ⚠️ **强制规则（四条，详细规则见对应参考文件）**：
+   ⚠️ **强制规则（五条，详细规则见对应参考文件）**：
    - 主项 TS/BO：W5-W8 强制，容量期无 TS，减载周无 TS/BO → 详见 `output-templates.md`
    - 辅助双进阶：孤立动作禁止"每周+2.5kg" → 详见 `rpe-reference-and-progressive-overload.md` 第十节
    - Cluster Set：RPE ≥8.5 的 TS 必须提供备选 → 详见 `rpe-reference-and-progressive-overload.md` 第十节
    - **硬拉容量上限**：全程传统硬拉工作组 ≤6 组/周（中级）；后侧链分散到多日、不全堆硬拉日；RDL 等髋铰链补充距硬拉 ≥72h → 详见 `deadlift-volume-management.md`
+   - **频率与 6 天约束**：每肌群每周 ≤2-3 次、两次重训间隔 ≥48h（MPS 窗口 + Schoenfeld 2019/Grgic 2018）；6 天/周模板第 6 天只放小肌群/功能/变式，不做大肌群重训，三大项不做 3 次/周 → 详见 `output-templates.md` 模板四
 
 4. **核心稳定与有氧** → OHP/核心/有氧
    → `ohp-training.md` / `core-training.md` / `aerobic-training.md`
@@ -186,6 +189,8 @@ version: 0.9.4
 | ❌ 后侧链容量不够就加硬拉组 | 硬拉组是后侧链容量"最贵"的选项 | ✅ 优先用腿弯举、臀推、背伸堆后侧链容量（CNS 代价极低）；详见 `deadlift-volume-management.md` |
 | ❌ 分拆后侧链后每天都有后侧链训练 | 看似"分开练了"，实则整周无恢复窗口；连续后侧链刺激导致疲劳堆积 | ✅ 确保 ≥1 天零后侧链刺激日；连续后侧链训练天数 ≤2；详见 `deadlift-volume-management.md` 第五节周疲劳曲线 |
 | ❌ 有氧安排只说"快走 30 分钟" | 缺少强度量化，无法确保在目标区间 | ✅ 必须标注心率区间（如 Zone 2: 115-134 bpm） |
+| ❌ 大肌群每周训练超过 3 次（如三大项 3 次/周） | 频率研究（Schoenfeld 2019 / Grgic 2018）显示 3 次 vs 2 次无额外收益，反而压缩单次容量、延长恢复 | ✅ 每肌群每周 ≤2-3 次，两次重训间隔 ≥48h |
+| ❌ 6 天/周计划第 6 天仍做大肌群重训 | 越过 48h 间隔约束，疲劳堆积（反例：PHUL 6 天版把三大项排到 3 次/周且周五冲峰值） | ✅ 第 6 天只放小肌群/弱项变式/功能/体能，详见 `output-templates.md` 模板四 |
 | ❌ 凭记忆回答咨询问题 | 可能遗漏或错误 | ✅ 先读对应咨询文件，标注来源 |
 | ❌ 生成计划前不确认直接输出 | 用户可能需要调整，浪费 token | ✅ 步骤 7 必须先确认 |
 
@@ -200,5 +205,6 @@ version: 0.9.4
 5. **Volume Landmarks** — Dr. Mike Israetel, MEV/MRV/MAV
 6. **Barbell Medicine** — Jordan Feigenbaum, MD & Austin Baraki, MD（2016）：生物心理社会模型、适宜剂量、循证反共识；疼痛管理与主动康复框架
 7. **REPS~%1RM Updated (Nuzzo 2023)** — Nuzzo, Pinto, Nosaka & Steele. 元分析 7,270 人更新经典力竭次数表。确认 sex/age/status 无调节效应，腿举 vs 卧推差异显著。DOI: 10.51224/SRXIV.291。详见 `references/intensity/rpe-reference-and-progressive-overload.md` 末节。
+8. **PHUL** — Power Hypertrophy Upper Lower（Brandon Campbell, Muscle & Strength 发布）。TUT 节奏码 + RPS 组间休息参数体系参考 J. Bui 的 6 天 13 周改编版（LiftVault 发布）——仅吸收其节奏/休息参数，不吸收其 6 天×三大项 3 次/周的高频结构（违反 48h 间隔约束）。
 
 > 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。
