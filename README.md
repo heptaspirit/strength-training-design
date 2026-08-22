@@ -84,6 +84,13 @@ strength-training-design/
 │   ├── calculate_fatigue.py           # 加权疲劳 + CNS 疲劳计算
 │   ├── design_program.py             # 计划聚合器：消费 AI 的 YAML 草稿 → 重量/MRV/合规 → JSON+MD
 │   └── examples/                      # 输入样例（C2 W3 真实抽取，学 YAML 格式用）
+├── dev/                               # 🔧 维护者专用区（普通使用者无需接触）
+│   ├── run_all_checks.py             # 统一检查入口（P0 引用/版本 + P1 测试）
+│   ├── check_links.py                # 引用死链检查
+│   ├── check_version.py              # 版本号一致性检查
+│   ├── test-prompts.json             # 测试提示词
+│   └── tests/                         # pytest 固件（锁死设计器确定性逻辑）
+├── .github/workflows/checks.yml        # CI（push/PR 自动跑 dev/run_all_checks.py；必须在仓库根，子目录不触发）
 └── references/
     ├── consultation/                   # 🎓 科学训练咨询（功能四）
     │   ├── fatigue-sources.md          # 疲劳四来源 + mTOR/AMPk
@@ -276,6 +283,11 @@ Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
 - 中文使用 UTF-8 编码
 - 参考文件之间避免内容重复，使用交叉引用
 - 保持 `SKILL.md` 简洁，详细信息放在 `references/` 目录
+
+**工程维护（仅维护者）**：
+- 消费者运行脚本位于 `scripts/`（rpe_to_percentage / round_weight / calculate_mrv / calculate_fatigue / design_program.py / examples/），请勿将测试/hygiene 混入。
+- 工程检查、pytest 固件位于 `dev/`（维护者专用区）；CI workflow 置于仓库根 `.github/workflows/`（GitHub 仅扫根目录，子目录不触发）。
+- 改完 skill 后本地运行 `python dev/run_all_checks.py`（pytest 装于系统 Python，请用该解释器调用；若默认 `python` 未装 pytest，传 `--python <系统python路径>`）。推送后 GitHub Actions 会自动跑同样的检查。
 
 ## 📄 许可证
 

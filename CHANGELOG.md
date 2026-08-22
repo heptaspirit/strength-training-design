@@ -2,6 +2,42 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.8] - 2026-08-22
+
+### build+test: 工程 hygiene 自动化 + P1 测试固件 + dev/ 维护者专用区隔离
+
+> 普通 skill 使用者无需接触本版本的任何内容；以下均位于 `dev/`（与消费者脚本 `scripts/` 物理隔离），仅 skill 维护者运行。
+
+**一、工程维护脚本（P0 自动化，迁入 dev/）**
+- `dev/check_links.py`：扫描 SKILL.md/README.md 当前反引号引用，校验目标文件存在，排除 CHANGELOG 历史段落与 README 文件树 ASCII 图；退出码非 0 可 gate CI
+- `dev/check_version.py`：校验 SKILL.md `version:` ↔ CHANGELOG.md 顶部版本条目 ↔ 本地 git tag 三者一致（`--check-tag`）；防"提交忘打 tag"类错误
+- `dev/run_all_checks.py`：统一入口，串联 P0（check_links / check_version）+ P1（pytest），退出码可 gate CI / pre-commit
+
+**二、P1 自动化测试固件（pytest，迁入 dev/tests/）**
+- `dev/tests/`（conftest + 5 个测试文件，18 个用例），覆盖设计器确定性逻辑：
+  - 重量换算（pct 优先 / 向下取整到 plate_step / RPE 路径 / 缺 pct 报错）
+  - MRV 审计（边界 100%=超过 MRV 契约 / >MRV 红 / 自重动作仅审计组数）
+  - 合规红绿灯（硬拉容量上限 / 48h 间隔 / gap_rules 顺向间隔放行与违规）
+  - 减载系数（默认 ×0.6 / 自定义 / volume 周 ×1.0）
+  - 端到端：跑 c2_w3_sample.yaml 断言关键重量 + 合规全绿
+- 锁定的真实行为契约：`round_weight` 向下取整（非四舍五入）；`calculate_mrv_status` 100% 恰好临界返回「超过 MRV」
+- pytest 已装于系统 Python（9.1.1）
+
+**三、dev/ 维护者专用区隔离 + 测试提示词迁移**
+- 将 check_links/check_version/run_all_checks/tests 从 scripts/ 根与仓库根迁移至 `dev/`，与消费者脚本物理隔离
+- `test-prompts.json` 从仓库根迁移至 `dev/test-prompts.json`（维护者测试提示词）
+- SKILL.md 功能三补"工程维护脚本（仅维护者）"段并改指 dev/ 路径；README 文件树补 dev/ 段
+- `.gitignore` 补 `**/.pytest_cache/`
+
+**四、GitHub Actions CI（维护者专用，新增 `.github/workflows/checks.yml`）**
+- **位置在仓库根目录**：GitHub Actions 仅扫描根 `.github/workflows/`，子目录（如 `dev/.github`）不会被触发，故 workflow 必须置于根；这也是本轮从 `dev/.github` 迁出的原因。
+- 触发：push（含 tag）/ pull_request
+- 普通 push / PR：`cd dev && python run_all_checks.py --skip-p0`（仅跑引用检查 + pytest，不依赖 tag）
+- tag 推送：完整 `python run_all_checks.py`（额外校验 SKILL.md version ↔ CHANGELOG ↔ git tag 一致性）
+- CI 自带环境：`setup-python` 固定 3.13 + `pip install pytest`，与本地双 Python 环境错乱无关，云端每次都是干净容器。
+- 消费者完全无感：CI 文件不进入 `scripts/` 路径；普通使用者无需配置任何 CI
+- 注意：本地 `dev/run_all_checks.py` 逻辑与 CI 一致，推送前本地跑一遍即可预知云端结果
+
 ## [0.9.7] - 2026-08-22
 
 ### feat+refactor: 计划聚合器 design_program.py（架构 B）+ 边界重画为通用重复运算器

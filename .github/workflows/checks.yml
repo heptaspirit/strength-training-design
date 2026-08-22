@@ -1,0 +1,45 @@
+name: skill-checks
+
+# 维护者专用 CI（普通 skill 使用者无需关心）。
+# 仅验证 skill 内部工程一致性：引用死链 / 版本号与 git tag 一致性 / 设计器 pytest 固件。
+# 触发：push（含 tag 推送）、pull_request。
+# 注意：GitHub Actions 仅扫描仓库根 .github/workflows/，子目录（如 dev/.github）不会被触发，故本文件必须置于根目录。
+# 不进入 consumers 的 scripts/ 路径，普通 skill 使用者无感。
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 需要完整历史供 check_version --check-tag 比对 git tag
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install test deps
+        # pytest：测试固件；pyyaml：design_program.py 读 YAML 草稿所依赖（本地系统 Python 预装，CI 需显式装）
+        run: python -m pip install --no-cache-dir pytest pyyaml
+
+      - name: Run all checks
+        # 在 dev/ 目录下运行统一入口。
+        # - 普通 push / PR：跳过 --check-tag（分支上未必有对应 tag），仅跑引用检查 + pytest
+        # - tag 推送：附 --check-tag，校验 SKILL.md version ↔ CHANGELOG ↔ 当前 git tag 三者一致
+        shell: bash
+        run: |
+          cd dev
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            python run_all_checks.py
+          else
+            python run_all_checks.py --skip-p0
+          fi

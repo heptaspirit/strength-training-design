@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理、Westside 共轭法传承等）。基于 JTS 方法论（Chad Wesley Smith, 2009）、Westside 共轭法（Louie Simmons）、RTS 方法论（Mike Tuchscherer, 2007, RPE 开创者）、Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD, 2016）、ACSM 2026 立场声明（循证）等权威来源。
-version: 0.9.7
+version: 0.9.8
 ---
 
 # 力量训练科学教练 Skill
@@ -90,6 +90,13 @@ version: 0.9.7
    - 入口：`python scripts/design_program.py --input plan.yaml --out-json out.json --out-md week.md`
    - 角色：消费 AI 在 step1 生成的 YAML 草稿 → 复用上述 4 脚本算重量/RPE/MRV → 执行硬约束合规校验（频率/48h/硬拉容量）→ 输出 JSON + MD 周报骨架给 AI 续写编排
    - 设计契约：`docs/design_program_contract.md`（脚本=重复算术/AI=编排的边界红线）
+
+   🔧 **工程维护脚本（仅 skill 维护者运行，普通使用者无需接触）**：
+   - 入口：`python dev/run_all_checks.py`（P0 引用/版本检查 + P1 测试；pytest 装于系统 Python，请用该解释器或加 `--python`）；推送后 GitHub Actions 自动跑同样检查（workflow 在仓库根 `.github/workflows/`）
+   - 引用死链检查：`python dev/check_links.py`
+   - 版本号一致性：`python dev/check_version.py --check-tag`
+   - 测试固件：`dev/tests/`（pytest，锁死设计器确定性逻辑）
+   - 说明：以上均位于 `dev/`（维护者专用区），与消费者脚本 `scripts/` 物理隔离
 
    ⚠️ **强制规则（五条，详细规则见对应参考文件）**：
    - 主项 TS/BO：W5-W8 强制，容量期无 TS，减载周无 TS/BO → 详见 `output-templates.md`
