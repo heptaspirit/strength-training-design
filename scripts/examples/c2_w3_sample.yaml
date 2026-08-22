@@ -1,0 +1,65 @@
+# 样例输入：基于真实 C2 文档 W3（容量期）抽取
+# 来源：strength-training-knowledge-pack/knowledge/8周力量训练计划_C2_v1.md
+# 用途：验证设计器对 OHP/高翻/辅助/后侧链间隔的通用处理（非三大项专用）
+#
+# 容量期高次动作（如 squat 5x8）RPE 表只到 5 次，故按 C2 文档实际重量反推 %1RM 用 pct 表达：
+#   squat W3 = 100kg / 145 = 69%  → pct: 69  (145*0.69=100.05 → 取整100)
+#   bench W3 = 70kg / 105 = 67%    → pct: 69  (105*0.69=72.45 → 向下取整70)
+#   deadlift W3 = 110kg / 157.5 = 70% → pct: 73 (157.5*0.73=114.975 → 取整110)
+#   pause_squat W3 = 67.5kg（间接刺激，按 squat 1RM 的 ~47%）→ pct: 47
+#   close_grip_bench W3 = 55kg / 105 = 52% → pct: 55 (105*0.55=57.75→向下取整55)
+# 奥举（高翻/高拉）按 %DL 直接给 pct（C2 文档：高翻 ~41% DL → 157.5*0.41=64.575→取整62.5? 取57.5为例）
+
+meta:
+  user: "Boyang"
+  cycle: "C2"
+  week: 3
+
+template: "upper_lower"
+
+one_rm:
+  squat: 145
+  bench: 105
+  deadlift: 157.5
+  ohp: 60          # 实力推当前约 60kg（C2 文档 W8 冲刺 50×5，反推 1RM 约 60）
+
+tm_mode: "amrap_reestimate"
+tm_overrides: {}    # W3 仍用 1RM 基准
+
+enabled_modules:
+  - base_rpe_pct
+  # - tm_autoregulation
+  # - single_at_8
+  # - rir_target_table
+
+plate_step: 2.5
+
+week_structure:
+  - day: "Mon"
+    lifts:
+      - { exercise: "squat", sets: 5, reps: 8, pct: 69, category: "primary" }
+      - { exercise: "pause_squat", sets: 3, reps: 8, pct: 47, category: "assistance" }
+      - { exercise: "pullup", sets: 4, reps: 6, no_weight: true, category: "assistance" }
+      - { exercise: "rdl", sets: 2, reps: 8, pct: 50, category: "assistance" }   # 周一距周四硬拉 96h=3天 ✅
+  - day: "Tue"
+    lifts:
+      - { exercise: "bench", sets: 5, reps: 8, pct: 69, category: "primary" }
+      - { exercise: "close_grip_bench", sets: 3, reps: 8, pct: 55, category: "assistance" }
+      - { exercise: "ohp", sets: 4, reps: 8, pct: 68, category: "primary" }   # 周二上肢日加实力推（AI 编排决定）
+  - day: "Thu"
+    lifts:
+      - { exercise: "deadlift", sets: 3, reps: 6, pct: 73, category: "primary" }
+      - { exercise: "hang_power_clean", sets: 4, reps: 3, pct: 41, category: "olympic" }
+      - { exercise: "hang_high_pull", sets: 2, reps: 3, pct: 38, category: "olympic" }
+  - day: "Fri"
+    lifts:
+      - { exercise: "bench", sets: 5, reps: 8, pct: 69, category: "primary" }
+      - { exercise: "close_grip_bench", sets: 3, reps: 8, pct: 55, category: "assistance" }
+
+intent:
+  phase: "volume"
+  deload_factor: 0.6
+
+gap_rules:
+  - { after: "deadlift", before: ["rdl", "good_morning"], min_gap_days: 3 }
+  - { after: "deadlift", before: ["pause_deadlift", "front_squat"], min_gap_days: 2 }

@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理、Westside 共轭法传承等）。基于 JTS 方法论（Chad Wesley Smith, 2009）、Westside 共轭法（Louie Simmons）、RTS 方法论（Mike Tuchscherer, 2007, RPE 开创者）、Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD, 2016）、ACSM 2026 立场声明（循证）等权威来源。
-version: 0.9.6
+version: 0.9.7
 ---
 
 # 力量训练科学教练 Skill
@@ -84,6 +84,12 @@ version: 0.9.6
    🔧 **批计算脚本（必须调用，禁止手动）**：
    - RPE 转换：`python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>`
    - 重量取整：`python scripts/round_weight.py --weight <值> --plate_step <步进>`
+   - MRV 审计 / 加权疲劳：`python scripts/calculate_mrv.py` / `calculate_fatigue.py`
+
+   🔧 **计划聚合器（架构 B 入口）**：
+   - 入口：`python scripts/design_program.py --input plan.yaml --out-json out.json --out-md week.md`
+   - 角色：消费 AI 在 step1 生成的 YAML 草稿 → 复用上述 4 脚本算重量/RPE/MRV → 执行硬约束合规校验（频率/48h/硬拉容量）→ 输出 JSON + MD 周报骨架给 AI 续写编排
+   - 设计契约：`docs/design_program_contract.md`（脚本=重复算术/AI=编排的边界红线）
 
    ⚠️ **强制规则（五条，详细规则见对应参考文件）**：
    - 主项 TS/BO：W5-W8 强制，容量期无 TS，减载周无 TS/BO → 详见 `output-templates.md`

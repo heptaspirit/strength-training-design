@@ -2,6 +2,33 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.7] - 2026-08-22
+
+### feat+refactor: 计划聚合器 design_program.py（架构 B）+ 边界重画为通用重复运算器
+
+> 用户红线（原话）：**脚本充其量做的是重复性运算的工作**。本版本把"聚合器设计"与"边界重画"合并收口——设计器从"三大项专用"改造为"对任何动作通用的重复运算器"，并明确划分脚本 vs AI 的职责红线。
+
+**一、新增计划聚合器 `scripts/design_program.py`（架构 B）**
+- 训练计划聚合器 + 合规检查器（非编排器），复用现有 4 脚本函数层（rpe_to_percentage / round_weight / calculate_mrv / calculate_fatigue），不重写表逻辑
+- 输入：AI 在功能三 step1 生成的 YAML 草稿（one_rm + week_structure + intent.phase + enabled_modules）
+- 输出：每动作计算重量+RIR目标+MRV状态 JSON + 红绿灯合规报告（频率/48h/硬拉容量）+ Markdown 周报骨架
+- 减载 `deload_factor` 默认 ×0.6（phase=deload），可覆盖 0.5–0.7
+- v1 模板：full_body(3) / upper_lower(4) / ppl(5)；**6/7 天不做自动生成**（有氧日不进设计器）
+- `enabled_modules` 白名单（用户红线：新机制按需引入，不强制塞计划）：默认仅 `base_rpe_pct`；可选 `tm_autoregulation`(amrap_reestimate 默认/weekly_rir 可选) / `single_at_8` / `rir_target_table` / `long_cycle_blocking`(YSY) / `deadlift_single_mode`(SSPT·Ort) / `tempo_rps`
+
+**二、边界重画（通用重复运算器，非三大项专用）**
+- 重量换算 / MRV 审计 / 48h 合规 / 减载倍数 / AMRAP→1RM / TS 跳跃校验 对**任何动作**通用（不绑死三大项）
+- `MRV_DEFAULTS` 可配置表预置常用动作（squat/bench/deadlift/ohp/高翻/高拉/暂停深蹲/前蹲/暂停硬拉/RDL/早安式/引体），AI 可在 `mrv_overrides` 覆盖
+- 新增 `gap_rules`：可配置「后侧链动作 A 距硬拉 B 最小间隔 N 天」（C2 真实用法：RDL 周一距周五硬拉 96h=3 天）
+- 支持 `pct` 直接 %1RM（高次/奥举/辅助，RPE 表只到 5 次）、`no_weight`（引体等自重/次数导向动作仅审计组数不换算重量）
+- `week_structure` 改为 list of `{day, lifts:[{exercise, sets, reps, rpe?, pct?, category, no_weight?}]}`，每个 lift 都进运算
+- **明确红线（契约 §5）**：脚本做确定性算术（重量/MRV/合规/减载/AMRAP/TS 校验）；AI 做动作选择（含 OHP/奥举/拉伸/有氧/核心排不排排哪天）、排布、弱点变式、退阶、双进阶、RPE 记录
+
+**三、契约与样例**
+- 设计契约 `docs/design_program_contract.md` 升 v3（§2/§3/§5 重写）
+- 样例 `scripts/examples/c2_w3_sample.yaml`（基于真实 C2 文档 W3 抽取，含 OHP 类主项/高翻奥举/引体自重/RDL 后侧链间隔），验证通用边界
+- 验证：C2 第5周 4天 upper_lower 实例 + C2 W3 样例均跑通
+
 ## [0.9.6] - 2026-08-22
 
 ### Added（新增）

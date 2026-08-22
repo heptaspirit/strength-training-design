@@ -77,11 +77,13 @@ strength-training-design/
 ├── CHANGELOG.md                       # 版本变更记录
 ├── README.md                          # 本文件
 ├── LICENSE                            # MIT 许可证
-├── scripts/                           # 批计算脚本（设计计划时调用）
+├── scripts/                           # 批计算脚本（使用者/AI 直接调用）
 │   ├── rpe_to_percentage.py           # RPE ↔ %1RM 批量转换
 │   ├── round_weight.py                # 重量按哑铃片步进取整
 │   ├── calculate_mrv.py               # MRV 审计批量计算
-│   └── calculate_fatigue.py           # 加权疲劳 + CNS 疲劳计算
+│   ├── calculate_fatigue.py           # 加权疲劳 + CNS 疲劳计算
+│   ├── design_program.py             # 计划聚合器：消费 AI 的 YAML 草稿 → 重量/MRV/合规 → JSON+MD
+│   └── examples/                      # 输入样例（C2 W3 真实抽取，学 YAML 格式用）
 └── references/
     ├── consultation/                   # 🎓 科学训练咨询（功能四）
     │   ├── fatigue-sources.md          # 疲劳四来源 + mTOR/AMPk
