@@ -51,8 +51,23 @@
 | BBM 核心方法论 | 生物心理社会模型/适宜剂量/循证决策/与 SS 分道扬镳 | `references/barbell-medicine/barbell-medicine-methodology.md` |
 | BBM 疼痛管理 | 训练中疼痛应对/主动康复/红旗症状/心理因素影响 | `references/barbell-medicine/pain-management.md` |
 | MRV 审计 | 容量管理、加权疲劳 | `references/volume-recovery/mrv-audit.md` |
-| 硬拉容量管理 | 全程硬拉容量上限、后侧链分拆策略、周疲劳曲线 | `references/volume-recovery/deadlift-volume-management.md` |
-| RPE 自我调节 | 强度自动调节、退阶 | `references/methodology/autoregulation.md` |
+| 硬拉容量管理 | 全程硬拉容量上限、后侧链分拆策略、周疲劳曲线、单次高质量模式 | `references/volume-recovery/deadlift-volume-management.md` |
+| RPE 自我调节 | 强度自动调节、退阶、TM 自动调节（SBS） | `references/methodology/autoregulation.md` |
+| 节奏与休息参数 | TUT 节奏码 + RPS 组间休息（增肌辅助） | `references/exercises/tempo-and-rest.md` |
+| 超长周期分块 | 9×4 周块、块间主动恢复、%→RPE 过渡 | `references/volume-recovery/recovery-and-frequency.md` |
+| RIR 目标表 | 按 %1RM 应留余量 + 每组目标次数（SBS） | `references/intensity/rpe-reference-and-progressive-overload.md` |
+
+### 参考计划来源
+
+本 skill 的方法论吸收自多个训练计划体系（来源均已在对应参考文件内标注）：
+
+- **JTS / Juggernaut**（Chad Wesley Smith）— 周期化核心（源头）
+- **PHUL**（Brandon Campbell；J. Bui 6 天改编）— TUT 节奏码 + RPS 组间休息
+- **SBS Program**（Greg Nuckols / Stronger By Science）— TM 自动调节、模块化个体化、2×3 周波 + 减载
+- **SSPT**（Matt Gary / Maryland Powerlifting）— 硬拉单次高质量模式
+- **Mag/Ort**（Magnusson-Ortmayer）— 硬拉后撤组模型
+- **Your Strongest Year** — 超长周期分块
+- 计划表格来源：LiftVault.com 免费计划库
 
 ## 📂 文件结构
 
