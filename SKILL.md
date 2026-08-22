@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 力量训练科学教练——不仅能设计/修改/审计训练计划和估算 PR，还能作为知识顾问解答训练科学问题（疲劳机制、SRA 曲线、个体差异、MEV/MRV、周期化原理、Westside 共轭法传承等）。基于 JTS 方法论（Chad Wesley Smith, 2009）、Westside 共轭法（Louie Simmons）、RTS 方法论（Mike Tuchscherer, 2007, RPE 开创者）、Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD, 2016）、ACSM 2026 立场声明（循证）等权威来源。
-version: 0.9.5
+version: 0.9.6
 ---
 
 # 力量训练科学教练 Skill
@@ -31,7 +31,7 @@ version: 0.9.5
 | **节奏与休息参数（TUT 码 + RPS，增肌辅助动作）** | `references/exercises/tempo-and-rest.md` |
 | 薄弱点分析与辅助动作选择（含四种特殊力量） | `references/exercises/weak-points.md` |
 | 奥举辅助（高翻/抓举/高拉） | `references/exercises/olympic-lifting-assistance.md` |
-| RPE/RIR 自我调节 | `references/methodology/autoregulation.md` |
+| RPE/RIR 自我调节 + TM 自动调节（SBS 机制） | `references/methodology/autoregulation.md` |
 | MRV 审计（含容量5区+个体差异+加权疲劳） | `references/volume-recovery/mrv-audit.md` |
 | **硬拉容量管理（分拆后侧链策略）** | `references/volume-recovery/deadlift-volume-management.md` |
 | 恢复周期与训练频率（含 SRA 曲线） | `references/volume-recovery/recovery-and-frequency.md` |
@@ -206,5 +206,6 @@ version: 0.9.5
 6. **Barbell Medicine** — Jordan Feigenbaum, MD & Austin Baraki, MD（2016）：生物心理社会模型、适宜剂量、循证反共识；疼痛管理与主动康复框架
 7. **REPS~%1RM Updated (Nuzzo 2023)** — Nuzzo, Pinto, Nosaka & Steele. 元分析 7,270 人更新经典力竭次数表。确认 sex/age/status 无调节效应，腿举 vs 卧推差异显著。DOI: 10.51224/SRXIV.291。详见 `references/intensity/rpe-reference-and-progressive-overload.md` 末节。
 8. **PHUL** — Power Hypertrophy Upper Lower（Brandon Campbell, Muscle & Strength 发布）。TUT 节奏码 + RPS 组间休息参数体系参考 J. Bui 的 6 天 13 周改编版（LiftVault 发布）——仅吸收其节奏/休息参数，不吸收其 6 天×三大项 3 次/周的高频结构（违反 48h 间隔约束）。
+9. **SBS Program** — Greg Nuckols / Stronger By Science：TM 自动调节（RIR 版 7 档）、Single@8 当日锚、模块化个体化（Quick Setup）、2×3 周波 + 减载模式。详见 `references/methodology/autoregulation.md` 等文件内的来源标注。
 
 > 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。

@@ -2,6 +2,41 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.6] - 2026-08-22
+
+### Added（新增）
+
+**1. TM 自动调节机制（SBS RIR 版）**
+
+- `references/methodology/autoregulation.md` 新增「TM 自动调节」章节：7 档 TM 增减表（-5% / -2% / 0 / +0.5%~+3%）、Single@8 当日调节锚（≈90% 1RM，可调 87-93%）、减载周规则（无 RIR 目标、TM 不动、固定 4-6 组）
+- 来源：SBS Strength Program Last Set RIR（Greg Nuckols / Stronger By Science）
+
+**2. RIR 目标表 + Rep Target 表（SBS 机制）**
+
+- `references/intensity/rpe-reference-and-progressive-overload.md` 新增「二·补」章节：Last Set RIR 目标表（50-72.5%→3 RIR / 75-82.5%→2 / 85-95%→1 / 97.5-100%→0）+ Rep Target 表（50-57.5%→8 次…90-100%→1 次）
+- 与 Nuzzo 表互补：「能做几次」vs「该留几 RIR」
+
+**3. 模块化个体化 + 2×3 周波模式（SBS/YSY）**
+
+- `references/methodology/jts-periodization.md` 新增「模块化个体化」章节（Quick Setup 式可配置清单：主项/辅助/组数/TM 幅度/Single@8/强度矩阵/减载/频率）+「2×3 周波 + 减载模式」章节（21 周强度矩阵，每波起点 +2.5%，减载 60%，辅助低 10%）
+
+**4. 硬拉单次高质量模式（SSPT + Mag/Ort）**
+
+- `references/volume-recovery/deadlift-volume-management.md` 新增「九、硬拉单次高质量模式」：模式 A 单次波浪（SSPT：15×1@65%→4×1@92.5%，组数降×强度升，1x/2x/3x 频率变体）+ 模式 B 后撤组模型（Mag/Ort：4×4+双次+8+ 后撤组，每周 1 天）
+- 含 SBS Hypertrophy Template 用 Block Pull 半程硬拉做主的佐证
+
+**5. 超长周期分块（YSY）**
+
+- `references/volume-recovery/recovery-and-frequency.md` 新增「九、超长周期分块」：9×4 周块结构（容量→波动→强度→容量→积累→实现→GPP 主动恢复→力量×2）、块间主动恢复、%→RPE 平滑过渡、Total Lifts 自动量化
+
+### Changed（修改）
+
+- **SKILL.md**：
+  - 版本 0.9.5 → 0.9.6
+  - 核心方法论参考表更新（autoregulation 条目注明含 TM 自动调节）
+  - 参考文献 +1（SBS / Stronger By Science）
+- **README.md** — 无需改动（文件树不变，内容均为现有文件增补）
+
 ## [0.9.5] - 2026-08-22
 
 ### Added（新增）
