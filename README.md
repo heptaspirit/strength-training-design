@@ -1,6 +1,6 @@
 # 🏋️ Strength Training Coach Skill
 
-> **科学训练教练** —— 以 JTS 方法论（Chad Wesley Smith）为核心，追溯 Westside 共轭法源头（Louie Simmons），融入 RTS 的 RPE 开创（Mike Tuchscherer），整合 Barbell Medicine 循证医学框架（Jordan Feigenbaum, MD / Austin Baraki, MD），用 ACSM 2026 循证背书，让 AI 成为你的力量训练顾问。
+> **科学训练教练** —— 以 JTS 方法论（Chad Wesley Smith）为核心，追溯 Westside 共轭法（Louie Simmons），融入 RTS 的 RPE 开创（Mike Tuchscherer），整合 Barbell Medicine 循证医学框架（Jordan Feigenbaum / Austin Baraki），并以 ACSM 12th / NSCA 5th 教科书与 ACSM 2026 循证立场声明背书。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/tag/heptaspirit/strength-training-design?color=green&label=Version)](CHANGELOG.md)
@@ -9,298 +9,89 @@
 
 | 能力 | 说明 |
 |------|------|
-| 🎓 **知识咨询** | 解答"为什么"类问题——SRA 曲线、疲劳机制、mTOR/AMPk、MEV/MRV 个体化、Bridge Phase 等 |
+| 🎓 **知识咨询** | 解答"为什么"类问题——SRA 曲线、疲劳机制、mTOR/AMPk、MEV/MRV 个体化、Bridge Phase、自主神经/心血管反应等 |
 | 📋 **计划生成** | 设计周期计划、MRV 审计、PR 估算、计划修改 |
 
-## 🎯 功能特性
+## 🎯 能力矩阵
 
-### 🎓 科学训练咨询（功能四）
+| 功能 | 触发场景 | 工作流 |
+|------|----------|--------|
+| 一 · PR 估算 | "估算我的 1RM" / "这个重量能做几次" | `workflows/estimate-pr.md` |
+| 二 · 计划修改 | "这个计划太累了帮我调" / "加一个辅助动作" | `workflows/modify-plan.md` |
+| 三 · 计划生成 | "设计一个 8 周力量计划" | `workflows/design-plan.md` |
+| 四 · 科学咨询 | "为什么硬拉恢复慢" / "CNS 疲劳是什么" | `workflows/consult.md` |
 
-作为教练的核心能力，解答一切关于力量训练的科学问题：
+> 所有硬约束（不可跳过减载、硬拉容量上限、医学红旗等）集中在 [`guardrails.md`](guardrails.md)，SKILL.md 仅作极简路由。
 
-- ✅ **疲劳机制**：判断你是糖原耗尽、CNS 疲劳、化学信使失衡还是肌肉损伤
-- ✅ **SRA 曲线**：理解为什么硬拉恢复最慢，如何根据恢复周期安排训练频率
-- ✅ **MEV/MRV 个体化**：9 因素系统（性别/体重/身高/力量/经验/年龄/饮食/睡眠/压力）精确调整容量
-- ✅ **mTOR/AMPk 机制**：从分子层面理解减载为什么不能跳过，为什么不能同时大量做有氧
-- ✅ **Bridge Phase**：周期之间的过渡期设计，打破训练倦怠和适应性抵抗
-- ✅ **训练科学原理**：肌肉纤维类型变化、神经适应、特异性原则等
-- ✅ **ACSM 2026 循证指南**：137 篇系统评价的最新证据——推翻 7 个误区，澄清力竭/周期化/频率的科学真相
-- ✅ **Westside 共轭法传承**：理解 JTS 从 Westside 继承的核心框架——Zatsiorsky 三大方法、波浪形加载、动作分类和短板诊断系统
-- ✅ **RTS 方法论**：Mike Tuchscherer 的独立体系——力量举 RPE 的开创者、疲劳停止点、单向加载、疲劳百分比、额外训练
-- ✅ **BBM 循证医学框架**：生物心理社会模型（疼痛管理）、压力-适应-恢复（适宜剂量）、基于证据的决策（敢怼共识）—— 填补技能中疼痛管理维度的空白结构
-
-### 📋 训练计划生成（功能一/二/三）
-
-## 📚 知识体系
-
-| 知识领域 | 内容 | 参考文件 |
-|--------|------|----------|
-| **疲劳管理进阶** | 4 来源 + mTOR/AMPk + 症状判断 | `references/consultation/fatigue-sources.md` |
-| **SRA 曲线体系** | 4 维曲线 + 三大项排序 + SSR 范式 | `references/consultation/sra-curves.md` |
-| **MEV/MRV 个体化** | 9 因素详细机制 + 调整示例 | `references/consultation/mev-mrv-individual-differences.md` |
-| **Bridge Phase** | 周期过渡设计 + 适应性抵抗 | `references/consultation/bridge-phase.md` |
-| **ACSM 2026 立场声明** | 137 篇系统评价概览 + 7 个误区 + ACSM vs JTS 对比 | `references/consultation/acsm-2026-position-stand.md` |
-| JTS 官方手册 | 七大原则 + 周期/MEV/MRV/动作选择 | Scientific Principles of Strength Training & Program Design Manual |
-| JTS 周期化 | 周期结构、TS/BO 设计 | `references/methodology/jts-periodization.md` |
-| Westside 共轭法 | Westside→JTS 传承脉络 | `references/westside/westside-jts-integration.md` |
-| 辅助动作库 | 动作分类（Main/Supplemental/Accessory）、动作库、进退阶 | `references/exercises/assistance-exercise-database.md` |
-| 薄弱点分析 | 四种特殊力量诊断框架、三大项薄弱点 | `references/exercises/weak-points.md` |
-| 奥举辅助 | 高翻/抓举/高拉作为力量举辅助 | `references/exercises/olympic-lifting-assistance.md` |
-| ACSM 2026 | 137 篇系统评价、7 误区、ACSM vs JTS | `references/consultation/acsm-2026-position-stand.md` |
-| RTS 方法论 | Mike Tuchscherer: RPE开创者/疲劳停止点/单向加载/额外训练 | `references/rts/reactive-training-system.md` |
-| BBM 核心方法论 | 生物心理社会模型/适宜剂量/循证决策/与 SS 分道扬镳 | `references/barbell-medicine/barbell-medicine-methodology.md` |
-| BBM 疼痛管理 | 训练中疼痛应对/主动康复/红旗症状/心理因素影响 | `references/barbell-medicine/pain-management.md` |
-| MRV 审计 | 容量管理、加权疲劳 | `references/volume-recovery/mrv-audit.md` |
-| 硬拉容量管理 | 全程硬拉容量上限、后侧链分拆策略、周疲劳曲线、单次高质量模式 | `references/volume-recovery/deadlift-volume-management.md` |
-| RPE 自我调节 | 强度自动调节、退阶、TM 自动调节（SBS） | `references/methodology/autoregulation.md` |
-| 节奏与休息参数 | TUT 节奏码 + RPS 组间休息（增肌辅助） | `references/exercises/tempo-and-rest.md` |
-| 超长周期分块 | 9×4 周块、块间主动恢复、%→RPE 过渡 | `references/volume-recovery/recovery-and-frequency.md` |
-| RIR 目标表 | 按 %1RM 应留余量 + 每组目标次数（SBS） | `references/intensity/rpe-reference-and-progressive-overload.md` |
-
-### 参考计划来源
-
-本 skill 的方法论吸收自多个训练计划体系（来源均已在对应参考文件内标注）：
-
-- **JTS / Juggernaut**（Chad Wesley Smith）— 周期化核心（源头）
-- **PHUL**（Brandon Campbell；J. Bui 6 天改编）— TUT 节奏码 + RPS 组间休息
-- **SBS Program**（Greg Nuckols / Stronger By Science）— TM 自动调节、模块化个体化、2×3 周波 + 减载
-- **SSPT**（Matt Gary / Maryland Powerlifting）— 硬拉单次高质量模式
-- **Mag/Ort**（Magnusson-Ortmayer）— 硬拉后撤组模型
-- **Your Strongest Year** — 超长周期分块
-- 计划表格来源：LiftVault.com 免费计划库
-
-## 📂 文件结构
+## 🏗️ 架构（v0.9.10 重构为三层分离）
 
 ```
 strength-training-design/
-├── SKILL.md                          # 主文件（AI 加载入口）
-├── CHANGELOG.md                       # 版本变更记录
-├── README.md                          # 本文件
-├── LICENSE                            # MIT 许可证
-├── scripts/                           # 批计算脚本（使用者/AI 直接调用）
-│   ├── rpe_to_percentage.py           # RPE ↔ %1RM 批量转换
-│   ├── round_weight.py                # 重量按哑铃片步进取整
-│   ├── calculate_mrv.py               # MRV 审计批量计算
-│   ├── calculate_fatigue.py           # 加权疲劳 + CNS 疲劳计算
-│   ├── design_program.py             # 计划聚合器：消费 AI 的 YAML 草稿 → 重量/MRV/合规 → JSON+MD
-│   └── examples/                      # 输入样例（C2 W3 真实抽取，学 YAML 格式用）
-├── dev/                               # 🔧 维护者专用区（普通使用者无需接触）
-│   ├── run_all_checks.py             # 统一检查入口（P0 引用/版本 + P1 测试）
-│   ├── check_links.py                # 引用死链检查
-│   ├── check_version.py              # 版本号一致性检查
-│   ├── test-prompts.json             # 测试提示词
-│   └── tests/                         # pytest 固件（锁死设计器确定性逻辑）
-├── .github/workflows/checks.yml        # CI（push/PR 自动跑 dev/run_all_checks.py；必须在仓库根，子目录不触发）
-└── references/
-    ├── consultation/                   # 🎓 科学训练咨询（功能四）
-    │   ├── fatigue-sources.md          # 疲劳四来源 + mTOR/AMPk
-    │   ├── sra-curves.md               # SRA 曲线体系详解
-    │   ├── mev-mrv-individual-differences.md  # MEV/MRV 个体差异系统
-    │   └── bridge-phase.md             # Bridge Phase 过渡期
-    ├── methodology/                   # 核心方法论
-    │   ├── jts-periodization.md
-    │   └── autoregulation.md
-    ├── westside/                       # Westside 共轭法
-    │   └── westside-jts-integration.md  # Westside → JTS 传承脉络
-    ├── rts/                             # RTS 方法论（Mike Tuchscherer, RPE 开创者）
-    │   └── reactive-training-system.md  # RPE/疲劳停止点/单向加载/疲劳百分比/额外训练
-    ├── barbell-medicine/                 # Barbell Medicine 循证医学框架
-    │   ├── barbell-medicine-methodology.md  # 三大核心方法论/RTS关系/The Bridge计划
-    │   └── pain-management.md            # 生物心理社会模型/疼痛应对框架/红旗症状
-    ├── intensity/                     # 强度与重量计算
-    │   ├── pr-estimation.md
-    │   └── rpe-reference-and-progressive-overload.md
-    ├── volume-recovery/               # 容量与恢复管理
-    │   ├── deadlift-volume-management.md  # 硬拉容量管理 + 后侧链分拆 + 周疲劳曲线
-    │   ├── mrv-audit.md
-    │   └── recovery-and-frequency.md
-    ├── health/                        # 健康与安全
-    │   ├── injury-prevention.md
-    │   ├── warmup-flexibility.md
-    │   └── core-training.md
-    ├── exercises/                     # 动作库与专项
-    │   ├── assistance-exercise-database.md
-    │   ├── tempo-and-rest.md          # TUT 节奏码 + RPS 组间休息
-    │   ├── weak-points.md
-    │   ├── olympic-lifting-assistance.md
-    │   ├── anthropometry-and-weak-points.md
-    │   ├── ohp-training.md
-    │   └── aerobic-training.md
-    ├── planning/                      # 计划设计工具
-    │   └── plan-modification.md
-    └── output/                        # 输出模板
-        └── output-templates.md
+├── SKILL.md          # 薄路由层：能力矩阵 + 硬约束极简版 + 工具入口 + 文献
+├── guardrails.md     # 单一约束入口：5 条硬约束详述 + 操作反例
+├── workflows/        # 流程层：4 功能的详细工作流（从 SKILL.md 抽出）
+├── references/       # 知识层：35 个参考文件，按主题分类，按需加载
+├── scripts/          # 使用者/AI 直接调用的批计算脚本
+├── dev/              # 维护者专用：检查脚本 + pytest 固件（普通使用者无需接触）
+├── docs/             # 设计器契约等工程文档
+└── .github/          # CI（push/PR 自动跑 dev/run_all_checks.py）
 ```
+
+**设计原则**：每个事实只有一个家 —— 流程在 `workflows/`、约束在 `guardrails.md`、知识在 `references/`，改一处不必改两处（参考 ponytail 的"单一规则源"精神，但只学其神、不套其多宿主壳）。
+
+## 📚 参考知识体系（references/）
+
+按目录分组，每个文件自描述，详细内容见文件内 frontmatter：
+
+- **consultation/** — 疲劳四来源、SRA 曲线、MEV/MRV 个体差异、Bridge Phase、ACSM 2026 立场声明、**强度-容量敏感轴（新增）**、**教练-学员感知错位（新增）**
+- **methodology/** — JTS 周期化、RPE 自我调节、并发训练干扰（新增）、冲峰与减量（新增）、周期化分类学（新增）
+- **health/** — 损伤预防、热身拉伸、核心训练、**大重量自主神经/心血管反应（新增，含 Valsalva/黑视）**、**临床人群与安全筛查（新增）**
+- **exercises/** — 辅助动作库、薄弱点、奥举辅助、节奏休息、OHP、有氧、人体测量
+- **intensity/** — PR 估算、RPE 参考与渐进超负荷
+- **volume-recovery/** — 硬拉容量管理、MRV 审计、超长周期分块
+- **barbell-medicine/ / westside/ / rts/ / planning/ / output/** — 四大体系源流 + 计划修改 + 输出模板
 
 ## 🚀 安装使用
 
-本 Skill 提供两种安装方式，推荐使用**方式一（源码安装）**。
-
-### 方式一：源码安装（推荐）
-
-适用于所有 AI Agent（`.skill` 格式已默认兼容）。
-
-#### 1. 克隆仓库到本地
+推荐使用**源码安装**（`.skill` 格式已默认兼容多数 Agent）：
 
 ```bash
 git clone https://github.com/heptaspirit/strength-training-design.git
-```
-
-#### 2. 复制到 Agent 的 skills 目录
-
-将 `strength-training-design/` 目录复制到对应 Agent 的 skills 目录（如 `~/.workbuddy/skills/`，路径因 Agent 而异）：
-
-```bash
 cp -r strength-training-design ~/.workbuddy/skills/
 ```
 
----
-
-### 方式二：手动打包 .skill 文件（高级用户）
-
-如果你需要将 Skill 分享给没有 Git 的用户，可以手动打包：
-
-```bash
-# 进入 skill 目录
-cd strength-training-design/
-
-# 打包为 .skill 文件（本质是 Zip 压缩包）
-# macOS/Linux:
-zip -r strength-training-design.skill * -x "*.git*"
-
-# Windows (PowerShell):
-Compress-Archive -Path * -DestinationPath strength-training-design.skill -Force
-```
-
-然后将 `.skill` 文件分享给其他用户，在他们的 AI Agent 中导入即可。
-
-> 💡 **提示**：`.skill` 文件本质上是 Zip 压缩包，只是扩展名改成了 `.skill`。AI Agent 导入时会自动解压到 skills/ 目录。
-
----
-
-### 验证安装
-
-安装完成后，在 AI Agent 中提问：
-```
-为什么硬拉比卧推恢复慢那么多？
-```
-
-如果 AI 从 JTS 官方手册的角度科学地解答了 SRA 曲线原理和三大项恢复差异，说明安装成功。
-
-也可以试试计划生成：
-```
-帮我设计一个 8 周力量训练计划
-```
+验证：向 AI 提问"为什么硬拉比卧推恢复慢那么多？"，若能从 SRA 曲线角度科学解答即安装成功。
 
 ## 📝 使用示例
 
-### 🎓 咨询问答示例
+**咨询**：`为什么硬拉恢复比卧推慢那么多？我该多久练一次？`
+→ AI 基于 `references/consultation/sra-curves.md`：硬拉 > 深蹲 > 卧推的 SRA 曲线最长，建议每周 1–1.5 次。
 
-**用户提问**：
-```
-为什么硬拉恢复比卧推慢那么多？我该多久练一次硬拉？
-```
+**计划**：`帮我设计一个 8 周力量举计划，目标深蹲 140 / 卧推 100 / 硬拉 160kg`
+→ AI 按 `workflows/design-plan.md` 走：收集约束 → 周期结构 → 各动作 TS/BO → MRV 审计 → 输出前确认 → 完整计划。
 
-**AI 响应**（基于 `references/consultation/sra-curves.md`）：
+## 🧠 关键概念速览
 
-根据 JTS 官方手册，不同动作的 SRA（刺激-恢复-适应）曲线长度不同：硬拉 > 深蹲 > 卧推。硬拉对身体的神经和物理压力最大，SRA 曲线最长，建议每周 1-1.5 次。如果你的硬拉是相扑式，可以比传统硬拉略频繁一些。
+- **SRA 曲线**：技术(<1天) < 肌肥大(2-4天) < 神经力量(~1周) < 结缔组织(最长) —— 决定训练频率
+- **疲劳四来源**：糖原 / CNS / 化学信使 / 肌肉损伤，性质与恢复时长各异
+- **MEV/MRV**：最小/最大可恢复容量，9 因素个体化
+- **RPE/RIR**：自觉疲劳度，RPE 8 = 还能做 2 次
+- **MRV 审计**：基于动作疲劳系数 × RPE 修正的真实疲劳负荷
 
----
+## 🤝 贡献与工程维护
 
-**用户提问**：
-```
-我感觉一直很累但 MRV 审计说没超，怎么回事？
-```
+欢迎 Issue / PR。代码规范：Markdown + UTF-8，参考文件间交叉引用避免重复，SKILL.md 保持精简。
 
-**AI 响应**（基于 `references/consultation/fatigue-sources.md`）：
+**维护者专用（`dev/`）**：
+- `run_all_checks.py` — 统一检查入口（引用/版本 + pytest）
+- `check_links.py` — 引用死链检查（扫 SKILL.md / README.md / guardrails.md / workflows/*.md）
+- `check_version.py` — 版本号一致性
+- `tests/` — pytest 固件（锁死设计器确定性逻辑）
 
-疲劳不只是容量的函数。JTS 手册分解为 4 种疲劳来源：糖原耗尽（几天恢复）、CNS 疲劳（数天到数周）、化学信使失衡（数周到数月）、肌肉损伤（数天到数周）。你可能是 CNS 疲劳——特点是"杠铃感觉异常沉重"而不仅仅是酸痛。建议降低训练强度（不是容量），同时检查睡眠和压力。
+改完本地跑 `python dev/run_all_checks.py`，推送后 GitHub Actions 自动复跑。
 
-### 📋 计划生成示例
-```
-帮我设计一个 8 周力量举训练计划，目标是深蹲 140kg、卧推 100kg、硬拉 160kg
-```
+## 📄 许可证 / 作者 / 更新日志
 
-**AI 响应流程**：
-1. 收集用户信息（训练经验、当前 PR、可用频率）
-2. 如果用户无 1RM 数据，引导进行 PR 估算（见 `references/intensity/pr-estimation.md`）
-3. 设计周期结构（容量期 → 力量期 → 峰值期）
-4. 各动作 TS/BO 设计
-5. MRV 审计
-6. 输出确认 → 完整计划
+MIT 许可证（[LICENSE](LICENSE)）· 作者 **heptaspirit** · 详见 [CHANGELOG.md](CHANGELOG.md)
 
-## 🔧 核心工作流
-
-```
-第一步：确定目标与约束（PR 估算、伤病、肢体比例）
-    ↓
-第二步：设计周期结构（容量期 → 减载 → 力量期 → 冲刺期 → 测试周）
-    ↓
-第三步：各动作类型设计（主项 TS/BO + 辅助双进阶 + Cluster Set）
-          🔧 批计算：rpe_to_percentage.py / round_weight.py
-    ↓
-第四步：核心稳定 + 有氧设计（含心率区间 + 进阶递减表）
-    ↓
-第五步：MRV 审计 + 加权疲劳审计
-          🔧 批计算：calculate_mrv.py / calculate_fatigue.py
-    ↓
-第六步：退阶方案与自我调节
-    ↓
-第七步：输出前确认 ← 展示概要，用户确认后再输出完整计划
-    ↓
-第八步：最终输出（计划 + MRV 审计 + 退阶方案 + 训练日志模板）
-```
-
-## 🧠 关键训练科学概念
-
-- **SRA 四曲线**：技术适应（~1天）< 肌肥大（2-4天）< 神经力量（~1周）< 结缔组织（最长）——直接决定训练频率
-- **疲劳四来源**：糖原耗尽（数天）、CNS 疲劳（数天-数周）、化学信使失衡（数周-数月）、肌肉损伤（数天-数周）
-- **mTOR/AMPk**：合成代谢 vs 分解代谢的细胞开关，解释了减载为什么不能跳过
-- **MEV/MRV 个体差异**：9 因素系统——性别、体重、身高、力量、经验、年龄、饮食、睡眠、压力
-- **Bridge Phase**：周期之间的 1-2 周过渡期，用于心理休息、伤病康复、打破适应性抵抗
-- **MRV（Maximum Recoverable Volume）**：最大可恢复容量，超过此容量会导致过度训练
-- **加权疲劳审计**：基于动作疲劳系数（FC）× RPE 修正的真实疲劳负荷
-- **RPE（Rating of Perceived Exertion）**：自觉疲劳度评分，RPE 8 = 还能做 2 次
-- **JTS 周期化**：容量期高容量中等强度 → 力量期中等容量高强度 → 峰值期低容量极高强度
-- **TS/BO（Top Set / Back-off）**：顶级组 + 降重组，JTS 核心训练结构，W5-W8 强制使用
-- **双进阶（Double Progression）**：辅助动作递增方式——先加次数再加重量
-- **Cluster Set**：组簇训练，如 5×1 @ 20s 休息替代 1×5，降低 CNS 疲劳
-- **心率区间**：Zone 2（60-70% HRmax）为力量训练者有氧黄金区间
-
-## 🤝 贡献指南
-
-欢迎提交 Issue 和 Pull Request！
-
-**贡献前请阅读**：
-1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
-
-**代码规范**：
-- 所有文档使用 Markdown 格式
-- 中文使用 UTF-8 编码
-- 参考文件之间避免内容重复，使用交叉引用
-- 保持 `SKILL.md` 简洁，详细信息放在 `references/` 目录
-
-**工程维护（仅维护者）**：
-- 消费者运行脚本位于 `scripts/`（rpe_to_percentage / round_weight / calculate_mrv / calculate_fatigue / design_program.py / examples/），请勿将测试/hygiene 混入。
-- 工程检查、pytest 固件位于 `dev/`（维护者专用区）；CI workflow 置于仓库根 `.github/workflows/`（GitHub 仅扫根目录，子目录不触发）。
-- 改完 skill 后本地运行 `python dev/run_all_checks.py`（pytest 装于系统 Python，请用该解释器调用；若默认 `python` 未装 pytest，传 `--python <系统python路径>`）。推送后 GitHub Actions 会自动跑同样的检查。
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
-
-## ✍️ 作者
-
-**heptaspirit**
-
-## 📋 更新日志
-
-详见 [CHANGELOG.md](CHANGELOG.md)
-
----
-
-**Keywords**: 力量训练, 力量举, 训练计划, JTS, Westside, MRV, RPE, ACSM, 周期化, AI Skill, Strength Training, Powerlifting, Program Design
+**Keywords**: 力量训练, 力量举, 训练计划, JTS, Westside, MRV, RPE, ACSM, NSCA, 周期化, AI Skill

@@ -2,15 +2,15 @@
 """
 strength-training-design skill — reference link integrity checker
 
-Scans the *current* reference links in SKILL.md and README.md and verifies
+Scans the *current* reference links in the routing layer, the single-rule
+source (guardrails.md), every workflow file, and README.md, then verifies
 that every cited file actually exists on disk.
 
-Design notes (why this is stricter than a naive grep):
-- Only scans backtick-wrapped `references/...` paths in SKILL.md and README.md.
-- Explicitly ignores:
-  - CHANGELOG.md (historical version descriptions contain old paths)
-  - README's ASCII file-tree diagram (indented, no backticks)
-  - Directory-only references (e.g. `references/consultation/` are OK)
+Design notes:
+- Whitelist scan: only the files below are checked, so historical docs
+  (CHANGELOG.md) are never treated as live links.
+- Only backtick-wrapped `references/...` file/dir paths are matched.
+- Directory-only references (e.g. `references/consultation/`) are OK.
 - Exits non-zero if any dead link is found, so it can gate CI.
 
 Usage:
@@ -22,9 +22,7 @@ import os
 import re
 import sys
 
-# Files whose *historical* content must NOT be treated as live links.
-HISTORY_FILES = {"changelog.md"}
-
+# File link: backtick-wrapped `references/...md`
 LINK_RE = re.compile(r"`(references/[^\s`]+\.md)`")          # file link
 DIR_RE = re.compile(r"`(references/[^\s`]+/)`")              # directory link
 
@@ -44,18 +42,27 @@ def main():
     args = ap.parse_args()
 
     root = args.root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # Whitelist: routing layer + single-rule source + every workflow + README.
+    scan_files = ["SKILL.md", "README.md", "guardrails.md"]
+    wf_dir = os.path.join(root, "workflows")
+    if os.path.isdir(wf_dir):
+        for fn in sorted(os.listdir(wf_dir)):
+            if fn.endswith(".md"):
+                scan_files.append(os.path.join("workflows", fn))
+
     scanned = []
     dead_files, dead_dirs = [], []
 
-    for fname in ["SKILL.md", "README.md"]:
-        fpath = os.path.join(root, fname)
+    for rel in scan_files:
+        fpath = os.path.join(root, rel)
         if not os.path.exists(fpath):
-            print(f"[skip] {fname} not found")
+            print(f"[skip] {rel} not found")
             continue
         with open(fpath, encoding="utf-8") as fh:
             text = fh.read()
         files, dirs = find_links(text)
-        scanned.append((fname, len(files), len(dirs)))
+        scanned.append((rel, len(files), len(dirs)))
         for ref in files:
             target = os.path.normpath(os.path.join(root, ref))
             if not os.path.exists(target):

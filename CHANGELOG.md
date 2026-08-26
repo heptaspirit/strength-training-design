@@ -2,6 +2,24 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.10] - 2026-08-26
+
+### refactor: 三层分离架构 + 知识库扩展 + 工具修复
+
+- **架构重构（三层分离）**：SKILL.md 从 236 行瘦身至 ~83 行纯路由层；新建 `workflows/`（4 功能详细工作流）+ `guardrails.md`（单一约束入口）；references/ 知识层内容不动，仅删重复索引（ponytail「单一规则源」精神）
+- **知识库扩展（中高优先级融合）**：新增 7 个参考文件（A/B/C 三块缺口 + clinical/population、concurrent training、tapering、periodization taxonomy），并 augment 奥举辅助（增强式）+ PR 估算（1RM 测试协议 + Brzycki）；主 SKILL.md 索引更新
+- **README 简化**：306 → ~97 行，去重、补三层架构说明
+- **dev/check_links.py 修复**：扫描范围扩展至含 guardrails.md + workflows/*.md，消除重构后链接最密文件的假安全感盲区
+
+## [0.9.9] - 2026-08-26
+
+### feat: 知识库缺口 A/B/C 文献支撑
+
+- 新增 `references/health/autonomic-cardiovascular-response-heavy-lifting.md`（大重量 Valsalva/黑视/呼吸处方）
+- 新增 `references/consultation/intensity-volume-sensitivity-axis.md`（强度-容量敏感轴）
+- 新增 `references/consultation/coach-athlete-perception-gap.md`（教练-学员感知错位）
+- 来源：ACSM 12th / NSCA 5th / Enoka 2016 / Narloch 1995 等
+
 ## [0.9.8] - 2026-08-22
 
 ### build+test: 工程 hygiene 自动化 + P1 测试固件 + dev/ 维护者专用区隔离
