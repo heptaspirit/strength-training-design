@@ -30,7 +30,7 @@ strength-training-design/
 ├── SKILL.md          # 薄路由层：能力矩阵 + 硬约束极简版 + 工具入口 + 文献
 ├── guardrails.md     # 单一约束入口：5 条硬约束详述 + 操作反例
 ├── workflows/        # 流程层：4 功能的详细工作流（从 SKILL.md 抽出）
-├── references/       # 知识层：35 个参考文件，按主题分类，按需加载
+├── references/       # 知识层：36 个参考文件，按主题分类，按需加载
 ├── scripts/          # 使用者/AI 直接调用的批计算脚本
 ├── dev/              # 维护者专用：检查脚本 + pytest 固件（普通使用者无需接触）
 ├── docs/             # 设计器契约等工程文档
@@ -44,7 +44,7 @@ strength-training-design/
 按目录分组，每个文件自描述，详细内容见文件内 frontmatter：
 
 - **consultation/** — 疲劳四来源、SRA 曲线、MEV/MRV 个体差异、Bridge Phase、ACSM 2026 立场声明、**强度-容量敏感轴（新增）**、**教练-学员感知错位（新增）**
-- **methodology/** — JTS 周期化、RPE 自我调节、并发训练干扰（新增）、冲峰与减量（新增）、周期化分类学（新增）
+- **methodology/** — JTS 周期化、RPE 自我调节、并发训练干扰（新增）、冲峰与减量（新增）、周期化分类学（新增）、块长度与阶段延长（新增）
 - **health/** — 损伤预防、热身拉伸、核心训练、**大重量自主神经/心血管反应（新增，含 Valsalva/黑视）**、**临床人群与安全筛查（新增）**
 - **exercises/** — 辅助动作库、薄弱点、奥举辅助、节奏休息、OHP、有氧、人体测量
 - **intensity/** — PR 估算、RPE 参考与渐进超负荷

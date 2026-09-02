@@ -226,8 +226,8 @@ gap_rules:               # 动作A 刺激后，动作B 至少间隔 N 天（C2�
 | 48h 间隔 / 频率合规 | 任何标记为需间隔约束的主项；每主项 ≤2-3 次/周 | 始终（红绿灯） |
 | 后侧链距硬拉间隔（如 RDL 周一距周五硬拉 96h） | 可配置「动作A→动作B 最小间隔 N 天」规则（见 §3.3） | 配置即开 |
 | 减载倍数（deload_factor 默认 0.6，可 0.5–0.7） | 整周权重统一乘 | phase=deload 时 |
-| AMRAP→1RM 估算（Epley，向下取整至步进） | 供 TM 锚定 / W9 估算周 | 启用 amrap 时 |
-| TS 跳跃校验（W5-8 TS 反算 %PR，确认冲刺轨迹） | 主项冲刺周 | 启用 ts_jump 时 |
+| AMRAP→1RM 估算（Epley，向下取整至步进） | 供 TM 锚定 / peaking 测试周（phase=peak，周次依结构而定，如 8 周骨架的 W9） | 启用 amrap 时 |
+| TS 跳跃校验（强度聚焦 phase 的 TS/BO 反算 %PR，确认递进轨迹） | 主项强度聚焦 phase（strength/peak） | 启用 ts_jump 时（**按 phase 判定，不绑定固定周数如 W5-8**） |
 | SBS TM 7 档调节 | 仅 `tm_autoregulation` 开启 | 按需 |
 | Single@8 当日锚 / RIR 目标表 | 仅对应模块开启 | 按需 |
 

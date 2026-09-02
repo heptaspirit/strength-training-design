@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 科学力量训练教练——设计/修改/审计周期化训练计划、估算 PR、解答训练科学问题（疲劳机制、SRA、个体差异、MEV/MRV、周期化、Westside 共轭法、临床安全/医学红旗）。当用户需要：①设计力量举/肌肥大周期计划 ②修改现有计划 ③估算 1RM/PR ④咨询训练科学（CNS 疲劳、恢复、容量个体化、周期化分类、有氧与力量冲突、伤痛/医学红旗）时使用。基于 JTS、Westside、RTS、Barbell Medicine、ACSM、NSCA 权威体系。
-version: 0.9.10
+version: 0.9.11
 ---
 
 # 力量训练科学教练 Skill
@@ -54,7 +54,7 @@ version: 0.9.10
 
 所有领域知识在 `references/`，按调用场景分层。AI 遵循 workflow 文件的指向加载，**不要一次性全读**：
 
-- **methodology/** — JTS 周期化、Westside 整合、RTS、RPE 自我调节、同期训练干扰、冲峰/减载/停训、周期化分类学
+- **methodology/** — JTS 周期化、Westside 整合、RTS、RPE 自我调节、同期训练干扰、冲峰/减载/停训、周期化分类学、块长度与阶段延长（block-length-and-phase-extension）
 - **volume-recovery/** — MRV 审计、硬拉容量管理、恢复与频率
 - **intensity/** — PR 估算、RPE↔%1RM 与渐进超负荷
 - **exercises/** — 辅助动作数据库、薄弱点、奥举辅助、节奏与休息、OHP、核心、有氧、anthropometry

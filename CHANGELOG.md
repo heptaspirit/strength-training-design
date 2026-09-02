@@ -2,6 +2,23 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.11] - 2026-09-02
+
+### feat+refactor: 块长度知识 + 周期结构去僵化（周数不再写死）
+
+- **新增 `references/methodology/block-length-and-phase-extension.md`**：单块 3-6 周甜区、延长容量期仅当爬向 MRV 才多长肌肉、延长力量期对 PR 更金贵、JTS 4+4 是模板非律法、MRV 驱动块长、自然中级坚持性>单周期结构完美；含 4+4 vs 3+2+2 对照表，并锚定灵活结构（诱导期/10周/跳过峰值重启）
+- **去僵化周数硬编码**：`guardrails.md` 约束 #1（TS/BO 时序）由 "W5-W8 强制 / W1-3 无 TS / W4 无 TS" 改为「按 phase 判定（仅强度聚焦 phase 强制，容量期无论几周无 TS，减载周无 TS/BO），不绑固定周次」；`design-plan.md` 同改
+- **`jts-periodization.md`**：注明 W1-3/W4/W5-6/W7-8/W9 为 8 周范例标签，块长由 MRV 驱动 3-6 周；新增「块长度可调（非固定 8 周）」小节列支持结构
+- **`output-templates.md`**：开头加「周次为 phase 相对占位、结构可 3+2+2/10周带诱导/重启」说明，模板保留为范例
+- **`design_program_contract.md`**：AMRAP 锚定/TS 跳跃校验由 "W9 估算周 / W5-8 TS" 改为按 phase 表述（脚本 `design_program.py` 本就按 `intent.phase` 驱动、不绑周数，无需改代码）
+- **`SKILL.md`**：知识索引补新文件；版本 0.9.10 → 0.9.11
+
+### Rationale
+
+用户在实际训练（C2 因装修/工作停训、被迫跳过 W7-8 峰值、计划拉长成 10 周带诱导期）中发现 skill 默认模板过死板且缺块长度研究知识。本次把「8 周骨架」从律法降级为范例，所有周次改为 phase 相对占位，并补入最新研究（Schoenfeld 2017 / Pelland 2024 / Williams 2017 meta / ACSM 2026 / Issurin 板块周期化）支撑的块长度决策依据。
+
+**脚本无需改动**：`design_program.py` 自 v0.9.7 起即按「周 + `intent.phase`」调用，合规校验只查硬拉容量/48h/频率/gap_rules，不含任何周数假设；`ts_jump` 模块虽在契约文档提及但未实现，本次仅将其文档表述从 "W5-8" 改为「按 phase 判定」，避免与去僵化后的参考文件互相打架。
+
 ## [0.9.10] - 2026-08-26
 
 ### refactor: 三层分离架构 + 知识库扩展 + 工具修复

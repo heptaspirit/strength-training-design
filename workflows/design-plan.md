@@ -37,7 +37,7 @@ load_condition: 功能三——用户要求完整设计训练计划时读取
    - 说明：以上均位于 `dev/`（维护者专用区），与消费者脚本 `scripts/` 物理隔离
 
    ⚠️ **强制规则（五条，详细规则见对应参考文件 / 汇总于 `guardrails.md`）**：
-   - 主项 TS/BO：W5-W8 强制，容量期无 TS，减载周无 TS/BO → 详见 `references/output/output-templates.md`
+   - 主项 TS/BO：仅**强度聚焦 phase（力量期+冲刺期）**强制，容量期（无论几周）无 TS，减载周无 TS/BO（按 phase 判定，不绑固定周次，如 8 周骨架的 W5-8）→ 详见 `references/methodology/block-length-and-phase-extension.md` 与 `references/output/output-templates.md`
    - 辅助双进阶：孤立动作禁止"每周+2.5kg" → 详见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十节
    - Cluster Set：RPE ≥8.5 的 TS 必须提供备选 → 详见 `references/intensity/rpe-reference-and-progressive-overload.md` 第十节
    - **硬拉容量上限**：全程传统硬拉工作组 ≤6 组/周（中级）；后侧链分散到多日、不全堆硬拉日；RDL 等髋铰链补充距硬拉 ≥72h → 详见 `references/volume-recovery/deadlift-volume-management.md`
