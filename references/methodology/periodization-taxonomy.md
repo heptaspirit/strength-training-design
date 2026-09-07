@@ -7,7 +7,7 @@ load_condition: 用户询问"周期化有哪几种""linear/undulating/block 有�
 
 # 周期化分类学（NSCA 5th 视角）
 
-> 来源：NSCA *Essentials of Strength Training and Conditioning* 5th ed. Ch22（Training Integration and Periodization），含 Matveyev 经典模型与 Table 22.3。
+> 来源：NSCA *Essentials of Strength Training and Conditioning* 5th ed.（Training Integration and Periodization），含 Matveyev 经典模型。
 >
 > 交叉引用：本 skill 的运营模型在 `methodology/jts-periodization.md`（JTS 容量期→减载→力量期→冲刺→测试周）；本文档给"为什么分这些阶段"的学术骨架。
 
@@ -67,7 +67,7 @@ NSCA 强调"每日训练负荷与强度的波动促进恢复"，这支撑了以�
 
 ## 参考文献
 
-1. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Ch22 Training Integration and Periodization; Figure 22.6 Matveyev model; Table 22.3.
+1. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Training Integration and Periodization; Matveyev model;.
 2. **Stone MH, O'Bryant HS, et al.** — 力量训练周期化 seminal papers（引于 NSCA 5th）。
 3. **Zatsiorsky VM, et al.** — 刺激负荷随训练水平变化（引于 NSCA 5th）。
 4. **Kawamori N, Haff GG (2005)** — 爆发力动作的负荷-功率关系。

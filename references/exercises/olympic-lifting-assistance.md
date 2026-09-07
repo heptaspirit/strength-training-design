@@ -215,7 +215,7 @@ load_condition: 功能三步骤3——选择辅助动作时读取；用户询问
 
 ## 增强式训练（Plyometrics）作为爆发力补充
 
-> 来源：NSCA *Essentials* 5th Ch19（Plyometric Mechanics and Physiology / Program Design）。与奥举共享 SSC（拉伸-缩短周期）神经-肌腱适应，是爆发力的另一条训练路径。
+> 来源：NSCA *Essentials* 5th（Plyometric Mechanics and Physiology / Program Design）。与奥举共享 SSC（拉伸-缩短周期）神经-肌腱适应，是爆发力的另一条训练路径。
 
 ### 为什么和奥举并列
 
@@ -224,7 +224,7 @@ load_condition: 功能三步骤3——选择辅助动作时读取；用户询问
 - 奥举 → 全身协调 + 髋/膝伸展力量（直接转深蹲/硬拉）
 - 增强式 → 落地吸收 + 反应力量（reactive strength），下肢爆发力/变向更直接
 
-### 动作分类（NSCA Table 19.2/19.3）
+### 动作分类（NSCA）
 
 | 类型 | 描述 | 强度由什么决定 |
 |------|------|--------------|

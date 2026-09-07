@@ -7,7 +7,7 @@ load_condition: 用户自述或暗示有基础疾病（高血/糖/关节/骨质/
 
 # 训前筛查、医学红旗与临床/特殊人群
 
-> 来源：ACSM *Guidelines for Exercise Testing and Prescription* 12th（Ch2 训前筛查、Ch10 其他慢病）+ NSCA *Essentials of Strength Training and Conditioning* 5th（老年阻力训练立场）。
+> 来源：ACSM *Guidelines for Exercise Testing and Prescription* 12th（训前筛查、 其他慢病）+ NSCA *Essentials of Strength Training and Conditioning* 5th（老年阻力训练立场）。
 >
 > 交叉引用：本文档与 `health/autonomic-cardiovascular-response-heavy-lifting.md`（大重量下头晕/黑视的血流动力学机制）天然成体系——前者管"该不该练/找谁批"，后者管"练的时候怎么不出事"。疼痛相关见 `barbell-medicine/pain-management.md`。
 
@@ -25,7 +25,7 @@ load_condition: 用户自述或暗示有基础疾病（高血/糖/关节/骨质/
 
 ---
 
-## 1. 训前健康筛查与医学红旗（ACSM Ch2）
+## 1. 训前健康筛查与医学红旗（ACSM）
 
 ### 1.1 两步筛查流程
 
@@ -37,7 +37,7 @@ ACSM 训前筛查是两阶段过程，目标是在开始中-高强度运动前�
 
 无专业人员协助时，可让用户自填 **PAR-Q+**（Physical Activity Readiness Questionnaire Plus）判断是否需先就医。
 
-### 1.2 红旗症状（Table 2.1 精简）
+### 1.2 红旗症状（精简）
 
 以下任一**新发或异常**症状出现时，应建议医疗评估/转诊，不要直接开大重量计划：
 
@@ -63,7 +63,7 @@ ACSM 原话：关于阻力训练中心血管并发症的筛查证据有限，**�
 
 ## 2. 临床人群处方要点
 
-### 2.1 关节炎（OA/RA，ACSM Ch10）
+### 2.1 关节炎（OA/RA，ACSM）
 
 **核心信息**：运动**不会**加重关节损伤，反而被广泛证实能减痛、抗炎、改善功能。最大障碍是"负重运动会伤关节"的误解（患者和部分医生都有）。
 
@@ -78,7 +78,7 @@ ACSM 原话：关于阻力训练中心血管并发症的筛查证据有限，**�
 - 运动后 48–72 小时明显加痛可能是 DOMS（新手正常），会随适应消退；若某动作持续加重关节痛，换同肌群替代动作。
 - 充分热身/冷身（≥5–10 分钟）对减痛极关键。
 
-### 2.2 骨质疏松（ACSM Ch10）
+### 2.2 骨质疏松（ACSM）
 
 **核心信息**：运动可延缓年龄相关骨流失、降低骨折风险；骨强化只发生在受力的部位。
 
@@ -94,14 +94,14 @@ ACSM 原话：关于阻力训练中心血管并发症的筛查证据有限，**�
 
 ### 2.3 代谢病（高血压 / 2 型糖尿病）——筛查视角 + 已知收益
 
-> 详细分病 FITT 见 ACSM Ch9（代谢病与 CVD 危险因素）。本文档给教练的安全边界与开局原则。
+> 详细分病 FITT 见 ACSM（代谢病与 CVD 危险因素）。本文档给教练的安全边界与开局原则。
 
 - **运动收益明确**：有氧 + 阻力训练改善糖化血红蛋白（Church 2010, Dunstan 2002）、胰岛素敏感性、血压（Yang 2014 系统评价：阻力 vs 有氧对 T2DM 均有效）。
 - **阻力训练处方（通用起点）**：2–3 天/周，大肌群，中强度起步，渐进加重。
 - **未控制者先转诊**：血压/血糖明显未控制、或有红旗症状时，先请医生评估再练。
 - **憋气警示**：严重高血压者大重量 Valsalva 可能使血压瞬时飙升（见 A 块 MacDougall 峰值 320/250、个例 >480/350 mmHg），应强调"呼气过粘滞点、屏气 ≤1–2 秒"的呼吸技术，必要时降强度。
 
-### 2.4 癌症生存者（ACSM Ch10，顺带注）
+### 2.4 癌症生存者（ACSM，顺带注）
 
 - 运动对绝大多数癌生存者安全且获益大于风险；2019 ACSM 圆桌结论：步行/阻力/柔韧活动前**无需**运动测试。
 - **造口患者**：阻力训练时应避免诱发过度腹压（如 Valsalva）——与 A 块呼吸技术直接呼应（专家意见级证据）。
@@ -149,7 +149,7 @@ ACSM 原话：关于阻力训练中心血管并发症的筛查证据有限，**�
 
 ## 参考文献
 
-1. **ACSM** — *Guidelines for Exercise Testing and Prescription* 12th ed. (Ozemek, Bonikowske, et al.). Ch2 Preparticipation Evaluation; Ch9 Metabolic Disease & CVD Risk Factors; Ch10 Other Chronic Diseases.
+1. **ACSM** — *Guidelines for Exercise Testing and Prescription* 12th ed. (Ozemek, Bonikowske, et al.). Preparticipation Evaluation; Metabolic Disease & CVD Risk Factors; Other Chronic Diseases.
 2. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Ch on older-adult resistance training.
 3. **Fragala MS, Cadore EL, Dorgo S, et al.** (2019). Resistance training for older adults: position statement from the NSCA. *J Strength Cond Res* 33(8):2019–2052.
 4. **Chodzko-Zajko WJ, et al.** (2009). Exercise and physical activity for older adults. ACSM position stand. *Med Sci Sports Exerc* 41(7):1510–1530.

@@ -1,7 +1,7 @@
 ---
 skill: strength-training-design
 category: consultation
-description: ACSM 2026立场声明完整分析——137篇系统评价概览、Table 4变量影响矩阵、7个被推翻的误区、ACSM vs JTS方法论差异对比。原始论文：Currier et al., MSSE 2026;58(4):851-872。
+description: ACSM 2026立场声明完整分析——137篇系统评价概览、变量影响矩阵、7个被推翻的误区、ACSM vs JTS方法论差异对比。原始论文：Currier et al., MSSE 2026;58(4):851-872。
 load_condition: 功能四触发——用户询问科学证据、ACSM推荐、循证训练、周期化争议
 ---
 
@@ -19,7 +19,7 @@ load_condition: 功能四触发——用户询问科学证据、ACSM推荐、循
 
 ACSM 2026 的核心结论：**任何形式的抗阻训练都比不训练好得多。** 在此基础上，某些处方变量可以进一步优化效果。
 
-### Table 4 关键结果：各变量对力量/肌肥大/爆发力的影响
+### 关键结果：各变量对力量/肌肥大/爆发力的影响
 
 变量旁标注：✔ = 有显著影响，✖ = 无显著影响（或无额外优势），? = 证据不足
 

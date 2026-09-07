@@ -13,18 +13,18 @@ Usage:
 
 import argparse
 
-# DE 百分比按水平反向（Ch3 官方表）：水平越高对杠施加的力越大，百分比可更低
+# DE 百分比按水平反向（官方表）：水平越高对杠施加的力越大，百分比可更低
 LEVEL_WAVE_BASE = {
     "advanced": 40,      # 波: 40/45/50%
     "intermediate": 45,  # 波: 45/50/55%
     "novice": 50,        # 波: 50/55/60%
 }
 
-# DE 组数处方（Ch2 L629；纯杠铃形态，无带/链）
+# DE 组数处方（L629；纯杠铃形态，无带/链）
 DE_PRESCRIPTION = {
     "squat":    {"sets": "10-12", "reps": 2, "note": "组间 30-90s，杠速第一、百分比只是参考"},
-    "bench":    {"sets": "8-10",  "reps": 3, "note": "三种握距；固定重量、不波浪（Ch12 L2627）"},
-    "deadlift": {"sets": "5-6",   "reps": 1, "note": "速度硬拉 50-60%，不必每周做（Ch3 L975）"},
+    "bench":    {"sets": "8-10",  "reps": 3, "note": "三种握距；固定重量、不波浪"},
+    "deadlift": {"sets": "5-6",   "reps": 1, "note": "速度硬拉 50-60%，不必每周做（L975）"},
 }
 
 DE_BENCH_PCT = (45, 50)  # 无装备 max（有装备 50%）
@@ -76,7 +76,7 @@ def cmd_wave(args):
 
 
 def cmd_tonnage(args):
-    """平装载荷吨位 + 60% 法则（Ch6）"""
+    """平装载荷吨位 + 60% 法则"""
     target = args.target
     lift = args.lift
     pres = DE_PRESCRIPTION[lift]
@@ -108,7 +108,7 @@ def cmd_tonnage(args):
 
 
 def cmd_rotation(args):
-    """ME 变式轮换计划：4-5 个变式每两周轮换一个 → 10 周大周期（Ch2 标准处方）"""
+    """ME 变式轮换计划：4-5 个变式每两周轮换一个 → 10 周大周期（标准处方）"""
     variants = args.variants
     n = len(variants)
     if not 3 <= n <= 5:

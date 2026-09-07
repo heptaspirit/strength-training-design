@@ -1,13 +1,13 @@
 ---
 skill: strength-training-design
 category: methodology
-description: Westside共轭法与JTS方法论的整合脉络——JTS如何继承和改良Westside的并发周期化、动作分类、波浪形加载。基于 Westside Barbell Book of Methods (Louie Simmons, 2007)。
+description: Westside共轭法与JTS方法论的整合脉络——JTS如何继承和改良Westside的并发周期化、动作分类、波浪形加载。基于 Westside Barbell Book of Methods (Louie Simmons, 2023)。
 load_condition: 用户询问Westside与JTS的关系、共轭法历史渊源、两种方法论如何配合使用时读取
 ---
 
 # Westside → JTS 方法论整合脉络
 
-**来源**: The Westside Barbell Book of Methods (Louie Simmons, 2007)
+**来源**: The Westside Barbell Book of Methods (Louie Simmons, 2023)
 **定位**: Westside 是 JTS 方法论的重要源头之一。JTS 保留其核心框架，加入 MEV/MRV、RPE 自我调节和个体差异系统，使其更适合自然训练者。
 **配套文件**: 核心量化标准 `book-of-methods-core.md` · 特殊力量分类学 `special-strengths.md` · GPP/恢复 `gpp-recovery.md`
 
@@ -45,17 +45,17 @@ Westside 基于 Zatsiorsky (1995) 的三大方法（量化处方详见 `book-of-
 这是 JTS 从 Westside 继承的最完整框架。原著每日结构为 **4 层**：
 
 ```
-Westside 每日结构（Ch3）：
+Westside 每日结构：
 
   1| Main Exercise (主项)
-  │    比赛动作或直接变式（ME/DE 形式）
-  │    例: Box Squat, Board Press, Rack Pull
+  │ 比赛动作或直接变式（ME/DE 形式）
+  │ 例: Box Squat, Board Press, Rack Pull
   2| Supplemental Exercise (补充)
-  │    按弱点分析选择
-  │    例: Close-grip Bench, Good Morning
+  │ 按弱点分析选择
+  │ 例: Close-grip Bench, Good Morning
   3| Accessory Exercise (辅助)
-  │    肌群建设 + 预防损伤（腹/下背 3-4×8-15）
-  │    例: Triceps Pushdown, Face Pull, Reverse Hyper
+  │ 肌群建设 + 预防损伤（腹/下背 3-4×8-15）
+  │ 例: Triceps Pushdown, Face Pull, Reverse Hyper
   4| Other (其他)
        预康复、加容量、促进恢复（握力/颈/背阔）
 ```
@@ -99,7 +99,7 @@ W4: 回到 50% 开始新周期
 
 ## 5. 特殊力量素质 → JTS 的薄弱环节分析
 
-Westside 特殊力量并非只有"4 种"：Ch2 是五挡变速箱（quickness → absolute），Ch4 是 **8+ 维分类学**（最大力量/力量耐力/力量-速度/速度力量/爆发力/加速力量/向心/离心/等长）。
+Westside 特殊力量并非只有"4 种"： 是五挡变速箱（quickness → absolute）， 是 **8+ 维分类学**（最大力量/力量耐力/力量-速度/速度力量/爆发力/加速力量/向心/离心/等长）。
 
 完整分类学、月度次数配额（80 次/月速度力量 + 16 次/月力量-速度）、两周退化规则、mini-max 粘滞点理论：见 `special-strengths.md`。
 
@@ -147,7 +147,7 @@ Westside 特殊力量并非只有"4 种"：Ch2 是五挡变速箱（quickness �
 
 ## 参考文献
 
-1. Simmons, L. (2007). *The Westside Barbell Book of Methods*. Westside Barbell.
+1. Simmons, L. (2023). *The Westside Barbell Book of Methods*. Westside Barbell.
 2. Zatsiorsky, V. (1995). *Science and Practice of Strength Training*. Human Kinetics.
 3. Israetel, M., Hoffmann, J., & Smith, C.W. *Scientific Principles of Strength Training*. Juggernaut Training Systems.
 4. Smith, C.W. *The Powerlifting Program Design Manual*. Juggernaut Training Systems.

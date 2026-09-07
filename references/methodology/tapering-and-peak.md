@@ -7,7 +7,7 @@ load_condition: 用户临近比赛/测试周、询问"减载周怎么安排""冲
 
 # 冲峰（Peaking）、减量（Taper）与停训（Detraining）
 
-> 来源：NSCA *Essentials of Strength Training and Conditioning* 5th ed. Ch22 周期化模型 + 厌氧训练适应章节（detraining）。
+> 来源：NSCA *Essentials of Strength Training and Conditioning* 5th ed. 周期化模型 + 厌氧训练适应章节（detraining）。
 >
 > 交叉引用：与 `methodology/jts-periodization.md`（JTS 减载周/测试周）、`methodology/periodization-taxonomy.md`（各阶段强度-容量表）直接衔接。用户 C2 文档的 W9 AMRAP 测试周即"冲峰 + 测试"落地。
 
@@ -20,7 +20,7 @@ NSCA 周期模型中的 **competitive period** 含 peaking 与 maintenance 两�
 - **Peaking 目标**：把运动员放到约 **1–2 周** 的峰值状态。
 - **为什么不能长**：试图把冲峰延长到 >2 周，会因 fitness 下降或潜在过度训练而导致**表现能力回落**（36,38）。
 - **负荷走向**：随冲峰推进，从较高强度逐步转向**较低强度**以降低疲劳（fitness–fatigue 范式：减太多负荷会同时丢 fitness）。
-- **NSCA peaking 强度-容量**（Table 22.3）：
+- **NSCA peaking 强度-容量**：
   - 阻力 **50% 到 ≥93% 1RM** 横跨（视冲峰位置）；
   - **极低容量：1–3 组 × 1–3 次**。
 
@@ -73,6 +73,6 @@ NSCA 周期模型中的 **competitive period** 含 peaking 与 maintenance 两�
 
 ## 参考文献
 
-1. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Ch22 Periodization (Table 22.3 peaking/maintenance); anaerobic training adaptations (detraining section).
+1. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Periodization ( peaking/maintenance); anaerobic training adaptations (detraining section).
 2. **Stone MH, O'Bryant HS, et al.** — 周期化与 peaking 模型原始文献（引于 NSCA 5th）。
 3. 交叉：`methodology/jts-periodization.md`、`methodology/periodization-taxonomy.md`、`volume-recovery/recovery-and-frequency.md`。

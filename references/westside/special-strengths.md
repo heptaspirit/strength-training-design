@@ -7,12 +7,12 @@ load_condition: 弱点分析需要把"卡在哪"映射到具体力量素质时�
 
 # Westside 特殊力量分类学
 
-**来源**: The Westside Barbell Book of Methods (Louie Simmons, 2007) Ch2（五挡变速箱）+ Ch4（完整分类学）
+**来源**: The Westside Barbell Book of Methods (Louie Simmons, 2023) （五挡变速箱）+ （完整分类学）
 **定位**: 弱点分析的"素质层"——先定位是哪种力量素质卡住，再选动作（动作层见 `../exercises/weak-points.md` 与 `assistance-exercise-database.md`）。
 
 ---
 
-## 1. 分类学总表（Ch4）
+## 1. 分类学总表
 
 | 素质 | 定义/表现 | 训练法 | 关键量化 |
 |---|---|---|---|
@@ -29,9 +29,9 @@ load_condition: 弱点分析需要把"卡在哪"映射到具体力量素质时�
 ## 2. 两条全局规则
 
 - **两周退化规则**：只练速度 → 两周内丢绝对力量；只练绝对力量 → 两周内丢速度 ⇒ **必须每周并发全部素质**——这正是共轭体系存在的生理学依据（与 JTS"并发发展多素质"一致）。
-- **月度次数配额**（Ch4）：速度力量+爆发 ~**80 次/月**；力量-速度 ~**16 次/月**。超出配额 = 该素质过度训练的开始。
+- **月度次数配额**：速度力量+爆发 ~**80 次/月**；力量-速度 ~**16 次/月**。超出配额 = 该素质过度训练的开始。
 
-## 3. mini-max（粘滞点）理论（Ch11）
+## 3. mini-max（粘滞点）理论
 
 - 髋伸展峰值 ~150°、膝伸展 ~120°，力量-姿态曲线**因人而异** ⇒ 同样的训练对不同粘滞点的人效果不同。
 - **应用**：冲纪录失败的位置 = 功能性等长训练位（卧推顶 2-3 英寸卡壳 → 在该高度做架式等长）；阶梯加载的依据。
@@ -51,6 +51,6 @@ load_condition: 弱点分析需要把"卡在哪"映射到具体力量素质时�
 
 ## 参考文献
 
-1. Simmons, L. (2007). *The Westside Barbell Book of Methods*. Westside Barbell.
+1. Simmons, L. (2023). *The Westside Barbell Book of Methods*. Westside Barbell.
 
 *最后更新：2026-09-07*

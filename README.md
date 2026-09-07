@@ -1,98 +1,76 @@
-# 🏋️ Strength Training Coach Skill
+# 🏋️ 力量训练教练 Skill
 
-> **科学训练教练** —— 以 JTS 方法论（Chad Wesley Smith）为核心，追溯 Westside 共轭法（Louie Simmons），融入 RTS 的 RPE 开创（Mike Tuchscherer），整合 Barbell Medicine 循证医学框架（Jordan Feigenbaum / Austin Baraki），并以 ACSM 12th / NSCA 5th 教科书与 ACSM 2026 循证立场声明背书。
+> 装上之后，AI 就能像个真教练一样给你排训练计划——知道什么时候该加量、什么时候该减载、某个动作一周练几次合适，也知道怎么安排有氧和体能才不会拖累力量进步。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/github/v/tag/heptaspirit/strength-training-design?color=green&label=Version)](CHANGELOG.md)
 
-加载本 Skill 后，AI 具备两大核心能力：
+## 能干什么
 
-| 能力 | 说明 |
-|------|------|
-| 🎓 **知识咨询** | 解答"为什么"类问题——SRA 曲线、疲劳机制、mTOR/AMPk、MEV/MRV 个体化、Bridge Phase、自主神经/心血管反应等 |
-| 📋 **计划生成** | 设计周期计划、MRV 审计、PR 估算、计划修改 |
+| 想做的事 | 直接这么说就行 | AI 会怎么做 |
+|---------|--------------|------------|
+| **估算 1RM** | "我深蹲 120kg 做 5 次，极限大概多少" | 按 RPE 换算表估算，并按你的杠铃片规格取整 |
+| **设计完整计划** | "设计一个 8 周计划，目标深蹲 150 / 卧推 110 / 硬拉 165" | 问清你的成绩、伤病、每周能练几天 → 排周期 → 算每组的重量和 RPE → 做容量审计 → 给你完整计划 |
+| **改现有计划** | "这个计划太累了" / "硬拉日能不能加点别的" | 定位问题在哪，按规则改，不推翻重来 |
+| **安排体能/有氧** | "我想练练体能但又怕掉力量" | 问清你的目标、健身房有什么器械、想在什么时候练 → 排一套跟着周期走的体能方案，并保证不抢力量训练的恢复 |
+| **问为什么** | "为什么硬拉比卧推恢复慢" / "有氧会不会掉肌肉" | 从疲劳机制、恢复曲线讲清楚，而不是甩结论 |
 
-## 🎯 能力矩阵
+## 怎么用
 
-| 功能 | 触发场景 | 工作流 |
-|------|----------|--------|
-| 一 · PR 估算 | "估算我的 1RM" / "这个重量能做几次" | `workflows/estimate-pr.md` |
-| 二 · 计划修改 | "这个计划太累了帮我调" / "加一个辅助动作" | `workflows/modify-plan.md` |
-| 三 · 计划生成 | "设计一个 8 周力量计划" | `workflows/design-plan.md` |
-| 四 · 科学咨询 | "为什么硬拉恢复慢" / "CNS 疲劳是什么" | `workflows/consult.md` |
-
-> 所有硬约束（不可跳过减载、硬拉容量上限、医学红旗等）集中在 [`guardrails.md`](guardrails.md)，SKILL.md 仅作极简路由。
-
-## 🏗️ 架构（v0.9.10 重构为三层分离）
+安装后直接把需求说清楚就行，不用记命令：
 
 ```
-strength-training-design/
-├── SKILL.md          # 薄路由层：能力矩阵 + 硬约束极简版 + 工具入口 + 文献
-├── guardrails.md     # 单一约束入口：5 条硬约束详述 + 操作反例
-├── workflows/        # 流程层：4 功能的详细工作流（从 SKILL.md 抽出）
-├── references/       # 知识层：39 个参考文件，按主题分类，按需加载
-├── scripts/          # 使用者/AI 直接调用的批计算脚本（含共轭运算 westside_conjugate.py：DE 波浪 / 平装载荷吨位 / 60% 法则 / ME 轮换）
-├── dev/              # 维护者专用：检查脚本 + pytest 固件（普通使用者无需接触）
-├── docs/             # 设计器契约等工程文档
-└── .github/          # CI（push/PR 自动跑 dev/run_all_checks.py）
+帮我设计一个 8 周力量举计划，深蹲 145 / 卧推 105 / 硬拉 157.5，
+目标各加 5kg，一周能练 4 天，健身房最小片 1.25kg
 ```
 
-**设计原则**：每个事实只有一个家 —— 流程在 `workflows/`、约束在 `guardrails.md`、知识在 `references/`，改一处不必改两处（参考 ponytail 的"单一规则源"精神，但只学其神、不套其多宿主壳）。
+AI 会先问几个关键问题（成绩、器械、伤病、时间），排完之后**先给你看方案概要等你确认**，确认后才输出完整计划——不会出现一口气甩一堆表格让你自己改的情况。
 
-## 📚 参考知识体系（references/）
+想加体能就这么说：
 
-按目录分组，每个文件自描述，详细内容见文件内 frontmatter：
+```
+我想在力量训练之外加点体能，主要是健康和心肺，
+别影响我深蹲硬拉的成绩，商健有划船机和壶铃
+```
 
-- **consultation/** — 疲劳四来源、SRA 曲线、MEV/MRV 个体差异、Bridge Phase、ACSM 2026 立场声明、**强度-容量敏感轴（新增）**、**教练-学员感知错位（新增）**
-- **methodology/** — JTS 周期化、RPE 自我调节、并发训练干扰（新增）、冲峰与减量（新增）、周期化分类学（新增）、块长度与阶段延长（新增）
-- **health/** — 损伤预防、热身拉伸、核心训练、**大重量自主神经/心血管反应（新增，含 Valsalva/黑视）**、**临床人群与安全筛查（新增）**
-- **exercises/** — 辅助动作库、薄弱点、奥举辅助、节奏休息、OHP、有氧、人体测量
-- **intensity/** — PR 估算、RPE 参考与渐进超负荷
-- **volume-recovery/** — 硬拉容量管理、MRV 审计、超长周期分块
-- **barbell-medicine/ / rts/ / planning/ / output/** — 体系源流 + 计划修改 + 输出模板
-- **westside/** — 共轭法源流（基于 The Westside Barbell Book of Methods, Louie Simmons, 2007）：三法量化标准与波浪/吨位处方 `book-of-methods-core.md` · 特殊力量分类学 `special-strengths.md` · GPP 与恢复 `gpp-recovery.md` · 与 JTS 的整合脉络 `westside-jts-integration.md`
+## 几条不可违反的规矩
 
-## 🚀 安装使用
+计划不是随便排的，有几条红线（详见 [`guardrails.md`](guardrails.md)）：
 
-推荐使用**源码安装**（`.skill` 格式已默认兼容多数 Agent）：
+- 减载周不做极限组，容量期不冲重量
+- 孤立动作不许每周线性加重（小肌群承受不了）
+- 硬拉一周不超过 6 组——它太"贵"了，后侧链要用别的方式堆容量
+- 每个肌群一周最多练 2–3 次，两次之间至少隔 48 小时
+- **体能训练永远不能反过来改力量计划**：力量部分先定死，体能只填剩下的恢复预算
+
+## 里面都有什么
+
+```
+SKILL.md AI 的导航图：什么需求走哪条流程、红线、脚本入口
+guardrails.md 上面那几条红线的完整版 + 常见错误对照
+workflows/ 5 条流程的详细步骤（估算 / 设计 / 修改 / 咨询 / 体能）
+references/ 40 个知识文件，按需加载，不一次性全读
+scripts/ AI 必须调用的计算脚本（禁止心算）
+dev/ 维护者专用：检查脚本 + 测试
+```
+
+**计算都走脚本**，不让 AI 心算——重量取整、RPE 换算、容量审计、心率区间、间歇配比、体能预算，都有对应工具。
+
+## 安装
 
 ```bash
 git clone https://github.com/heptaspirit/strength-training-design.git
 cp -r strength-training-design ~/.workbuddy/skills/
 ```
 
-验证：向 AI 提问"为什么硬拉比卧推恢复慢那么多？"，若能从 SRA 曲线角度科学解答即安装成功。
+验证：问 AI "为什么硬拉比卧推恢复慢那么多？"，若能从恢复曲线角度解释而不是瞎猜，就装好了。
 
-## 📝 使用示例
+## 方法论依据
 
-**咨询**：`为什么硬拉恢复比卧推慢那么多？我该多久练一次？`
-→ AI 基于 `references/consultation/sra-curves.md`：硬拉 > 深蹲 > 卧推的 SRA 曲线最长，建议每周 1–1.5 次。
+平时用不到，想追根溯源的话：周期化与 RPE 自我调节主要取自 JTS 和 RTS，共轭法与特殊力量取自 Westside Barbell，循证医学与安全边界取自 Barbell Medicine 和 ACSM 立场声明，教科书层面以 ACSM《运动测试与处方指南》12th 与 NSCA《力量训练与体能训练要点》5th 作为背书。完整出处见 `SKILL.md` 末尾。
 
-**计划**：`帮我设计一个 8 周力量举计划，目标深蹲 140 / 卧推 100 / 硬拉 160kg`
-→ AI 按 `workflows/design-plan.md` 走：收集约束 → 周期结构 → 各动作 TS/BO → MRV 审计 → 输出前确认 → 完整计划。
-
-## 🧠 关键概念速览
-
-- **SRA 曲线**：技术(<1天) < 肌肥大(2-4天) < 神经力量(~1周) < 结缔组织(最长) —— 决定训练频率
-- **疲劳四来源**：糖原 / CNS / 化学信使 / 肌肉损伤，性质与恢复时长各异
-- **MEV/MRV**：最小/最大可恢复容量，9 因素个体化
-- **RPE/RIR**：自觉疲劳度，RPE 8 = 还能做 2 次
-- **MRV 审计**：基于动作疲劳系数 × RPE 修正的真实疲劳负荷
-
-## 🤝 贡献与工程维护
-
-欢迎 Issue / PR。代码规范：Markdown + UTF-8，参考文件间交叉引用避免重复，SKILL.md 保持精简。
-
-**维护者专用（`dev/`）**：
-- `run_all_checks.py` — 统一检查入口（引用/版本 + pytest）
-- `check_links.py` — 引用死链检查（扫 SKILL.md / README.md / guardrails.md / workflows/*.md）
-- `check_version.py` — 版本号一致性
-- `tests/` — pytest 固件（锁死设计器确定性逻辑）
-
-改完本地跑 `python dev/run_all_checks.py`，推送后 GitHub Actions 自动复跑。
-
-## 📄 许可证 / 作者 / 更新日志
+## 许可 / 更新日志
 
 MIT 许可证（[LICENSE](LICENSE)）· 作者 **heptaspirit** · 详见 [CHANGELOG.md](CHANGELOG.md)
 
-**Keywords**: 力量训练, 力量举, 训练计划, JTS, Westside, MRV, RPE, ACSM, NSCA, 周期化, AI Skill
+**Keywords**: 力量训练, 力量举, 训练计划, 体能训练, 有氧, 周期化, RPE, MRV, AI Skill

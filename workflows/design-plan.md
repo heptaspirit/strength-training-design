@@ -43,9 +43,13 @@ load_condition: 功能三——用户要求完整设计训练计划时读取
    - **硬拉容量上限**：全程传统硬拉工作组 ≤6 组/周（中级）；后侧链分散到多日、不全堆硬拉日；RDL 等髋铰链补充距硬拉 ≥72h → 详见 `references/volume-recovery/deadlift-volume-management.md`
    - **频率与 6 天约束**：每肌群每周 ≤2-3 次、两次重训间隔 ≥48h（MPS 窗口 + Schoenfeld 2019/Grgic 2018）；6 天/周模板第 6 天只放小肌群/功能/变式，不做大肌群重训，三大项不做 3 次/周 → 详见 `references/output/output-templates.md` 模板四
 
-4. **核心稳定与有氧** → OHP/核心/有氧
-   → `references/exercises/ohp-training.md` / `references/health/core-training.md` / `references/exercises/aerobic-training.md`
-   ⚠️ 有氧必须含心率区间（Zone 2）+ 进阶递减表
+4. **GPP 与体能模块** → OHP/核心/有氧/工作容量
+   → 🔴 `references/methodology/gpp-framework.md`（编排骨架，强制加载）/ `references/exercises/ohp-training.md` / `references/health/core-training.md` / `references/exercises/aerobic-training.md`
+   🔴 **四项强制**：
+   - **先定三轴**：定位档（维持型/渐进型/发展型）、器械层（T1 商健/T2 自由重量+户外/T3 专项设备）、落位模式（混合/课后附加/独立日）；用户未答则用默认值并注明
+   - **按阶段出方**：必须按 `gpp-framework.md` §5 落位表给出随周期变化的 GPP 处方，**禁止全周期恒定的"每周 X 次有氧 20 分钟"**
+   - **心率量化**：有氧必须标注 %HRR 区间与目标心率（Karvonen 公式），不得只写"快走 30 分钟"；**不得用 220 − 年龄**（ACSM 明确不推荐）
+   - **疲劳口径**：GPP 按三档分类账计入**恢复预算**（恢复性不计 / 维持性 5–10% / 发展性 15–25%），不占肌群 MRV 组数配额；发展性档仅容量期与减载周，冲刺期（W7 起）禁用
 
 5. **MRV 审计** → 简单 MRV + 容量5区 + 个体差异调整 + 加权疲劳 + **硬拉等效疲劳换算**
    → `references/volume-recovery/mrv-audit.md` / `references/volume-recovery/deadlift-volume-management.md`

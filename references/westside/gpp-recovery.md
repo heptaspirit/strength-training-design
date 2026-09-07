@@ -1,13 +1,13 @@
 ---
 skill: strength-training-design
 category: methodology
-description: Westside GPP 与恢复原则——额外课系统、雪橇训练、重复法时间制、恢复三途径。基于 The Westside Barbell Book of Methods (Louie Simmons, 2007) Ch13。对自然训练者最有价值的 Westside 章节。
+description: Westside GPP 与恢复原则——额外课系统、雪橇训练、重复法时间制、恢复三途径。基于 The Westside Barbell Book of Methods (Louie Simmons, 2023) 。对自然训练者最有价值的 Westside 章节。
 load_condition: 设计 GPP/额外课/恢复模块、用户询问主动恢复或工作量增量时读取
 ---
 
 # Westside GPP 与恢复原则
 
-**来源**: The Westside Barbell Book of Methods (Louie Simmons, 2007) Ch13（+Ch2 重复法）
+**来源**: The Westside Barbell Book of Methods (Louie Simmons, 2023) （+ 重复法）
 **定位**: Westside 体系里**对自然训练者最有价值的部分**——Westside 明确为自然训练者辩护：靠**更多课次**而非更大强度累积工作量（苏联体系 10-16 课/周的逻辑，压缩到普通人可执行的版本）。JTS 框架完全兼容：GPP 是恢复手段，不是辅助训练堆量。
 
 ---
@@ -33,12 +33,12 @@ load_condition: 设计 GPP/额外课/恢复模块、用户询问主动恢复或�
 - 向后拖是 Westside 对**脊柱恢复**的特色手段（与 reverse hyper 同理：椎间盘再水合）。
 - 雪橇/额外课同为训练与恢复——"GPP 即恢复手段"的直接出处。
 
-## 3. 重复法时间制（Ch2，GPP 的力量档）
+## 3. 重复法时间制（GPP 的力量档）
 
 - **时间制组**：3-4 分钟组、慢节奏 6-10 次/分钟、组间不放下器械（belt squat 3-4×3min；带阻力早安式单组 6-8min）。乳酸耐受力训练，促生长激素。
 - **恢复档 ≤30%**：不足以阻断血液循环，作恢复手段用——是"低强度小课"的具体实现。
 
-## 4. 恢复三途径（Ch13）
+## 4. 恢复三途径
 
 1. ~~合成代谢~~（药物途径，自然训练者排除——原著明确讨论）
 2. **治疗性**：按摩、桑拿、冷热浴、电刺激、脊柱调整——可全年轮换，按周/月排入计划
@@ -55,6 +55,6 @@ load_condition: 设计 GPP/额外课/恢复模块、用户询问主动恢复或�
 
 ## 参考文献
 
-1. Simmons, L. (2007). *The Westside Barbell Book of Methods*. Westside Barbell.
+1. Simmons, L. (2023). *The Westside Barbell Book of Methods*. Westside Barbell.
 
 *最后更新：2026-09-07*
