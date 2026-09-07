@@ -2,6 +2,21 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.9.12] - 2026-09-07
+
+### feat: Westside 一手来源吸收（Book of Methods V6.1 精读）
+
+- **新增 `references/westside/book-of-methods-core.md`**：共轭体系本体（定义/Dynamo Club 起源/五挡变速箱/连结训练/ME 轮换频率多处分述的取舍表）、三大方法量化标准（ME 课内 >90% 上限 2-3 次、DE 百分比按水平反向、卧推 DE 固定重量不波浪、重复法时间制）、周模板四层结构（Main/Supplemental/Accessory/**Other**）、波浪与吨位公式（平装载荷目标×12、60% 法则、波时长矩阵、延迟转化）、新手路径；带/链压缩为**备注级选读**（用户环境不常备设备）
+- **新增 `references/westside/gpp-recovery.md`**：额外课系统（15-30 分钟、2-10 次/周、大肌群 72h/小肌群 24h）、雪橇（**场地条件依赖，按需选用**，含无设备替代建议）、重复法恢复档 ≤30%、恢复三途径、站姿腹肌
+- **重建 `references/westside/special-strengths.md`**：由二手简化"4 种特殊力量"升级为 Ch4 一手 8+ 维分类学（含月度次数配额 80/16、两周退化规则、mini-max 粘滞点理论、离心 ≤50% 规则、等长处方），修复断链
+- **重写 `references/westside/westside-jts-integration.md`**：修正 4 处二手资料偏差——①ME 主项轮换"每周"→标准 1-2 周（每周仅高水平）②动作分类 3 层→4 层 ③"4 种特殊力量"→五挡+8 维 ④DE 一律 50-60%→按水平反向；修复 exercise-classification.md 断链
+- **新增 `scripts/westside_conjugate.py`**：共轭体系运算工具（wave：DE 钟摆波处方/卧推固定重量；tonnage：平装载荷+60% 法则组数反推；rotation：ME 两周轮换大周期生成；band：虚拟力备注级计算）。argparse help 字符串禁用裸 `%`（踩坑：`%` 被当格式符导致启动崩溃）
+- **`SKILL.md`**：scripts 索引补共轭运算工具；westside/ 知识索引更新；参考文献 #3 标注一手来源；版本 0.9.11 → 0.9.12
+
+### Rationale
+
+用户拿到《The Westside Barbell Book of Methods》(EPUB V6.1) 一手书稿，此前 Westside 层全部来自二手资料整合。精读 Ch2/3/4/6/10/11/12/13 后对照校验：方向性内容一致，但发现 4 处实质性偏差（最大者：ME 轮换频率——原著标准处方是 4-5 变式每两周轮换一个，"每周轮换"仅限高水平选手，二手资料误传为普适规则）与 13 项缺失的量化处方（ME 课内次数上限、吨位公式、月度配额、波时长矩阵等）。按用户优先级取舍：带/链降为备注（设备不常备）、雪橇标注场地条件、共轭体系本体与可运算公式全量吸收并脚本化。
+
 ## [0.9.11] - 2026-09-02
 
 ### feat+refactor: 块长度知识 + 周期结构去僵化（周数不再写死）

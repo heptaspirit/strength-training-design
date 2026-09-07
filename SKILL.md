@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 科学力量训练教练——设计/修改/审计周期化训练计划、估算 PR、解答训练科学问题（疲劳机制、SRA、个体差异、MEV/MRV、周期化、Westside 共轭法、临床安全/医学红旗）。当用户需要：①设计力量举/肌肥大周期计划 ②修改现有计划 ③估算 1RM/PR ④咨询训练科学（CNS 疲劳、恢复、容量个体化、周期化分类、有氧与力量冲突、伤痛/医学红旗）时使用。基于 JTS、Westside、RTS、Barbell Medicine、ACSM、NSCA 权威体系。
-version: 0.9.11
+version: 0.9.12
 ---
 
 # 力量训练科学教练 Skill
@@ -44,7 +44,8 @@ version: 0.9.11
 
 ## 工具与脚本
 
-- 批计算（RPE 转换 / 重量取整 / MRV / 加权疲劳）：`scripts/` 下 4 个脚本，设计计划时**必须调用，禁止手动**
+- 批计算（RPE 转换 / 重量取整 / MRV / 加权疲劳）：`scripts/` 下脚本，设计计划时**必须调用，禁止手动**
+- 共轭体系运算：`scripts/westside_conjugate.py`（DE 波浪处方 / 平装载荷吨位+60% 法则 / ME 轮换计划 / 带链虚拟力备注级），依据 `references/westside/book-of-methods-core.md`
 - 计划聚合器：`python scripts/design_program.py`（消费 YAML 草稿 → 算重量/RPE/MRV → 硬约束校验 → 输出骨架），契约见 `docs/design_program_contract.md`
 - 工程维护（仅维护者）：`dev/run_all_checks.py` / `dev/check_links.py` / `dev/check_version.py`
 
@@ -62,7 +63,7 @@ version: 0.9.11
 - **health/** — 自主神经/心血管反应、医学筛查与临床人群、核心、伤病预防、热身拉伸
 - **barbell-medicine/** — 方法论、疼痛管理
 - **planning/** — 计划修改、输出模板
-- **rts/ · westside/** — 专项方法论
+- **rts/ · westside/** — 专项方法论；`westside/`：共轭体系核心标准 `book-of-methods-core.md`、特殊力量分类学 `special-strengths.md`、GPP/恢复 `gpp-recovery.md`、JTS 整合脉络 `westside-jts-integration.md`
 
 ---
 
@@ -70,7 +71,7 @@ version: 0.9.11
 
 1. **JTS** — Scientific Principles of Strength Training + The Powerlifting Program Design Manual (Chad Wesley Smith)
 2. **RTS** — The Reactive Training Manual (Mike Tuchscherer, 2007)——力量举 RPE 开创者
-3. **Westside Barbell** — 共轭法（Louie Simmons）
+3. **Westside Barbell** — *The Westside Barbell Book of Methods* (Louie Simmons, 2007)，共轭法源头
 4. **ACSM 2026** — Currier et al., MSSE; 137 篇系统评价概览，最高级别循证指南
 5. **Volume Landmarks** — Dr. Mike Israetel, MEV/MRV/MAV
 6. **Barbell Medicine** — Jordan Feigenbaum, MD & Austin Baraki, MD（2016）：生物心理社会模型、适宜剂量、循证反共识

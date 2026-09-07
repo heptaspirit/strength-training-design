@@ -30,8 +30,8 @@ strength-training-design/
 ├── SKILL.md          # 薄路由层：能力矩阵 + 硬约束极简版 + 工具入口 + 文献
 ├── guardrails.md     # 单一约束入口：5 条硬约束详述 + 操作反例
 ├── workflows/        # 流程层：4 功能的详细工作流（从 SKILL.md 抽出）
-├── references/       # 知识层：36 个参考文件，按主题分类，按需加载
-├── scripts/          # 使用者/AI 直接调用的批计算脚本
+├── references/       # 知识层：39 个参考文件，按主题分类，按需加载
+├── scripts/          # 使用者/AI 直接调用的批计算脚本（含共轭运算 westside_conjugate.py：DE 波浪 / 平装载荷吨位 / 60% 法则 / ME 轮换）
 ├── dev/              # 维护者专用：检查脚本 + pytest 固件（普通使用者无需接触）
 ├── docs/             # 设计器契约等工程文档
 └── .github/          # CI（push/PR 自动跑 dev/run_all_checks.py）
@@ -49,7 +49,8 @@ strength-training-design/
 - **exercises/** — 辅助动作库、薄弱点、奥举辅助、节奏休息、OHP、有氧、人体测量
 - **intensity/** — PR 估算、RPE 参考与渐进超负荷
 - **volume-recovery/** — 硬拉容量管理、MRV 审计、超长周期分块
-- **barbell-medicine/ / westside/ / rts/ / planning/ / output/** — 四大体系源流 + 计划修改 + 输出模板
+- **barbell-medicine/ / rts/ / planning/ / output/** — 体系源流 + 计划修改 + 输出模板
+- **westside/** — 共轭法源流（基于 The Westside Barbell Book of Methods, Louie Simmons, 2007）：三法量化标准与波浪/吨位处方 `book-of-methods-core.md` · 特殊力量分类学 `special-strengths.md` · GPP 与恢复 `gpp-recovery.md` · 与 JTS 的整合脉络 `westside-jts-integration.md`
 
 ## 🚀 安装使用
 
