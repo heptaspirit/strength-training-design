@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 科学力量训练教练——设计/修改/审计周期化训练计划、估算 1RM/PR、编排体能与有氧训练、解答训练科学问题。当用户需要：①设计力量举/肌肥大周期计划 ②修改或审计现有计划 ③估算 PR ④做体能/有氧/conditioning 计划 ⑤咨询训练科学（疲劳机制、SRA、MEV/MRV、周期化、有氧与力量冲突、伤痛与医学红旗）时使用。
-version: 0.9.13
+version: 0.9.18
 ---
 
 # 力量训练科学教练 Skill
@@ -23,31 +23,33 @@ version: 0.9.13
 | 功能 | 触发 | 工作流 |
 |------|------|--------|
 | 功能一：PR（1RM）估算 | "帮我估一下XX的PR"、不需要完整计划 | `workflows/estimate-pr.md` |
-| 功能二：修改现有计划 | "容量太大了""想换动作""恢复不过来" | `workflows/modify-plan.md` → `references/planning/plan-modification.md` |
+| 功能二：修改现有计划 | "容量太大了""想换动作""恢复不过来""某天太累" | `workflows/modify-plan.md` → `references/planning/plan-modification.md` |
 | 功能三：完整计划设计 | 需要设计周期化训练计划 | `workflows/design-plan.md` |
-| 功能四：科学咨询问答 | "为什么累""CNS vs 糖原""有氧会不会掉力量" | `workflows/consult.md` |
+| 功能四：科学咨询问答 | "为什么累""CNS vs 糖原""有氧会不会掉力量""这节课是不是排太满" | `workflows/consult.md` |
 | **功能五：GPP/体能计划设计** | "帮我做体能训练计划""我要练体能""安排有氧和 conditioning""练练心肺" | `workflows/conditioning-plan.md` → `references/methodology/gpp-framework.md` |
 
 > 🔴 **切换检查点**：咨询后用户说"那帮我调整计划" → 功能二；"帮我重新设计" → 功能三；问"我的1RM大概多少" → 功能一；**只要体能/有氧/GPP 计划 → 功能五**（完整力量计划里的 GPP 模块则走功能三步骤 4）。
 
 ---
 
-## 全局硬约束（6 条，不可违反）
+## 全局硬约束（7 条，不可违反）
 
 设计/修改/咨询任何计划时都必须遵守。详细规则与反模式清单见 `guardrails.md`。
 
-1. **主项 TS/BO 时序**：W5-W8 强制；容量期无 TS；减载周无 TS/BO
+1. **主项 TS/BO 时序**：仅**强度聚焦 phase**（力量期 + 冲刺期）强制；容量期无 TS；减载周无 TS/BO（按 phase 判定，不写死周次）
 2. **辅助双进阶**：孤立动作禁止"每周+2.5kg"
 3. **Cluster Set 备选**：RPE ≥8.5 的 TS 必须提供备选
 4. **硬拉容量上限**：全程传统硬拉 ≤6 组/周（中级）；RDL 距硬拉 ≥72h
 5. **频率与 6 天约束**：每肌群 ≤2-3 次/周、间隔 ≥48h；6 天模板第 6 天不做大肌群重训
 6. **GPP 不反向改主项**：主项容量与强度先定死，GPP 只填剩余恢复预算；发展性 GPP 仅容量期与减载周，冲刺期禁用
+7. **单次剂量上限与容量分散**：MRV = 单次剂量 × 频率 × 恢复窗口，**周总量达标 ≠ 安全**；单肌群单次 ≤6-8 组、周容量分散 ≥2 天、同模式间隔 ≥48h；高剂量日不排在硬拉次日；新动作 W1 从 2 组起步
 
 ---
 
 ## 工具与脚本
 
 - 批计算（RPE 转换 / 重量取整 / MRV / 加权疲劳）：`scripts/` 下脚本，设计计划时**必须调用，禁止手动**
+- **单次课应激审计**：`scripts/session_strain.py`（`--input session.json` 输出 A 系统应激 / Rf 峰值 / 每动作惩罚与崩坏风险 / 协同链协同比；`--params` 覆盖参数集、`--anchor` 换刻度、`--init-params` 导出参数模板、`--list` 列动作库），依据 `references/consultation/session-strain-modeling.md`；**与 MRV 审计并列，不替代**——MRV 合规不等于系统合规、也不等于排布合规。参数未标定时只给相对比较（标定见 `references/consultation/srpe-calibration.md`）。动作名可用库内 key / 中文名 / 常见英文写法；库里没有的动作在输入 JSON 的 `catalog` 里新增，**不改脚本**
 - 共轭体系运算：`scripts/westside_conjugate.py`（DE 波浪处方 / 平装载荷吨位+60% 法则 / ME 轮换计划 / 带链虚拟力备注级），依据 `references/westside/book-of-methods-core.md`
 - **GPP/体能处方计算**：`scripts/gpp_calculator.py`（`hr` 目标心率 Karvonen 换算 / `workrest` 间歇处方 / `budget` 恢复预算审计 / `progress` 10% 进阶表），依据 `references/methodology/gpp-framework.md` 与 `references/exercises/aerobic-training.md`；设计任何有氧或体能模块时**必须调用，禁止手动心算**
 - 计划聚合器：`python scripts/design_program.py`（消费 YAML 草稿 → 算重量/RPE/MRV → 硬约束校验 → 输出骨架），契约见 `docs/design_program_contract.md`
@@ -63,8 +65,8 @@ version: 0.9.13
 - **volume-recovery/** — MRV 审计、硬拉容量管理、恢复与频率
 - **intensity/** — PR 估算、RPE↔%1RM 与渐进超负荷
 - **exercises/** — 辅助动作数据库、薄弱点、奥举辅助、节奏与休息、OHP、核心、anthropometry、**心肺耐力 `aerobic-training.md`（GPP 心肺维度：%HRR/Karvonen 强度处方、NSCA 五型有氧谱系、work-rest 表、ACSM 间歇协议、心肺测试）**
-- **consultation/** — 疲劳来源、SRA、个体差异、Bridge 期、ACSM 2026、强度-容量敏感轴、教练-学员感知错位
-- **health/** — 自主神经/心血管反应、医学筛查与临床人群、核心、伤病预防、热身拉伸
+- **consultation/** — 疲劳来源、SRA、个体差异、Bridge 期、ACSM 2026、强度-容量敏感轴、教练-学员感知错位、**单次训练应激模型（session-strain-modeling：A/Rf/惩罚/协同链四读法 + 排期决策顺序）**、**sRPE 标定（srpe-calibration：CR10 协议 + 日志字段 + 三步拟合）**
+- **health/** — 自主神经/心血管反应、医学筛查与临床人群、**核心（含 Rollout 抗伸展专项）**、伤病预防、热身拉伸
 - **barbell-medicine/** — 方法论、疼痛管理
 - **planning/** — 计划修改、输出模板
 - **rts/ · westside/** — 专项方法论；`westside/`：共轭体系核心标准 `book-of-methods-core.md`、特殊力量分类学 `special-strengths.md`、GPP/恢复 `gpp-recovery.md`、JTS 整合脉络 `westside-jts-integration.md`
@@ -85,5 +87,7 @@ version: 0.9.13
 10. **ACSM Guidelines 12th** — Ozemek C, Bonikowske A, et al. 训前筛查/医学红旗、临床人群、特殊人群；心肺耐力处方（FITT 剂量、%HRR 强度分级与 Karvonen 公式、间歇协议、心肺适能测试）
 11. **NSCA Essentials 5th** — Haff GG, Triplett NT (eds). 周期化分类、同期训练干扰、冲峰/停训、1RM 测试、增强式；生物能量学（能量系统时间域、work-rest 处方）、有氧耐力训练处方（五型谱系、进阶 10% 规则、降频维持）
 12. **Schumann M, et al. (2022)** — 同期训练 meta 分析，43 项研究 / 1090 人：最大力量无显著干扰（SMD −0.06, p=0.446）、爆发力显著受干扰（SMD −0.28, p=0.007）且集中于同节完成。*Sports Med* 52:601–612
+13. **Foster C, et al. (2001)** — 单次训练主观用力评分（sRPE）与训练负荷量化（AU = sRPE × 时长）。*J Strength Cond Res* 15:109–115；Sweet 等 (2004) 抗阻训练课量化
+14. **Seals DR, et al. (1983)** — 同等相对强度下，参与肌群越大心血管反应越大。*J Appl Physiol* 54:434–437（单次课应激模型的方向依据）
 
 > 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。

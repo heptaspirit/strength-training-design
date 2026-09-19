@@ -8,6 +8,7 @@ Used by: 功能三步骤4「GPP 与体能模块」与功能五 conditioning-plan
       依据 references/methodology/gpp-framework.md 与 references/exercises/aerobic-training.md
 Usage:
   python scripts/gpp_calculator.py hr --hr_max 192 --hr_rest 58 --zone moderate
+  python scripts/gpp_calculator.py hr --age 31 --hr_rest 53 --zone moderate  # 无实测 HRmax 时 Tanaka 估算
   python scripts/gpp_calculator.py hr --hr_max 192 --hr_rest 58 --low 60 --high 89
   python scripts/gpp_calculator.py workrest --system glycolysis --work 20
   python scripts/gpp_calculator.py workrest --pct 85 --work 15
@@ -75,7 +76,15 @@ def karvonen(hr_max: float, hr_rest: float, pct: float) -> float:
 
 def cmd_hr(args):
     """目标心率区间换算（ACSM）"""
-    if args.hr_max <= args.hr_rest:
+    # HRmax 来源：实测优先；未提供时用 Tanaka 方程（208 − 0.7 × 年龄）估算
+    hr_max = args.hr_max
+    hr_source = "实测"
+    if hr_max is None:
+        if args.age is None:
+            raise SystemExit("错误: 需提供 --hr_max（实测优先），或提供 --age 用 Tanaka 方程估算")
+        hr_max = 208 - 0.7 * args.age
+        hr_source = f"Tanaka 估算（208 − 0.7 × {args.age:g}）"
+    if hr_max <= args.hr_rest:
         raise SystemExit("错误: 最大心率必须大于静息心率")
     if args.zone and (args.low is not None or args.high is not None):
         raise SystemExit("错误: --zone 与 --low/--high 不能同时使用")
@@ -91,13 +100,13 @@ def cmd_hr(args):
         low, high, label = args.low, args.high, "自定义区间"
         hrmax_equiv = "—"
 
-    thr_low = karvonen(args.hr_max, args.hr_rest, low)
-    thr_high = karvonen(args.hr_max, args.hr_rest, high)
+    thr_low = karvonen(hr_max, args.hr_rest, low)
+    thr_high = karvonen(hr_max, args.hr_rest, high)
 
     print("=" * 56)
     print("目标心率区间（Karvonen / %HRR 法）")
     print("=" * 56)
-    print(f"  最大心率 HRmax : {args.hr_max:g} bpm")
+    print(f"  最大心率 HRmax : {hr_max:g} bpm（{hr_source}）")
     print(f"  静息心率 HRrest: {args.hr_rest:g} bpm")
     print(f"  强度档        : {label}（{low:g}-{high:g}% HRR）")
     print(f"  等价 %HRmax   : {hrmax_equiv}")
@@ -105,7 +114,10 @@ def cmd_hr(args):
     print(f"  >> 目标心率区间: {thr_low:.0f} - {thr_high:.0f} bpm")
     print("=" * 56)
     print("  公式: THR = (HRmax - HRrest) x 强度百分比 + HRrest")
-    print("  注: ACSM 12th 不推荐使用 220 - 年龄估算 HRmax（误差 10-15 bpm）")
+    print("  注: ACSM 12th 不推荐使用 220 - 年龄估算 HRmax（误差 10-15 bpm）；")
+    print("      无实测值时优先用 Tanaka 方程（208 - 0.7 x 年龄）")
+    print("  注: 公式仅为 VT1 的人群代理，个体差异大——建议用说话测试锚定")
+    print("      VT1（开始喘、只能说短句）后以其心率作为区间实际上限")
 
 
 def cmd_workrest(args):
@@ -213,7 +225,10 @@ def main():
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_hr = sub.add_parser("hr", help="Karvonen 目标心率区间换算")
-    p_hr.add_argument("--hr_max", type=float, required=True, help="最大心率（实测优先）")
+    p_hr.add_argument("--hr_max", type=float, default=None,
+                      help="最大心率（实测优先；未提供时需 --age）")
+    p_hr.add_argument("--age", type=float,
+                      help="年龄：无实测 HRmax 时按 Tanaka 方程估算（208 − 0.7 × 年龄）")
     p_hr.add_argument("--hr_rest", type=float, required=True, help="静息心率")
     p_hr.add_argument("--zone", choices=list(HRR_ZONES.keys()),
                       help="强度档: very_light/light/moderate/vigorous/near_max")

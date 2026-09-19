@@ -14,6 +14,8 @@ load_condition: 功能四——用户问"为什么/怎么/应该"但不要求生
 | 用户问题 | 读取 |
 |---------|------|
 | 疲劳/恢复（"为什么累""CNS vs 糖原"） | `references/consultation/fatigue-sources.md` |
+| 单次课负荷/排期（"为什么练完这么喘""这个动作总做不动""顺序能不能换""某天是不是排太满了"） | `references/consultation/session-strain-modeling.md`（A / Rf / 惩罚 / 协同链四读法） |
+| 训练负荷量化/自我监控（"怎么知道这次练过了""sRPE 怎么测""负荷怎么记"） | `references/consultation/srpe-calibration.md` |
 | SRA/频率（"多久练一次""为什么硬拉恢复慢"） | `references/consultation/sra-curves.md` / `references/volume-recovery/deadlift-volume-management.md` |
 | 容量个体化（"我该做多少组""女生不一样吗"） | `references/consultation/mev-mrv-individual-differences.md` |
 | 周期过渡（"周期之间怎么办""练腻了"） | `references/consultation/bridge-phase.md` |

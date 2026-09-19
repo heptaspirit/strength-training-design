@@ -50,10 +50,17 @@ load_condition: 功能三——用户要求完整设计训练计划时读取
    - **按阶段出方**：必须按 `gpp-framework.md` §5 落位表给出随周期变化的 GPP 处方，**禁止全周期恒定的"每周 X 次有氧 20 分钟"**
    - **心率量化**：有氧必须标注 %HRR 区间与目标心率（Karvonen 公式），不得只写"快走 30 分钟"；**不得用 220 − 年龄**（ACSM 明确不推荐）
    - **疲劳口径**：GPP 按三档分类账计入**恢复预算**（恢复性不计 / 维持性 5–10% / 发展性 15–25%），不占肌群 MRV 组数配额；发展性档仅容量期与减载周，冲刺期（W7 起）禁用
+   - **核心四格自检**：抗伸展 / 抗旋转 / 抗侧屈 / 后侧伸展各占一格，缺一格补一格，**四类不可互相替代**（常见缺口是前侧抗伸展 → 用 Rollout 补，剂量与进阶门槛见 `references/health/core-training.md` 抗伸展专项）
 
-5. **MRV 审计** → 简单 MRV + 容量5区 + 个体差异调整 + 加权疲劳 + **硬拉等效疲劳换算**
-   → `references/volume-recovery/mrv-audit.md` / `references/volume-recovery/deadlift-volume-management.md`
-   🔧 `python scripts/calculate_mrv.py` / `calculate_fatigue.py`
+5. **容量与系统应激审计** → 分两层：
+   - **① 周尺度（肌群）**：简单 MRV + 容量5区 + 个体差异调整 + 加权疲劳 + 硬拉等效疲劳换算 + 单次剂量与分散
+     → `references/volume-recovery/mrv-audit.md` / `references/volume-recovery/deadlift-volume-management.md`
+     🔧 `python scripts/calculate_mrv.py` / `calculate_fatigue.py`
+   - **② 课内尺度（整个人 + 排布）**：A 系统应激 / Rf 峰值 / 动作惩罚与崩坏风险 / 协同链协同比
+     → `references/consultation/session-strain-modeling.md`
+     🔧 `python scripts/session_strain.py --input session.json`
+     🔴 **两层必须并列读**：MRV 合规（肌群恢复得过来）不等于系统合规（人撑得住）也不等于排布合规（动作练得到目标肌）。出现"某个动作总是做不动""某天练完缓不过来"时，第二层是主判据。
+   - **③ 待标定项**：绝对阈值（"这次过了"）需 sRPE 记录，走 `references/consultation/srpe-calibration.md`；未标定前只能用相对刻度。
 
 6. **退阶方案** → `references/methodology/autoregulation.md`
 
@@ -64,6 +71,7 @@ load_condition: 功能三——用户要求完整设计训练计划时读取
    - MRV 审计表 + 加权疲劳审计
    - 退阶方案与自我调节指引
    - 训练日志模板 → `references/output/output-templates.md` 末尾
+   - 附：单日负荷最高/最低各一天的应激审计（A% + 崩坏风险最高的两个动作），用于确认排期无链条受限
 
 ## 异常处理（工作流中的 if-then 分支）
 
@@ -74,6 +82,8 @@ load_condition: 功能三——用户要求完整设计训练计划时读取
 | 脚本执行失败（Python 不可用） | 手动查表计算，但必须标注"未使用脚本，可能存在取整偏差" |
 | 用户有伤病/疼痛限制 | 读取 `references/health/injury-prevention.md` + `references/barbell-medicine/pain-management.md`（BBM 疼痛应对框架）+ `references/exercises/assistance-exercise-database.md` 进退阶链；疼痛≠完全停训，优先用 BBM 主动康复策略修改计划而非直接排除动作 |
 | MRV 审计超限（>100% MRV） | 优先减少辅助动作组数（保留主项），最多减 3 组；如仍超限，减少 BO 组数 |
+| 单日 A% 明显高于本周期其他训练日（>1.2 倍） | 先判断是净增还是排期问题：A 上升 → 按 MRV 与恢复预算削量；A 持平只是分布不均 → 重排即可（顺序只转移代价，不改变总量） |
+| 某动作长期"做不动"而 MRV 合规 | 查课内应激二层：该动作是否落在"链条受限"位置（协同比 ≥1.5）或惩罚 >1.5；优先把它前移或换到链条干净的日子 |
 | 硬拉容量超限（>6 组/周 或等效疲劳 >40% MRV） | 优先将 RDL/Good Morning 移至距硬拉 ≥72h 的其他训练日；用低 CNS 动作（腿弯举/臀推/背伸）替代多余的髋铰链组；详见 `references/volume-recovery/deadlift-volume-management.md` |
 | 参考文件内容不足以回答咨询问题 | 结合自身知识库补充，明确标注"此部分信息来自文档外，仅供参考" |
 | 用户咨询后想改计划 | 切到功能二；用户咨询后想新设计计划 | 切到功能三 |
