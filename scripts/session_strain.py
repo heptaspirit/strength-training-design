@@ -113,7 +113,7 @@ CHAIN = {
 PRIME = {
     "squat": "quads", "pause_squat": "quads", "front_squat": "quads", "leg_press": "quads",
     "dl_conv": "glutes", "dl_sumo": "glutes", "pause_dl": "glutes", "clean": "glutes",
-    "rdl": "hams", "goodmorning": "hams", "back_ext": "hams", "kb_swing": "hams",
+    "rdl": "hams", "goodmorning": "hams", "back_ext": "erectors", "kb_swing": "hams",
     "high_pull": "upper_back",
     "bench": "chest", "pause_bench": "chest", "chest_fly": "chest",
     "cg_bench": "triceps", "ohp": "front_delt", "lat_raise": "side_delt",
