@@ -68,7 +68,7 @@ version: 0.9.18
 - **consultation/** — 疲劳来源、SRA、个体差异、Bridge 期、ACSM 2026、强度-容量敏感轴、教练-学员感知错位、**单次训练应激模型（session-strain-modeling：A/Rf/惩罚/协同链四读法 + 排期决策顺序）**、**sRPE 标定（srpe-calibration：CR10 协议 + 日志字段 + 三步拟合）**
 - **health/** — 自主神经/心血管反应、医学筛查与临床人群、**核心（含 Rollout 抗伸展专项）**、伤病预防、热身拉伸
 - **barbell-medicine/** — 方法论、疼痛管理
-- **planning/** — 计划修改、输出模板
+- **planning/** — 计划修改、**动作周内排布（exercise-placement：两层决策 / 单日排序阶梯 / 跨日迁移约束 / 模型盲区）**、输出模板
 - **rts/ · westside/** — 专项方法论；`westside/`：共轭体系核心标准 `book-of-methods-core.md`、特殊力量分类学 `special-strengths.md`、GPP/恢复 `gpp-recovery.md`、JTS 整合脉络 `westside-jts-integration.md`
 
 ---
