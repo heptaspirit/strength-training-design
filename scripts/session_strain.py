@@ -13,7 +13,10 @@ Used by: 功能三步骤5「容量与系统应激审计」、功能二容量/排
   - 某个动作排在这个位置会打几折（penalty）、会不会崩动作（break_risk）
   - 这个动作开始前，它最吃的那块协同肌被前面动作刮掉多少（协同比）
 
-不做的两件事：
+不做的三件事：
+  - **不带默认参考 1RM** —— 外部负重动作的相对强度 = weight / ref，ref 必须由调用方给出
+    （--params 文件 / 输入 JSON 的 one_rm / --init-params 导出的模板）。
+    缺 ref 时直接报错并告诉你怎么补，不静默拿一个内置值去算。
   - 不给"过了/没过"的绝对阈值 —— 内置参数是估算值，只能做同文件内的相对比较。
     绝对阈值需标定，三条升级路径（估算 -> 实测标定 -> 用户自备长期参数）见
     references/consultation/srpe-calibration.md。
@@ -44,27 +47,29 @@ import sys
 # ─────────────────────────────────────────────────────────────────────
 # 动作库
 #   m     肌肉质量/系统负荷系数（同等相对强度下，参与的肌群越大越高）
-#   ref   参考 1RM（绝对重量除以它得相对强度）—— 可用 one_rm 覆盖成用户自己的
 #   td    技术需求（0-1）：疲劳下动作质量崩坏的风险权重
 #   eff   自重/不可加载动作的等效强度系数（0-1）
 #   rest  默认组间休息（秒）
 #   wpr   默认每次用时（秒/次）
+#
+# ⚠ 外部负重动作**不带内置参考 1RM**。相对强度 = weight / ref，ref 必须由调用方提供
+#   （--params 的 one_rm / 输入 JSON 的 one_rm / --init-params 模板）。缺失时报错，不猜。
 # ─────────────────────────────────────────────────────────────────────
 CATALOG = {
-    "squat":       {"zh": "深蹲",      "m": 1.00, "ref": 145.0, "td": 0.90, "rest": 150, "wpr": 3.5},
-    "pause_squat": {"zh": "暂停深蹲",   "m": 1.00, "ref": 145.0, "td": 0.65, "rest": 120, "wpr": 3.5},
-    "front_squat": {"zh": "前蹲",      "m": 0.85, "ref": 123.0, "td": 0.70, "rest": 120, "wpr": 3.5},
-    "dl_conv":     {"zh": "传统硬拉",   "m": 1.00, "ref": 150.0, "td": 1.00, "rest": 180, "wpr": 3.5},
-    "dl_sumo":     {"zh": "相扑硬拉",   "m": 0.90, "ref": 157.5, "td": 1.00, "rest": 180, "wpr": 3.5},
-    "pause_dl":    {"zh": "暂停硬拉",   "m": 0.95, "ref": 150.0, "td": 0.60, "rest": 90,  "wpr": 3.5},
-    "rdl":         {"zh": "RDL",      "m": 0.55, "ref": 118.0, "td": 0.45, "rest": 90,  "wpr": 3.0},
-    "goodmorning": {"zh": "早安式",     "m": 0.45, "ref": 100.0, "td": 0.50, "rest": 90,  "wpr": 3.0},
-    "bench":       {"zh": "卧推",      "m": 0.50, "ref": 105.0, "td": 0.60, "rest": 150, "wpr": 2.5},
-    "cg_bench":    {"zh": "窄距卧推",   "m": 0.42, "ref": 105.0, "td": 0.40, "rest": 90,  "wpr": 2.5},
-    "pause_bench": {"zh": "暂停卧推",   "m": 0.45, "ref": 105.0, "td": 0.45, "rest": 120, "wpr": 2.5},
-    "ohp":         {"zh": "OHP 实力推", "m": 0.40, "ref": 62.5,  "td": 0.70, "rest": 120, "wpr": 2.5},
-    "clean":       {"zh": "高翻",      "m": 0.72, "ref": 72.5,  "td": 1.00, "rest": 120, "wpr": 2.0},
-    "high_pull":   {"zh": "高拉",      "m": 0.55, "ref": 75.0,  "td": 0.85, "rest": 120, "wpr": 2.0},
+    "squat":       {"zh": "深蹲",      "m": 1.00,  "td": 0.90, "rest": 150, "wpr": 3.5},
+    "pause_squat": {"zh": "暂停深蹲",   "m": 1.00,  "td": 0.65, "rest": 120, "wpr": 3.5},
+    "front_squat": {"zh": "前蹲",      "m": 0.85,  "td": 0.70, "rest": 120, "wpr": 3.5},
+    "dl_conv":     {"zh": "传统硬拉",   "m": 1.00,  "td": 1.00, "rest": 180, "wpr": 3.5},
+    "dl_sumo":     {"zh": "相扑硬拉",   "m": 0.90,  "td": 1.00, "rest": 180, "wpr": 3.5},
+    "pause_dl":    {"zh": "暂停硬拉",   "m": 0.95,  "td": 0.60, "rest": 90,  "wpr": 3.5},
+    "rdl":         {"zh": "RDL",      "m": 0.55,  "td": 0.45, "rest": 90,  "wpr": 3.0},
+    "goodmorning": {"zh": "早安式",     "m": 0.45,  "td": 0.50, "rest": 90,  "wpr": 3.0},
+    "bench":       {"zh": "卧推",      "m": 0.50,  "td": 0.60, "rest": 150, "wpr": 2.5},
+    "cg_bench":    {"zh": "窄距卧推",   "m": 0.42,  "td": 0.40, "rest": 90,  "wpr": 2.5},
+    "pause_bench": {"zh": "暂停卧推",   "m": 0.45,  "td": 0.45, "rest": 120, "wpr": 2.5},
+    "ohp":         {"zh": "OHP 实力推", "m": 0.40,   "td": 0.70, "rest": 120, "wpr": 2.5},
+    "clean":       {"zh": "高翻",      "m": 0.72,   "td": 1.00, "rest": 120, "wpr": 2.0},
+    "high_pull":   {"zh": "高拉",      "m": 0.55,   "td": 0.85, "rest": 120, "wpr": 2.0},
     "leg_press":   {"zh": "腿举",      "m": 0.55, "eff": 0.65,   "td": 0.20, "rest": 90,  "wpr": 3.0},
     "row":         {"zh": "划船",      "m": 0.32, "eff": 0.70,   "td": 0.25, "rest": 90,  "wpr": 2.5},
     "pullup":      {"zh": "引体向上",   "m": 0.42, "eff": 0.75,   "td": 0.80, "rest": 150, "wpr": 2.5},
@@ -331,13 +336,21 @@ def prime_of(key, cfg):
 # ─────────────────────────────────────────────────────────────────────
 # 模型
 # ─────────────────────────────────────────────────────────────────────
+NO_REF_HINT = ("%s 缺参考 1RM —— 动作库不再内置默认值。请通过 --params 文件、"
+               "输入 JSON 的 one_rm 提供，例如 {\"one_rm\": {\"%s\": 100}}；"
+               "也可先跑 --init-params 导出模板再填。")
+
+
 def _intensity(key, weight, cfg):
     spec = spec_of(key, cfg)
     ref = spec.get("ref")
     if ref is None:
+        eff = spec.get("eff")
+        if eff is None:                      # 外部负重动作，但没人给参考 1RM
+            raise ValueError(NO_REF_HINT % (key, key))
         if weight is not None:
             raise ValueError(f"{key} 为自重动作，不接受 weight")
-        return spec["eff"]
+        return eff
     if weight is None:
         raise ValueError(f"{key} 需要 weight（当前参考 1RM={ref}）")
     return weight / ref
@@ -663,16 +676,16 @@ def to_json(results, cfg, anchor):
 def init_params(path):
     """导出可编辑的参数模板（用户可改成自己的长期参数集）。
 
-    one_rm 只列动作库里带参考 1RM 的键，保证导出的模板能原样回填给 --params。
+    one_rm 列出**所有需要外部负重的动作**（值为 null，待填），填完即可原样回填给 --params；
+    自重动作（带 eff 的）不需要 1RM，不列入。
     （硬拉的键是 dl_conv / dl_sumo，不是 deadlift。中文名与常见英文别名也能直接用。）
     """
-    one_rm = {k: CATALOG[k]["ref"] for k in sorted(CATALOG)
-              if CATALOG[k].get("ref") is not None}
+    one_rm = {k: None for k in sorted(CATALOG) if CATALOG[k].get("eff") is None}
     tpl = {"profile": "my-params",
            "source": "user",
            "note": "在此填写参数来源与标定日期。one_rm 用动作库 key"
                    "（深蹲 squat / 卧推 bench / 硬拉 dl_conv 传统·dl_sumo 相扑 /"
-                   " OHP ohp），只填你知道的，其余留内置参考值。"
+                   " OHP ohp）。**只有填了数值的项才生效**——留 null 的动作在被用到时会报错。"
                    "catalog 可用来调参或新增动作，字段见 session-strain-modeling.md。",
            "one_rm": one_rm,
            "params": dict(BUILTIN_PARAMS),
@@ -680,8 +693,8 @@ def init_params(path):
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(tpl, fh, ensure_ascii=False, indent=2)
         fh.write("\n")
-    print("已写出参数模板 -> %s（one_rm 含 %d 个动作库条目，按需删改）"
-          % (path, len(one_rm)))
+    print("已写出参数模板 -> %s（one_rm 列出 %d 个需外部负重的动作，填上你的成绩后再用；"
+          "不用的项可以删掉）" % (path, len(one_rm)))
 
 
 DEMO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -710,11 +723,18 @@ def main():
         cfg0 = default_config()
         for k in sorted(CATALOG):
             spec = spec_of(k, cfg0)
-            ref = spec["ref"] if spec.get("ref") is not None else "自重(eff=%.2f)" % spec["eff"]
-            print("%-13s %-11s m=%.2f  参考=%s  td=%.2f" % (k, spec["zh"], spec["m"], ref, spec["td"]))
+            if spec.get("ref") is not None:
+                load = "%g" % spec["ref"]
+            elif spec.get("eff") is not None:
+                load = "自重(eff=%.2f)" % spec["eff"]
+            else:
+                load = "需自备 1RM"
+            print("%-13s %-11s m=%.2f  参考=%s  td=%.2f" % (k, spec["zh"], spec["m"], load, spec["td"]))
         print("")
         print("内置动作 %d 个；除 key 外，中文名与常见英文写法也可直接写在 exercise 字段"
               "（如 深蹲 / deadlift / RDL / 引体 / 实力推）。" % len(CATALOG))
+        print("外部负重动作必须先给参考 1RM：用 --init-params 导出模板填写，"
+              "或用 --params / 输入 JSON 的 one_rm。缺失时会报错并给出示例。")
         print("需要库里没有的动作：在输入 JSON 的 catalog 里新增，必填 m、td，"
               "以及 ref（外部负重）或 eff（自重）之一；可选 zh / rest / wpr / chain / prime。")
         return 0
@@ -750,7 +770,11 @@ def main():
     if args.anchor is not None:
         anchor = args.anchor
 
-    text, results, anchor = render(sessions, cfg, anchor, curve=args.curve)
+    try:
+        text, results, anchor = render(sessions, cfg, anchor, curve=args.curve)
+    except ValueError as e:          # 缺参考 1RM / 自重动作给了 weight 等，给可读提示而非回溯
+        print("输入错误: %s" % e, file=sys.stderr)
+        return 1
     if args.json:
         print(to_json(results, cfg, anchor))
     else:
@@ -787,6 +811,7 @@ if __name__ == "__main__":
 #
 #   必填：m（肌肉质量系数，1.0 ≈ 深蹲/硬拉量级）、td（技术需求 0-1）、
 #         以及 ref（有外部负重，给参考 1RM 的绝对重量）或 eff（自重动作的等效强度 0-1）二选一。
+#         ⚠ 内置动作库同样不预置 ref——自重动作靠 eff，外部负重动作必须由调用方给 1RM。
 #   可选：zh 显示名、rest 组间秒、wpr 每次秒、chain 各肌群承担比例、prime 主动肌。
 #   若两者给了 chain 却没给 prime（或反之）——协同比算不出来，脚本直接报错而不是硬凑。
 #

@@ -5,8 +5,8 @@ Used by: 共轭体系量化运算 — DE 波浪/平装载荷吨位/60% 法则/ME
 来源: The Westside Barbell Book of Methods (Louie Simmons, 2007)
       量化出处见 references/westside/book-of-methods-core.md
 Usage:
-  python scripts/westside_conjugate.py wave    --lift squat --one_rm 150 --level intermediate --week 1
-  python scripts/westside_conjugate.py tonnage --lift squat --target 150 [--one_rm 145]
+  python scripts/westside_conjugate.py wave    --lift squat --one_rm 160 --level intermediate --week 1
+  python scripts/westside_conjugate.py tonnage --lift squat --target 160 [--one_rm 160]
   python scripts/westside_conjugate.py rotation --variants "暂停深蹲" "SSB 深蹲" "早安式" "低箱深蹲"
   python scripts/westside_conjugate.py band    --bar_pct 40 --band_top 25 --band_bottom 10   # 备注级
 """
@@ -20,11 +20,11 @@ LEVEL_WAVE_BASE = {
     "novice": 50,        # 波: 50/55/60%
 }
 
-# DE 组数处方（L629；纯杠铃形态，无带/链）
+# DE 组数处方（纯杠铃形态，无带/链）
 DE_PRESCRIPTION = {
     "squat":    {"sets": "10-12", "reps": 2, "note": "组间 30-90s，杠速第一、百分比只是参考"},
     "bench":    {"sets": "8-10",  "reps": 3, "note": "三种握距；固定重量、不波浪"},
-    "deadlift": {"sets": "5-6",   "reps": 1, "note": "速度硬拉 50-60%，不必每周做（L975）"},
+    "deadlift": {"sets": "5-6",   "reps": 1, "note": "速度硬拉 50-60%，不必每周做"},
 }
 
 DE_BENCH_PCT = (45, 50)  # 无装备 max（有装备 50%）

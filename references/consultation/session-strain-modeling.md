@@ -162,11 +162,11 @@ python scripts/session_strain.py --input session.json --params my-params.json
 python scripts/session_strain.py --input session.json            # 多方案并排对比
 python scripts/session_strain.py --input session.json --curve    # 逐组曲线（看 Rf 峰值出现在哪一组）
 python scripts/session_strain.py --input session.json --json     # 结构化输出
-python scripts/session_strain.py --anchor 12.38 --demo           # 指定锚点 / 跑自带样例
+python scripts/session_strain.py --anchor 12 --demo              # 指定锚点 / 跑自带样例
 python scripts/session_strain.py --list                          # 动作库 key
 ```
 
-输入格式见 `scripts/examples/session_strain_sample.json`：`sessions[].blocks[]` 只需 `exercise`（动作名）/ `sets` / `reps`，力量动作另需 `weight`；`rest` 与 `work_per_rep` 有动作库默认值，可覆盖。1RM 未给定动作库参考值时，可以在输入里用 `one_rm` 一起传。
+输入格式见 `scripts/examples/session_strain_sample.json`（该文件自带一套示意 1RM，可直接 `--demo` 跑）：`sessions[].blocks[]` 只需 `exercise`（动作名）/ `sets` / `reps`，**外部负重动作另需 `weight`**；`rest` 与 `work_per_rep` 有动作库默认值，可覆盖。**外部负重动作的参考 1RM 必须在输入里用 `one_rm` 给出**——动作库不预置。
 
 **审计脚本必须与计划同步**：审计一份**已实施**的计划时，生成训练课的脚本（把计划文本转成 blocks 的那一层）必须与计划当前版本一致。改了计划却没改脚本，报告会继续审计一个已经不存在的计划——且因为它"看起来对"（数字都变了、结构也对），很容易被忽略。改动计划后，同步跑一次审计并比对前后读数。
 
@@ -203,13 +203,17 @@ python scripts/session_strain.py --list                          # 动作库 key
 |---|---|---|
 | `m` | ✅ | 肌肉质量/系统负荷系数（1.0 ≈ 深蹲、硬拉量级） |
 | `td` | ✅ | 技术需求 0–1，疲劳下动作质量崩坏的风险权重 |
-| `ref` | 二选一 | 有外部负重：参考 1RM 的绝对重量（可被 `one_rm` 覆盖） |
+| `ref` | 二选一 | 有外部负重：参考 1RM 的绝对重量（可被 `one_rm` 覆盖）。内置动作库**不预置**该值，见下方说明 |
 | `eff` | 二选一 | 自重/不可加载动作的等效强度 0–1 |
 | `zh` | | 显示名，缺省用 key |
 | `rest` / `wpr` | | 组间休息秒 / 每次用时秒，缺省 90 / 3.0 |
 | `chain` + `prime` | 成对 | 各肌群承担比例 + 主动肌；**给了其一必须给另一个**，否则协同比算不出来，脚本直接报错而不是硬凑 |
 
 `catalog` 对**已登记动作**是调参（可只给部分字段），对**新 key** 是新增——同一段配置里两种用法都支持。
+
+> **内置动作库不带参考 1RM**。库里 14 个外部负重动作（深蹲 / 暂停深蹲 / 前蹲 / 传统硬拉 / 相扑硬拉 / 暂停硬拉 / RDL / 早安式 / 卧推 / 窄距卧推 / 暂停卧推 / OHP / 高翻 / 高拉）**没有默认 1RM**——它们的相对强度 = `weight / ref`，`ref` 必须由调用方给出（`--params` 的 `one_rm` / 输入 JSON 的 `one_rm` / `--init-params` 导出的模板）。缺 `ref` 时脚本报错并给出补法示例，**不会静默拿一个默认值去算**。
+>
+> 只带 `eff` 的自重动作（引体 / 划船 / 夹胸 / 面拉 / 农夫行走 等）不受影响，它们的强度来自等效系数而非 1RM。
 
 **`prime` 的选取规则**：`prime` 是**训练意图上的目标肌**，通常应取 `chain` 中承担比例最高者。两者不一致时，协同比会把承担最多的那块肌当作"协同肌"去算比值，判读会自相矛盾（例：山羊挺身的 `prime` 若标成腘绳，而 `chain` 里竖脊承担 0.75，它每次都会被判成"链条受限：限制环节是竖脊"——那正是它要练的肌）。
 

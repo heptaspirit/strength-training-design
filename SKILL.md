@@ -49,7 +49,7 @@ version: 0.9.18
 ## 工具与脚本
 
 - 批计算（RPE 转换 / 重量取整 / MRV / 加权疲劳）：`scripts/` 下脚本，设计计划时**必须调用，禁止手动**
-- **单次课应激审计**：`scripts/session_strain.py`（`--input session.json` 输出 A 系统应激 / Rf 峰值 / 每动作惩罚与崩坏风险 / 协同链协同比；`--params` 覆盖参数集、`--anchor` 换刻度、`--init-params` 导出参数模板、`--list` 列动作库），依据 `references/consultation/session-strain-modeling.md`；**与 MRV 审计并列，不替代**——MRV 合规不等于系统合规、也不等于排布合规。参数未标定时只给相对比较（标定见 `references/consultation/srpe-calibration.md`）。动作名可用库内 key / 中文名 / 常见英文写法；库里没有的动作在输入 JSON 的 `catalog` 里新增，**不改脚本**
+- **单次课应激审计**：`scripts/session_strain.py`（`--input session.json` 输出 A 系统应激 / Rf 峰值 / 每动作惩罚与崩坏风险 / 协同链协同比；`--params` 覆盖参数集、`--anchor` 换刻度、`--init-params` 导出参数模板、`--list` 列动作库），依据 `references/consultation/session-strain-modeling.md`；**与 MRV 审计并列，不替代**——MRV 合规不等于系统合规、也不等于排布合规。参数未标定时只给相对比较（标定见 `references/consultation/srpe-calibration.md`）。动作名可用库内 key / 中文名 / 常见英文写法；库里没有的动作在输入 JSON 的 `catalog` 里新增，**不改脚本**。**外部负重动作必须自带参考 1RM**（`--params` 的 `one_rm` / 输入 JSON 的 `one_rm` / `--init-params` 模板）——动作库不预置默认值，缺了直接报错
 - 共轭体系运算：`scripts/westside_conjugate.py`（DE 波浪处方 / 平装载荷吨位+60% 法则 / ME 轮换计划 / 带链虚拟力备注级），依据 `references/westside/book-of-methods-core.md`
 - **GPP/体能处方计算**：`scripts/gpp_calculator.py`（`hr` 目标心率 Karvonen 换算 / `workrest` 间歇处方 / `budget` 恢复预算审计 / `progress` 10% 进阶表），依据 `references/methodology/gpp-framework.md` 与 `references/exercises/aerobic-training.md`；设计任何有氧或体能模块时**必须调用，禁止手动心算**
 - 计划聚合器：`python scripts/design_program.py`（消费 YAML 草稿 → 算重量/RPE/MRV → 硬约束校验 → 输出骨架），契约见 `docs/design_program_contract.md`

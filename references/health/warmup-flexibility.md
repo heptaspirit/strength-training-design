@@ -1,7 +1,7 @@
 ---
 skill: strength-training-design
 category: health
-description: 热身、放松与灵活度——力量训练前后的热身流程、动态拉伸、灵活度维护。基于ACSM指南与Warneke 2025 Delphi拉伸共识（含Fig.3速查图与推荐/不推荐信息图）。
+description: 热身、放松与灵活度——力量训练前后的热身流程、动态拉伸、灵活度维护。基于ACSM指南与Warneke 2025 Delphi拉伸共识（含8大主题效应速查表与推荐/不推荐信息图）。
 load_condition: 用户询问热身或灵活度相关问题时按需读取
 ---
 
@@ -22,10 +22,10 @@ load_condition: 用户询问热身或灵活度相关问题时按需读取
 
 ## 拉伸共识速查图（摘自 Warneke et al. 2025，AI 可读表格版）
 
-> 以下用表格重绘该共识的 Fig.3（8 大主题效应）与 Graphical abstract（推荐/不推荐），便于 AI 直接读取。
+> 以下用表格重绘该共识的 8 大主题效应与推荐/不推荐结论，便于 AI 直接读取。
 > 原始视觉图（JPG）存于 skill `references/health/assets/`（warneke2025_fig3_topics_overview.jpg、warneke2025_graphical_abstract.jpg），仅供人工打开查阅——本文件**不内嵌图片**，避免 AI 加载 markdown 时读到无效引用。
 
-### Fig.3 — 8 大主题效应总览（↑促进 / ↓削弱 / =无效应 / ?证据不足）
+### 8 大主题效应总览（↑促进 / ↓削弱 / =无效应 / ?证据不足）
 
 | 主题 | 急性（单次） | 慢性（≥2 周训练） |
 |------|------------|------------------|

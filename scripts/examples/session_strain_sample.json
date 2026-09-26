@@ -1,36 +1,39 @@
 {
-  "note": "样例：容量期（W3 型）两个训练日的排期对比。1RM 用动作库参考值，实际使用时请用 --params 或本文件 one_rm 换成本人的成绩。",
-  "one_rm": {},
+  "note": "样例：容量期两个训练日的排期对比。one_rm 与各组重量均为示意值，实际使用时请换成本人成绩。",
+  "one_rm": {
+    "squat": 200, "pause_squat": 200, "bench": 140, "cg_bench": 140,
+    "ohp": 90, "rdl": 150
+  },
   "sessions": [
     {
       "name": "深蹲日 A（深蹲 -> OHP -> 引体）",
       "blocks": [
-        { "exercise": "squat", "sets": 5, "reps": 8, "weight": 100 },
-        { "exercise": "pause_squat", "sets": 3, "reps": 8, "weight": 67.5 },
-        { "exercise": "ohp", "sets": 3, "reps": 8, "weight": 42.5 },
+        { "exercise": "squat", "sets": 5, "reps": 8, "weight": 140 },
+        { "exercise": "pause_squat", "sets": 3, "reps": 8, "weight": 100 },
+        { "exercise": "ohp", "sets": 3, "reps": 8, "weight": 65 },
         { "exercise": "pullup", "sets": 4, "reps": 6 },
         { "exercise": "face_pull", "sets": 3, "reps": 12 },
         { "exercise": "pallof", "sets": 3, "reps": 10 },
-        { "exercise": "rdl", "sets": 2, "reps": 8, "weight": 80 }
+        { "exercise": "rdl", "sets": 2, "reps": 8, "weight": 90 }
       ]
     },
     {
       "name": "深蹲日 B（引体移走）",
       "blocks": [
-        { "exercise": "squat", "sets": 5, "reps": 8, "weight": 100 },
-        { "exercise": "pause_squat", "sets": 3, "reps": 8, "weight": 67.5 },
-        { "exercise": "ohp", "sets": 3, "reps": 8, "weight": 42.5 },
+        { "exercise": "squat", "sets": 5, "reps": 8, "weight": 140 },
+        { "exercise": "pause_squat", "sets": 3, "reps": 8, "weight": 100 },
+        { "exercise": "ohp", "sets": 3, "reps": 8, "weight": 65 },
         { "exercise": "face_pull", "sets": 3, "reps": 12 },
         { "exercise": "pallof", "sets": 3, "reps": 10 },
-        { "exercise": "rdl", "sets": 2, "reps": 8, "weight": 80 }
+        { "exercise": "rdl", "sets": 2, "reps": 8, "weight": 90 }
       ]
     },
     {
       "name": "卧推日 A（卧推 -> 引体 -> 窄距）",
       "blocks": [
-        { "exercise": "bench", "sets": 5, "reps": 8, "weight": 72.5 },
+        { "exercise": "bench", "sets": 5, "reps": 8, "weight": 100 },
         { "exercise": "pullup", "sets": 4, "reps": 6 },
-        { "exercise": "cg_bench", "sets": 3, "reps": 8, "weight": 57.5 },
+        { "exercise": "cg_bench", "sets": 3, "reps": 8, "weight": 80 },
         { "exercise": "row", "sets": 4, "reps": 9 },
         { "exercise": "chest_fly", "sets": 3, "reps": 12 },
         { "exercise": "rear_fly", "sets": 3, "reps": 12 }
@@ -39,9 +42,9 @@
     {
       "name": "卧推日 B（窄距后再放 OHP）",
       "blocks": [
-        { "exercise": "bench", "sets": 5, "reps": 8, "weight": 72.5 },
-        { "exercise": "cg_bench", "sets": 3, "reps": 8, "weight": 57.5 },
-        { "exercise": "ohp", "sets": 3, "reps": 8, "weight": 42.5 },
+        { "exercise": "bench", "sets": 5, "reps": 8, "weight": 100 },
+        { "exercise": "cg_bench", "sets": 3, "reps": 8, "weight": 80 },
+        { "exercise": "ohp", "sets": 3, "reps": 8, "weight": 65 },
         { "exercise": "row", "sets": 4, "reps": 9 },
         { "exercise": "chest_fly", "sets": 3, "reps": 12 },
         { "exercise": "rear_fly", "sets": 3, "reps": 12 }

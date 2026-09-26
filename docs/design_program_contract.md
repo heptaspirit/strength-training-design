@@ -1,7 +1,7 @@
 # 设计契约：训练计划生成器 `design_program.py`（架构 B）
 
 > 状态：v3 修订（吸收用户"C2 文档纠错 + 边界重谈"反馈：脚本=通用重复运算器，AI=编排器）
-> 作者：Boyang + WorkBuddy
+> 维护：strength-training-design skill
 > 关联：strength-training-design v0.9.8
 >
 > **v3 核心修正**：v2 把设计器写成"三大项专用 + 大量要素丢给 AI"是错的。
@@ -67,25 +67,25 @@ v0.9.5/v0.9.6 吸收的所有机制（SBS TM 调节 / Single@8 / 模块化 / 硬
 
 ```yaml
 meta:
-  user: "Boyang"
-  cycle: "C2"
+  user: "example"
+  cycle: "cycle-1"
   week: 5              # 用于波浪/减载判断
   training_days: 4     # v1 仅支持 3/4/5（用户反馈 4：6/7 天不做自动生成）
 
 template: "upper_lower"   # 顶层字段：upper_lower | full_body | ppl（v1 仅经典 3/4/5 天模板）
 
-one_rm:                 # 当前各项 1RM（kg），用于 % 计算
-  squat: 145
-  bench: 105
-  deadlift: 157.5
+one_rm:                 # 当前各项 1RM（kg），用于 % 计算（示意值，换成用户自己的）
+  squat: 140
+  bench: 100
+  deadlift: 180
 
 # TM 调节信号源（用户反馈 2：默认不用每周 RIR，用计划末 AMRAP 重估）
 tm_mode: "amrap_reestimate"   # amrap_reestimate（默认）| weekly_rir（可选）
 tm_overrides:           # 取决于 tm_mode
   # amrap_reestimate 模式：计划级 TM 锚定，周期性覆盖
-  squat: { tm_anchor: 142.5 }      # 由上次 AMRAP→Epley 算出，整段固定
-  bench: { tm_anchor: 102.5 }
-  deadlift: { tm_anchor: 155.0 }
+  squat: { tm_anchor: 137.5 }      # 由上次 AMRAP→Epley 算出，整段固定
+  bench: { tm_anchor: 97.5 }
+  deadlift: { tm_anchor: 175.0 }
   # weekly_rir 模式（仅当用户确实记 RIR 时填）：上周末组 RIR 偏离 → 触发调节
   # squat: { last_rir_deviation: +1.5 }   # +1.5 → TM +1.5%
 

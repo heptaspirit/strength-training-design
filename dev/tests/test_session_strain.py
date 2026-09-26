@@ -192,7 +192,9 @@ def test_order_invariance_within_resolution():
     """同一课换顺序，A 的变化必须在 1% 分辨率以内。"""
     from session_strain import RESOLUTION_PCT
     import itertools
-    cfg = default_config()
+    # 外部负重动作不再有内置参考 1RM，用例须自己给（示意整数即可）
+    cfg = merge_config(default_config(),
+                       {"one_rm": {"bench": 100, "cg_bench": 100}})
     base = [blk("bench", sets=5, weight=72.5), blk("cg_bench", weight=57.5),
             blk("pullup", sets=4, reps=6), blk("row", sets=4, reps=9)]
     vals = [simulate([dict(base[i]) for i in perm], cfg)["A"]
@@ -201,7 +203,11 @@ def test_order_invariance_within_resolution():
 
 
 def test_demo_numbers_stable():
-    """样例文件的 A 值是回归基线，不应漂移。"""
+    """样例文件的 A 值是回归基线，不应漂移。
+
+    容差取模型自身的 1% 分辨率——比这更严的断言超出模型精度（见
+    references/consultation/session-strain-modeling.md §7.0）。
+    """
     import json
     import os
     here = os.path.dirname(os.path.abspath(__file__))
@@ -210,6 +216,21 @@ def test_demo_numbers_stable():
     with open(sample, encoding="utf-8") as fh:
         data = json.load(fh)
     cfg = merge_config(default_config(), data)
-    got = [round(simulate(parse_session(s, i, cfg)["blocks"], cfg)["A"], 2)
+    got = [simulate(parse_session(s, i, cfg)["blocks"], cfg)["A"]
            for i, s in enumerate(data["sessions"])]
-    assert got == [14.22, 11.80, 8.43, 7.89]
+    want = [14.59, 12.16, 8.71, 8.34]
+    assert len(got) == len(want)
+    for g, w in zip(got, want):
+        assert abs(g - w) / w < 0.01, "样例 A 漂移：%.2f（基线 %.2f）" % (g, w)
+
+
+def test_missing_one_rm_raises_actionable_error():
+    """外部负重动作缺参考 1RM 时报错，且错误信息要说明怎么补。"""
+    cfg = default_config()
+    with pytest.raises(ValueError) as e:
+        simulate([blk("squat", sets=5, reps=8, weight=100)], cfg)
+    msg = str(e.value)
+    assert "参考 1RM" in msg and "one_rm" in msg
+
+    # 自重动作不受影响（靠 eff）
+    simulate([blk("pullup", sets=4, reps=6)], cfg)
