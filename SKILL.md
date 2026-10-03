@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
-description: 科学力量训练教练——设计/修改/审计周期化训练计划、估算 1RM/PR、编排体能与有氧训练、解答训练科学问题。当用户需要：①设计力量举/肌肥大周期计划 ②修改或审计现有计划 ③估算 PR ④做体能/有氧/conditioning 计划 ⑤咨询训练科学（疲劳机制、SRA、MEV/MRV、周期化、有氧与力量冲突、伤痛与医学红旗）时使用。
-version: 0.9.18
+description: 科学力量训练教练——设计/修改/审计周期化训练计划、估算 1RM/PR 与相对强度（DOTS）、编排体能与有氧训练、解答训练科学问题。当用户需要：①设计力量举/肌肥大周期计划 ②修改或审计现有计划 ③估算 PR 或判断水平/长期目标可达性 ④做体能/有氧/conditioning 计划 ⑤咨询训练科学（疲劳机制、SRA、MEV/MRV、周期化、有氧与力量冲突、伤痛与医学红旗、既往伤病史的处置边界）时使用。
+version: 0.9.19
 ---
 
 # 力量训练科学教练 Skill
@@ -63,10 +63,10 @@ version: 0.9.18
 
 - **methodology/** — JTS 周期化、Westside 整合、RTS、RPE 自我调节、**GPP 整合框架（gpp-framework：五维分类/三轴参数化/三档疲劳分类账/周期落位表）**、同期训练干扰、冲峰/减载/停训、周期化分类学、块长度与阶段延长（block-length-and-phase-extension）
 - **volume-recovery/** — MRV 审计、硬拉容量管理、恢复与频率
-- **intensity/** — PR 估算、RPE↔%1RM 与渐进超负荷
+- **intensity/** — PR 估算（含**相对强度计分 DOTS/Wilks**）、RPE↔%1RM 与渐进超负荷
 - **exercises/** — 辅助动作数据库、薄弱点、奥举辅助、节奏与休息、OHP、核心、anthropometry、**心肺耐力 `aerobic-training.md`（GPP 心肺维度：%HRR/Karvonen 强度处方、NSCA 五型有氧谱系、work-rest 表、ACSM 间歇协议、心肺测试）**
 - **consultation/** — 疲劳来源、SRA、个体差异、Bridge 期、ACSM 2026、强度-容量敏感轴、教练-学员感知错位、**单次训练应激模型（session-strain-modeling：A/Rf/惩罚/协同链四读法 + 排期决策顺序）**、**sRPE 标定（srpe-calibration：CR10 协议 + 日志字段 + 三步拟合）**
-- **health/** — 自主神经/心血管反应、医学筛查与临床人群、**核心（含 Rollout 抗伸展专项）**、伤病预防、热身拉伸
+- **health/** — 自主神经/心血管反应、医学筛查与临床人群、**核心（含 Rollout 抗伸展专项）**、伤病预防、**既往伤病史决策框架（已回归/无症状要不要限量）**、热身拉伸
 - **barbell-medicine/** — 方法论、疼痛管理
 - **planning/** — 计划修改、**动作周内排布（exercise-placement：两层决策 / 单日排序阶梯 / 跨日迁移约束 / 模型盲区）**、输出模板
 - **rts/ · westside/** — 专项方法论；`westside/`：共轭体系核心标准 `book-of-methods-core.md`、特殊力量分类学 `special-strengths.md`、GPP/恢复 `gpp-recovery.md`、JTS 整合脉络 `westside-jts-integration.md`
@@ -89,5 +89,8 @@ version: 0.9.18
 12. **Schumann M, et al. (2022)** — 同期训练 meta 分析，43 项研究 / 1090 人：最大力量无显著干扰（SMD −0.06, p=0.446）、爆发力显著受干扰（SMD −0.28, p=0.007）且集中于同节完成。*Sports Med* 52:601–612
 13. **Foster C, et al. (2001)** — 单次训练主观用力评分（sRPE）与训练负荷量化（AU = sRPE × 时长）。*J Strength Cond Res* 15:109–115；Sweet 等 (2004) 抗阻训练课量化
 14. **Seals DR, et al. (1983)** — 同等相对强度下，参与肌群越大心血管反应越大。*J Appl Physiol* 54:434–437（单次课应激模型的方向依据）
+15. **DOTS (Konertz, 2019)** — 体重归一化相对强度评分，IPF 现行体系、OpenPowerlifting 默认排名指标；取代 Wilks。用于跨体重/跨时间追踪与长期目标反解
+16. **LaPrade RF, Wijdicks JJ (2012)** — 膝内侧损伤管理。*J Orthop Sports Phys Ther* 42(9):693–706（既往伤病史决策框架的膝部分依据）
+17. **Sanford Health / OSU Sports Medicine** — 孤立性 MCL 扭伤康复指南 / ACLR+MCL 修复临床实践指南（回归运动标准：无痛 + 无关节积液 + 等速肌力 ≥90% 健侧）
 
 > 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。
