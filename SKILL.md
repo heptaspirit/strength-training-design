@@ -1,7 +1,7 @@
 ---
 name: strength-training-design
 description: 科学力量训练教练——设计/修改/审计周期化训练计划、估算 1RM/PR 与相对强度（DOTS）、编排体能与有氧训练、解答训练科学问题。当用户需要：①设计力量举/肌肥大周期计划 ②修改或审计现有计划 ③估算 PR 或判断水平/长期目标可达性 ④做体能/有氧/conditioning 计划 ⑤咨询训练科学（疲劳机制、SRA、MEV/MRV、周期化、有氧与力量冲突、伤痛与医学红旗、既往伤病史的处置边界）时使用。
-version: 0.9.19
+version: 0.9.20
 ---
 
 # 力量训练科学教练 Skill
@@ -68,7 +68,7 @@ version: 0.9.19
 - **consultation/** — 疲劳来源、SRA、个体差异、Bridge 期、ACSM 2026、强度-容量敏感轴、教练-学员感知错位、**单次训练应激模型（session-strain-modeling：A/Rf/惩罚/协同链四读法 + 排期决策顺序）**、**sRPE 标定（srpe-calibration：CR10 协议 + 日志字段 + 三步拟合）**
 - **health/** — 自主神经/心血管反应、医学筛查与临床人群、**核心（含 Rollout 抗伸展专项）**、伤病预防、**既往伤病史决策框架（已回归/无症状要不要限量）**、热身拉伸
 - **barbell-medicine/** — 方法论、疼痛管理
-- **planning/** — 计划修改、**动作周内排布（exercise-placement：两层决策 / 单日排序阶梯 / 跨日迁移约束 / 模型盲区）**、输出模板
+- **planning/** — 计划修改、**动作周内排布（exercise-placement：两层决策 / 单日排序阶梯 / **爆发力工作的两种角色 + 课内顺序分类法与 PAP 时间尺度** / 跨日迁移约束 / 模型盲区）**、输出模板
 - **rts/ · westside/** — 专项方法论；`westside/`：共轭体系核心标准 `book-of-methods-core.md`、特殊力量分类学 `special-strengths.md`、GPP/恢复 `gpp-recovery.md`、JTS 整合脉络 `westside-jts-integration.md`
 
 ---
@@ -92,5 +92,9 @@ version: 0.9.19
 15. **DOTS (Konertz, 2019)** — 体重归一化相对强度评分，IPF 现行体系、OpenPowerlifting 默认排名指标；取代 Wilks。用于跨体重/跨时间追踪与长期目标反解
 16. **LaPrade RF, Wijdicks JJ (2012)** — 膝内侧损伤管理。*J Orthop Sports Phys Ther* 42(9):693–706（既往伤病史决策框架的膝部分依据）
 17. **Sanford Health / OSU Sports Medicine** — 孤立性 MCL 扭伤康复指南 / ACLR+MCL 修复临床实践指南（回归运动标准：无痛 + 无关节积液 + 等速肌力 ≥90% 健侧）
+18. **Cormier P, Freitas TT, Loturco I, Turner A, Virgile A, Haff GG, Bishop C.** (2022). Within session exercise sequencing during programming for complex training. *Sports Medicine* 52:2371–2389.（课内顺序分类法：交替 / 递降 / 递升；complex / contrast 术语清理）
+19. **Dobbs WC, Tolusso DV, Fedewa MV, Esco MR.** (2019). Effect of postactivation potentiation on explosive vertical jump. *JSCR* 33(7):2009–2018.（PAP 总体效应不显著；组间休息 3–7 分钟为唯一有效窗口；等长收缩引导为有害）
+20. **Schoenfeld BJ, et al.** (2018). Combining higher-load and lower-load resistance training exercises: meta-analysis of complex training studies. *JSCR* 32(8).（复合训练对控制组有效，但仅 1RM 深蹲与 20 m 冲刺占优）
+21. **Suchomel TJ, Nimphius S, Stone MH.** (2016). The importance of muscular strength in athletic performance. *Sports Medicine* 46(10):1419–1449.（相对力量分区；约 2× 体重后力量增益对爆发力任务的边际贡献递减）
 
 > 💡 当本文档信息不足以支撑用户需求时，AI 应从自身知识库或外部权威来源补充，并注明信息来源。Skill 文档是核心知识库，不是全部知识库。
