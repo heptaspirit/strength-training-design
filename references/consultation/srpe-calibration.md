@@ -1,7 +1,7 @@
 ---
 skill: strength-training-design
 category: consultation
-description: sRPE 标定方案——用单次训练主观用力评分把 A 轴锚到绝对尺度，含 CR10 评分协议、日志字段、三步拟合与结果回写方式
+description: sRPE 标定执行层——CR10 评分协议、日志字段、AU 拟合三步与已知边界；校准阶梯（哪一级需要多少数据、准不准的判据）见 individual-calibration.md
 load_condition: 需要判断某次训练是否超出恢复上限、需要给单次训练应激模型做参数标定、用户问「这次算不算练过了」时
 ---
 
@@ -22,6 +22,12 @@ load_condition: 需要判断某次训练是否超出恢复上限、需要给单�
 | 用途 | 定当天负荷 | 定这节课的总消耗 |
 
 在模型里的位置：A 轴（见 `references/consultation/session-strain-modeling.md`）抓的是"课内系统应激"，sRPE 是**外部锚**——用主观代价给 A 定绝对尺度，从而把"这次练过了"从感觉变成阈值。
+
+## 0.1 它在两层架构里的位置
+
+模型是**基线层**（通用、无个人数据）；本文是把个人实测接上去的**标定执行层**——评分协议、日志字段、拟合步骤。
+
+**能校准到哪一级、需要多少数据、什么时候该停止拟合**，由 `references/consultation/individual-calibration.md` 的校准阶梯（L1–L5）规定；本文的 §6/§8.1 是它的操作细则。判定当前数据支撑到哪一级跑 `scripts/calibration_report.py`。
 
 ## 1. 原始方法
 

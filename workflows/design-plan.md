@@ -60,7 +60,7 @@ load_condition: 功能三——用户要求完整设计训练计划时读取
      → `references/consultation/session-strain-modeling.md`
      🔧 `python scripts/session_strain.py --input session.json`
      🔴 **两层必须并列读**：MRV 合规（肌群恢复得过来）不等于系统合规（人撑得住）也不等于排布合规（动作练得到目标肌）。出现"某个动作总是做不动""某天练完缓不过来"时，第二层是主判据。
-   - **③ 待标定项**：绝对阈值（"这次过了"）需 sRPE 记录，走 `references/consultation/srpe-calibration.md`；未标定前只能用相对刻度。
+   - **③ 待校准项**：绝对阈值（"这次过了"）需 sRPE 记录。先做 L1（参考 1RM）与 L2（时长口径），L3 课型 sRPE 基线 n≥5 即可用；判定当前数据支撑到哪一级跑 `scripts/calibration_report.py`，阶梯定义见 `references/consultation/individual-calibration.md`。未校准前只能用相对刻度。
 
 6. **退阶方案** → `references/methodology/autoregulation.md`
 
