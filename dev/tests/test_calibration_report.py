@@ -140,7 +140,7 @@ def _rows_specs(pairs):
 
 
 def test_verdict_blocks_fit_when_k_range_too_wide():
-    """隐含 k 极差 >1.5 倍 → 必须 stop，不允许固化 k。"""
+    """同一课型内隐含 k 极差 >1.5 倍 → 必须 stop，不允许固化 k。"""
     rows = _rows_specs([(10.0, 50, 5, "全"), (10.0, 70, 7, "全"), (10.0, 60, 6, "全"),
                         (10.0, 55, 5, "全"), (10.0, 65, 6, "全")])
     _lines, verdict = cr.build_report(rows, 10.0, None, [], [], None, "test")
@@ -170,26 +170,63 @@ def test_verdict_blocks_fit_with_single_session_type():
 
 
 def test_verdict_allows_fit_when_all_gates_pass():
-    """n≥10、跨课型、k 极差小、rho 高 → ok。"""
-    pairs = []
-    for i in range(12):
-        a = 8.0 + i * 0.5
-        dur = 50.0 + i * 2
-        srpe = 5.0 + (i % 3) * 0.5
-        oc = "全" if i < 10 else "部分"
-        pairs.append((a, dur, srpe, oc))
+    """n≥10、跨课型、课型内 k 极差小、课型内方向一致 → ok。
+
+    夹具必须满足**课型内** A 与 AU 同向（这才是判据）；跨课型怎么排都无所谓 ——
+    旧版这里只查跨课型 rho，是个真 bug。
+    """
     rows = []
-    for i, (a, d, s, oc) in enumerate(pairs):
-        rows.append({"date": "", "session": "s%d" % i,
-                     "type": "深蹲" if i % 2 == 0 else "卧推", "A": a, "dur": d,
-                     "srpe": s, "outcome": oc, "note": ""})
-    _lines, verdict = cr.build_report(rows, 12.0, None, [], [], None, "test")
+    for t_i, t in enumerate(["深蹲", "卧推"]):
+        for i in range(6):
+            a = 9.0 + i * 0.5
+            dur = 50.0 + i * 2
+            srpe = 5.0 + i * 0.2
+            oc = "全" if i < 5 else "部分"
+            rows.append({"date": "2026-01-%02d" % (t_i * 6 + i + 1),
+                         "session": "%s s%d" % (t, i), "type": t, "A": a,
+                         "dur": dur, "srpe": srpe, "outcome": oc, "note": ""})
+    _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
     assert verdict[0] == "ok", verdict[1]
 
 
-# ── L2 时长口径门 ─────────────────────────────────────────────────────
+def test_verdict_blocks_when_within_type_direction_disagrees():
+    """课型内方向一致率 <70% → stop，且理由必须指向课型内而非课型间。"""
+    rows = []
+    # 每个课型内 A 单调上升但 AU 来回摆 —— 课型系数救不了这种
+    for t_i, t in enumerate(["深蹲", "卧推"]):
+        for i in range(6):
+            rows.append({"date": "2026-01-%02d" % (t_i * 6 + i + 1),
+                         "session": "%s s%d" % (t, i), "type": t,
+                         "A": 9.0 + i * 0.5, "dur": 50.0 + i * 2,
+                         "srpe": 5.0 + (0.9 if i % 2 else 0.0),
+                         "outcome": "全", "note": ""})
+    _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
+    assert verdict[0] == "stop"
+    assert "方向一致率" in verdict[1]
+
+
+def test_between_type_k_range_alone_does_not_block_fit():
+    """课型间 k 极差大**不是**停止信号 —— 那由课型系数处理。
+
+    这是本轮最关键的修正：旧版拿全体 k 极差当判据，把「A 的课型间刻度没校准过」
+    误报成「使用者数据不可信」。
+    """
+    rows = []
+    for t_i, (t, k_scale) in enumerate([("深蹲", 1.0), ("卧推", 4.0)]):
+        for i in range(6):
+            a = 9.0 + i * 0.5
+            rows.append({"date": "2026-01-%02d" % (t_i * 6 + i + 1),
+                         "session": "%s s%d" % (t, i), "type": t, "A": a,
+                         "dur": 50.0 + i * 2, "srpe": (5.0 + i * 0.2) * k_scale,
+                         "outcome": "全", "note": ""})
+    _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
+    assert verdict[0] == "ok", verdict[1]
+    assert "课型系数" in verdict[1] or "课型间" in verdict[1]
+
+
+# ── L2 时长口径门：课型内 vs 课型间 ────────────────────────────────────
 def test_duration_mismatch_blocks_calibration_message():
-    """实测/模型时长极差 >1.5 倍 → 报告必须点明"口径不一致"且禁止进入 L5。"""
+    """同一课型内实测/模型时长极差 >1.5 倍 → 个人计时不稳，必须明说。"""
     rows = _rows_specs([(10.0, 50, 5, "全"), (10.0, 90, 6, "全"), (10.0, 60, 5, "全"),
                         (10.0, 55, 5, "全"), (10.0, 65, 6, "全")])
     rows[0]["model_dur"] = 50.0
@@ -199,8 +236,50 @@ def test_duration_mismatch_blocks_calibration_message():
     rows[4]["model_dur"] = 65.0
     lines, _v = cr.build_report(rows, 10.0, 0, [], [], None, "test")
     text = "\n".join(lines)
-    assert "时长口径不一致" in text
+    assert "计时口径不稳" in text
     assert "禁止进入 L5" in text
+
+
+def test_between_type_duration_bias_is_not_a_personal_problem():
+    """课型内稳、课型间偏 → 必须说「个人计时是稳的」，且指向课型系数而非统一计时。"""
+    rows = []
+    for t_i, (t, actual) in enumerate([("深蹲", 60.0), ("卧推", 60.0), ("轻量", 36.0)]):
+        for i in range(2):
+            idx = t_i * 2 + i
+            rows.append({"date": "2026-01-%02d" % (idx + 1),
+                         "session": "%s s%d" % (t, i), "type": t,
+                         "A": 10.0, "dur": actual, "srpe": 5.0,
+                         "model_dur": 60.0, "outcome": "全", "note": ""})
+    lines, _v = cr.build_report(rows, 10.0, None, [], [], None, "test")
+    text = "\n".join(lines)
+    assert "个人计时是稳的" in text
+    assert "按课型给时长系数" in text
+    # 且不得把它当成停止 L5 的理由
+    assert "不构成停止 L5 的理由" in text
+
+
+def test_duration_split_detects_systematic_per_type_bias():
+    """课型内比值稳、课型中位相差大 → between_range 大而 within 小。"""
+    rows = []
+    for t_i, (t, ratio_val) in enumerate([("深蹲", 1.0), ("轻量", 0.7)]):
+        for i in range(2):
+            rows.append({"type": t, "dur": 50.0 * ratio_val * (1 + i * 0.02),
+                         "model_dur": 50.0, "A": 10.0, "srpe": 5.0, "AU": 250.0})
+    within, between, per_type, _per_within = cr.duration_split(rows)
+    assert within < 1.1
+    assert between > 1.3
+    assert set(per_type) == {"深蹲", "轻量"}
+
+
+def test_within_type_agreement_uses_date_order():
+    """方向一致率按时间排，不按 A 排序 —— 否则「哪一次在变重」会读反。"""
+    rows = [
+        {"type": "深蹲", "session": "w1", "date": "2026-01-01", "A": 10.0, "AU": 300.0},
+        {"type": "深蹲", "session": "w2", "date": "2026-01-08", "A": 10.1, "AU": 320.0},
+    ]
+    agree, total, _detail = cr.within_type_agreement(rows)
+    assert total == 1
+    assert agree == 1
 
 
 # ── L4 后果分组 ───────────────────────────────────────────────────────

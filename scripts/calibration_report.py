@@ -92,6 +92,78 @@ def ratio(vals):
     return max(pos) / min(pos)
 
 
+def duration_split(rows):
+    """把「实测时长 / 模型时长」的离散拆成课型内与课型间两部分。
+
+    两者含义完全不同，混在一起看会得出错误结论：
+      课型内离散大 → **个人计时口径不稳**（同类型课都算不准），要改计时方式；
+      课型间离散大 → **个人其实很稳**，是模型对某些课型的时长估计系统性偏，
+                    要改的是「按课型给时长系数」，不是让使用者统一计时。
+
+    返回 (within_max, between_range, per_type_median, per_type_within)。
+    """
+    per_type, per_type_within = {}, {}
+    for r in rows:
+        if not r.get("model_dur"):
+            continue
+        per_type.setdefault(r["type"], []).append(r["dur"] / r["model_dur"])
+    for t, vals in per_type.items():
+        per_type[t] = median(vals)
+        per_type_within[t] = ratio(vals)
+    within = [v for v in per_type_within.values() if v]
+    return (max(within) if within else None,
+            ratio(list(per_type.values())),
+            per_type,
+            per_type_within)
+
+
+def within_type_agreement(rows):
+    """课型内方向一致率：同一课型相邻两次，A 变化方向与 AU 变化方向是否相同。
+
+    这是模型排序能力的**唯一有效检验**。跨课型 rho 低不代表模型坏了 ——
+    A 与 AU 的跨课型刻度本就未经检验（不同课型的时长结构、局部代价占比不同），
+    把它们混在一起算相关系数没有意义：测出的差距是刻度的，不是使用者的。
+    课型内方向一致才是可解释的证据。
+
+    「相邻」按时间排（用 date；无日期时退回按 A 排序）。方向以**时间在后的一节
+    减时间在前的一节**为准，报出来的正负号与周的先后一致，不用心算。
+
+    返回 (一致数, 总数, 明细列表)。
+    """
+    per_type = {}
+    for r in rows:
+        per_type.setdefault(r["type"], []).append(r)
+    has_date = any(r.get("date") for r in rows)
+    agree, total, detail = 0, 0, []
+    for t in sorted(per_type):
+        g = [r for r in per_type[t] if r.get("A") and r.get("AU") is not None]
+        g.sort(key=(lambda r: (r.get("date") or "", r["session"])) if has_date
+               else (lambda r: r["A"]))
+        for i in range(len(g) - 1):
+            lo, hi = g[i], g[i + 1]
+            if hi["A"] == lo["A"]:
+                continue
+            total += 1
+            dA = hi["A"] - lo["A"]
+            dU = hi["AU"] - lo["AU"]
+            ok = (dA > 0) == (dU > 0)
+            agree += ok
+            detail.append((t, lo["session"], hi["session"], dA, dU, ok))
+    return agree, total, detail
+
+
+def k_by_type(rows):
+    """隐含 k = AU/A 的课型内极差与课型间极差，分开报。"""
+    per_type = {}
+    for r in rows:
+        if r.get("A") and r["A"] > 0 and r.get("AU") is not None:
+            per_type.setdefault(r["type"], []).append(r["AU"] / r["A"])
+    within = {t: ratio(v) for t, v in per_type.items()}
+    within = {t: v for t, v in within.items() if v}
+    flat = [x for v in per_type.values() for x in v]
+    return within, (max(flat) / min(flat) if len(flat) > 1 and min(flat) > 0 else None)
+
+
 def num(x):
     x = (x or "").strip()
     if not x:
@@ -327,18 +399,50 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
     o.rule()
     o("2  L2 时长口径（拟合前必须先过这一关）")
     o.rule()
+    within_range, between_range, per_type_med, per_type_within = duration_split(complete)
     with_mdur = [r for r in complete if r.get("model_dur")]
     if with_mdur:
         rr = [r["dur"] / r["model_dur"] for r in with_mdur if r["model_dur"]]
         r_range = ratio(rr)
-        o("实测时长 / 模型时长：n=%d  中位 %.2f  极差 %.1f 倍"
+        o("实测时长 / 模型时长：n=%d  中位 %.2f  全体极差 %.1f 倍"
           % (len(rr), median(rr), r_range if r_range else float("nan")))
-        if r_range and r_range > DURATION_TOL:
-            o("判定: ✗ 超过 %.1f 倍 —— **时长口径不一致**，AU 的离散主要来自这里，"
-              "不是 A 与 AU 不线性。" % DURATION_TOL)
-            o("      先统一口径（同一计时起止点）再谈拟合；此时禁止进入 L5。")
+        o()
+        o("%-14s %6s %8s   %s" % ("课型", "n", "比值中位", "课型内极差"))
+        for t in sorted(per_type_med):
+            g = [x for x in with_mdur if x["type"] == t]
+            wr = per_type_within[t]
+            o("%-14s %6d %8.2f   %s"
+              % (t, len(g), per_type_med[t],
+                 "%.2f 倍" % wr if wr else "n=1，无法判断"))
+        o()
+        o("→ 读法：两个数字指向完全不同的处置，别混为一谈。")
+        if within_range and within_range > DURATION_TOL and between_range \
+                and between_range > DURATION_TOL:
+            o("⚠ **课型内 %.1f 倍 + 课型间 %.1f 倍都超限** —— 先修计时口径，"
+              "课型间差异在计时修好后重测。" % (within_range, between_range))
+        elif within_range and within_range > DURATION_TOL:
+            o("判定: ✗ 课型内 %.1f 倍 > %.1f —— **个人计时口径不稳**（同类型课"
+              "之间都算不准）。先统一计时起止点；此时禁止进入 L5。"
+              % (within_range, DURATION_TOL))
+        elif between_range and between_range > DURATION_TOL:
+            # 比值 = 实测 / 模型。比值 < 1 = 实际用时比模型短 = 模型高估。
+            over = min(per_type_med, key=lambda t: per_type_med[t]) \
+                if per_type_med else "?"
+            under = max(per_type_med, key=lambda t: per_type_med[t]) \
+                if per_type_med else "?"
+            o("判定: △ 课型内 %.2f 倍（稳）但课型间 %.1f 倍 > %.1f —— "
+              "**个人计时是稳的**，是模型对不同课型的时长估计有系统性偏差。"
+              % (within_range, between_range, DURATION_TOL))
+            o("      处置不是让使用者统一计时，而是**按课型给时长系数**："
+              "模型高估最多的是「%s」（实测只有模型估的 %.0f%%），"
+              "低估最多的是「%s」（实测是模型估的 %.0f%%）。"
+              % (over, per_type_med.get(over, 0) * 100,
+                 under, per_type_med.get(under, 0) * 100))
+            o("      这不构成停止 L5 的理由 —— 校准层的做法是把课型系数写进"
+              "使用者的参数文件（见 individual-calibration.md §5），基线不动。")
         else:
-            o("判定: ✓ 口径稳定（极差 ≤ %.1f 倍），AU 的变化不能只怪时长。" % DURATION_TOL)
+            o("判定: ✓ 课型内 %.2f 倍、课型间 %.2f 倍，都 ≤ %.1f 倍，口径稳定。"
+              % (within_range or 1.0, between_range or 1.0, DURATION_TOL))
     else:
         o("未提供会话 JSON，无法算模型时长 —— 本级跳过。")
         o("补法：加 --sessions <会话.json> [--params <参数.json>]，本脚本会按名称匹配填 A 并同算模型时长。")
@@ -352,8 +456,6 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
         r["AU"] = r["srpe"] * r["dur"]
     xs = [r["A"] for r in complete]
     ys = [r["AU"] for r in complete]
-    ks = [r["AU"] / r["A"] for r in complete if r["A"] > 0]
-    k_range = ratio(ks)
     rho = pearson(ranks(xs), ranks(ys)) if len(complete) >= 3 else None
     r_lin = pearson(xs, ys) if len(complete) >= 3 else None
     dur_rho = pearson(ranks([r["dur"] for r in complete]), ranks(ys)) if len(complete) >= 3 else None
@@ -366,12 +468,41 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
     o()
     o("AU 与模型 A 的关系：")
     o("  Pearson  r     = %s" % ("%.3f" % r_lin if r_lin is not None else "n/a"))
-    o("  Spearman rho   = %s   ← 主看这个（排序是否一致）"
-      % ("%.3f" % rho if rho is not None else "n/a"))
+    o("  Spearman rho   = %s   ← 跨课型混合，仅供参考" % ("%.3f" % rho if rho is not None else "n/a"))
     o("  AU 与实际时长的 rho = %s   ← 对照项：它更高说明 AU 被时长支配"
       % ("%.3f" % dur_rho if dur_rho is not None else "n/a"))
-    o("  隐含 k = AU/A 极差 = %s 倍（上限 %.1f）"
-      % ("%.2f" % k_range if k_range else "n/a", K_RANGE_LIMIT))
+    o()
+    o("※ 上面的 rho 把不同课型混在一起算，**不能当判据**。不同课型的时长结构与"
+      "局部代价占比不同，A 与 AU 的跨课型刻度本就未经检验，")
+    o("  把它们混算得到一个低 rho，既不能证明模型坏，也不能证明 A 能用。")
+    o("  有判据的是下面两项 —— 都只在课型内部成立。")
+    o()
+    w_agree, w_total, w_detail = within_type_agreement(complete)
+    if w_total:
+        o("① 课型内方向一致率 = %d/%d（同一课型相邻两次，A 与 AU 变化同向）"
+          % (w_agree, w_total))
+        for t, s1, s2, dA, dU, ok in w_detail:
+            o("   %-8s A %+5.2f → AU %+5.0f   %-18s %s  %s"
+              % (t, dA, dU, s1[:18], s2[:18], "同向" if ok else "背离"))
+        o("   （箭头 = 后一次减前一次；课型内检验里这条才是判据）")
+    else:
+        o("① 课型内方向一致率：数据不足（每课型需要 ≥2 次实测）。")
+    o()
+    k_within, k_between = k_by_type(complete)
+    o("② 隐含 k = AU/A（课型内 vs 课型间）")
+    for t in sorted(k_within, key=lambda x: -k_within[x]):
+        o("   %-10s 课型内极差 %s"
+          % (t, "%.2f 倍" % k_within[t] if k_within[t] else "n=1，样本不足"))
+    o("   课型间极差 = %s"
+      % ("%.2f 倍" % k_between if k_between else "n/a"))
+    o("   课型间大是**正常且预期**的：A 的课型间刻度本就没校准过。"
+      "把课型系数写进个人参数文件即可消掉，不是不许模型用。")
+    if k_within:
+        worst_k = max(k_within, key=lambda t: k_within[t])
+        if k_within[worst_k] and k_within[worst_k] > K_RANGE_LIMIT:
+            o("   ⚠ 「%s」课型内 k 极差 %.2f 倍 > %.1f —— 单节课型内部就对不上，"
+              "课型系数也救不了。查该课型内是否存在计划改动或计时口径变化。"
+              % (worst_k, k_within[worst_k], K_RANGE_LIMIT))
 
     # ── L3 课型基线 ──────────────────────────────────────────────────
     o()
@@ -439,35 +570,55 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
     o.rule()
     o("6  L5 拟合判定（可选级）")
     o.rule()
-    # 判定顺序：先报**最强的停止信号**。k 极差超限比"样本不足"更有指导意义 ——
-    # 两者都指向"别拟合"，但前者指出了具体原因（口径或非线性），可以直接去修。
+    # 判定顺序：先报**最强的停止信号**。
+    #
+    # 判据只用**课型内**证据。跨课型混算的 rho 与课型间 k 极差都不作判据 ——
+    # A 的课型间刻度本就没有校准过，拿它当判据等于用一把没刻度的尺子量东西，
+    # 测出的差距是尺子的，不是使用者的。跨课型差异的正确处置见 Step 1 的 ②。
+    within_k_bad = [t for t, v in k_within.items() if v and v > K_RANGE_LIMIT]
     verdict = None
     if not complete:
         verdict = ("skip",
                    "没有有效样本：先补 A（--sessions 自动匹配或手填）与 sRPE。")
-    elif k_range is not None and k_range > K_RANGE_LIMIT:
-        extra = "（n=%d 同时偏小，n 达标后重测）" % len(complete) if len(complete) < 10 else ""
+    elif within_k_bad:
+        t = max(within_k_bad, key=lambda x: k_within[x])
         verdict = ("stop",
-                   "隐含 k 极差 %.1f 倍 > %.1f：**停止拟合**。不要靠加变量救，"
-                   "改用 L3 查表 + 漂移检测。%s" % (k_range, K_RANGE_LIMIT, extra))
+                   "「%s」课型内隐含 k 极差 %.2f 倍 > %.1f：**停止拟合**。"
+                   "单节课型内部就对不上，课型系数也救不了——"
+                   "先查该课型内是否有计划改动或计时口径变化。"
+                   "课型间 %.1f 倍的差异不算理由，那由课型系数处理。"
+                   % (t, k_within[t], K_RANGE_LIMIT, k_between or 0.0))
+    elif w_total and w_agree / w_total < RHO_FIT_MIN:
+        verdict = (
+            "stop",
+            "课型内方向一致率 %d/%d = %.2f < %.1f：**停止拟合**。"
+            "同一课型内 A 涨了而 AU 没涨（只涨 %d/%d），"
+            "课型系数救不了这种——它按课型缩放，不改课型内的排序。"
+            "先查该课型内是否有时长口径外的变化（自主改组间休息、动作顺序、组数），"
+            "再考虑模型。" % (w_agree, w_total, w_agree / w_total,
+                              RHO_FIT_MIN, w_agree, w_total))
     elif len(types) < 2:
-        msg = ("只有 1 种课型：回归无法跨课型验证（系数只对这一课型成立）。"
-               "建该课型基线即可。")
-        verdict = ("stop", msg)
-    elif rho is not None and rho < RHO_FIT_MIN:
-        verdict = ("stop",
-                   "rho %.3f < %.1f：排序都不一致，A 不能当 AU 的代理。"
-                   "先查时长口径与课型混合，再考虑拆两项回归。"
-                   % (rho, RHO_FIT_MIN))
+        verdict = (
+            "stop",
+            "只有 1 种课型：回归无法跨课型验证（系数只对这一课型成立）。"
+            + "建该课型基线即可。",
+        )
     elif len(complete) < 10:
+        extra = ""
+        if between_range and between_range > DURATION_TOL and \
+                within_range and within_range <= DURATION_TOL:
+            extra = ("（注意：课型间时长比值 %.1f 倍偏大，但课型内 %.2f 倍稳定——"
+                     "这是模型对某类课的时长估计偏，个人计时没问题）"
+                     % (between_range, within_range))
         verdict = ("skip",
                    "n=%d < 10：样本量不足，拟合出的曲线往往是这个周期的形状，"
-                   "不是这个人的特征。停在 L3/L4。" % len(complete))
+                   "不是这个人的特征。停在 L3/L4。%s" % (len(complete), extra))
     else:
         verdict = ("ok",
-                   "rho %.3f、隐含 k 极差 %.2f 倍、跨 %d 种课型 —— 可以固化 k = b，"
-                   "但仍禁止外推到其他周期结构。"
-                   % (rho, k_range, len(types)))
+                   "课型内方向一致 %d/%d、课型内 k 极差 ≤%.1f —— 可以固化 k = b，"
+                   "但只限课型内部，且仍禁止外推到其他周期结构。"
+                   "课型间 %.1f 倍差异用课型系数处理，不进回归。"
+                   % (w_agree, w_total, K_RANGE_LIMIT, between_range or 0.0))
     o("判定: %s" % verdict[1])
     o()
     if verdict[0] == "ok":
