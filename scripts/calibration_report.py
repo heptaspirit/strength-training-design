@@ -197,6 +197,14 @@ def per_type_fit_quality(rows):
             rec["degrade"] = l_a / l_both
         else:
             rec["degrade"] = None
+        # 参照模型不可算的两种原因要分清：
+        #   ① A 与时长完全共线 → 正则方程奇异，ols_multi 返回 None
+        #   ② 样本量不够（每折自由度不足）→ loocv_rmse 返回 None
+        # 前者是数据性质（共线本身说明「加时长」没有额外信息可加），
+        # 后者是样本不足。两者都不该被当成「没通过」。
+        rec["ref_model_na"] = (
+            "共线" if m_both is None else
+            ("样本不足" if l_both is None else None))
         # 可评估 = 样本量够 + 主判据（相对误差）算得出来。
         # 劣化倍数在 A 与时长共线时算不出来（参照模型奇异），那种情况下该门
         # 不参与判决 —— 共线本身说明「加时长」没有额外信息可加。
@@ -798,7 +806,8 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
                  "%.3f" % q["r2"] if q.get("r2") is not None else "-",
                  "%.0f" % q["loocv"] if q.get("loocv") is not None else "-",
                  "%.0f%%" % (q["rel_err"] * 100) if q.get("rel_err") is not None else "-",
-                 "%.1f" % q["degrade"] if q.get("degrade") is not None else "共线",
+                 "%.1f" % q["degrade"] if q.get("degrade") is not None
+                 else (q.get("ref_model_na") or "-"),
                  note))
         o()
         o("    劣化倍数门槛 %.1f　可评估需课型内 n≥%d" % (AU_DEGRADE_MAX, MIN_FIT_SAMPLES))
@@ -806,6 +815,7 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
         o("    「共线」= A 与时长在课型内共线，「AU ~ A + 时长」参照模型奇异，")
         o("      劣化倍数算不出来 —— 这时该门不参与判决，且共线本身说明"
           "「加时长」没有额外信息可加。")
+        o("    「样本不足」= 参照模型每折自由度不够，与共线是两回事。")
         o("    相对误差一列是参考信息：它与「课型内 k 极差」测的是同一件事"
           "（k = AU/A），故不另设门槛。")
         o()
