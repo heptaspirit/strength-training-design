@@ -169,22 +169,42 @@ def test_verdict_blocks_fit_with_single_session_type():
     assert "课型" in verdict[1]
 
 
+def _synthetic_rows(t_scales=(1.0, 4.0), n_per_type=8, a_step=0.3):
+    """造一份跨课型的合成样本，用于检验「ok」路径。
+
+    四处必须真实，否则检验测不到该测的东西：
+
+    1. **A 与时长不共线** —— 时长带非单调扰动。否则「A + 时长」的正规方程
+       奇异，样本外评估直接算不出来。
+    2. **sRPE 随 A 涨** —— 真实数据里 AU = sRPE × 时长，而 sRPE 由训练量决定。
+       若把 sRPE 设成「只由时长决定」，换算表当然不准 —— 那是夹具不真实。
+    3. **每课型 n ≥ 5** —— 样本外误差估计要求课型内 n≥5（每折留 3 点拟合 2 参数）。
+    4. **AU 随 A 单调涨** —— 课型内 AU~A 的 R² 要够高，且残差要小。
+
+    课型系数 k_scale 让课型间的隐含 k 差 4 倍，用来确认「课型间差不是停止理由」。
+    """
+    jitter = (0.0, 3.0, 1.0, 4.0, 2.0, 5.0, 1.5, 2.5)
+    rows = []
+    for t_i, (t, k_scale) in enumerate(zip(["深蹲", "卧推"], t_scales)):
+        for i in range(n_per_type):
+            a = 9.0 + i * a_step
+            dur = 50.0 + i * 2 + jitter[i % len(jitter)] * 0.05
+            # sRPE 主要随 A 涨（训练量决定代价），时长只带轻微扰动
+            srpe = (2.0 + a * 0.12 + dur * 0.002) * k_scale
+            rows.append({"date": "2026-01-%02d" % (t_i * n_per_type + i + 1),
+                         "session": "%s s%d" % (t, i), "type": t, "A": a,
+                         "dur": dur, "srpe": srpe, "outcome": "全", "note": ""})
+    return rows
+
+
 def test_verdict_allows_fit_when_all_gates_pass():
-    """n≥10、跨课型、课型内 k 极差小、课型内方向一致 → ok。
+    """n≥10、跨课型、课型内 k 极差小、课型内方向一致、A 有独立贡献 → ok。
 
     夹具必须满足**课型内** A 与 AU 同向（这才是判据）；跨课型怎么排都无所谓 ——
     旧版这里只查跨课型 rho，是个真 bug。
     """
-    rows = []
-    for t_i, t in enumerate(["深蹲", "卧推"]):
-        for i in range(6):
-            a = 9.0 + i * 0.5
-            dur = 50.0 + i * 2
-            srpe = 5.0 + i * 0.2
-            oc = "全" if i < 5 else "部分"
-            rows.append({"date": "2026-01-%02d" % (t_i * 6 + i + 1),
-                         "session": "%s s%d" % (t, i), "type": t, "A": a,
-                         "dur": dur, "srpe": srpe, "outcome": oc, "note": ""})
+    rows = _synthetic_rows()
+    rows[5]["outcome"] = "部分"          # 留一组「未完成」供 L4 分组
     _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
     assert verdict[0] == "ok", verdict[1]
 
@@ -211,17 +231,92 @@ def test_between_type_k_range_alone_does_not_block_fit():
     这是本轮最关键的修正：旧版拿全体 k 极差当判据，把「A 的课型间刻度没校准过」
     误报成「使用者数据不可信」。
     """
-    rows = []
-    for t_i, (t, k_scale) in enumerate([("深蹲", 1.0), ("卧推", 4.0)]):
-        for i in range(6):
-            a = 9.0 + i * 0.5
-            rows.append({"date": "2026-01-%02d" % (t_i * 6 + i + 1),
-                         "session": "%s s%d" % (t, i), "type": t, "A": a,
-                         "dur": 50.0 + i * 2, "srpe": (5.0 + i * 0.2) * k_scale,
-                         "outcome": "全", "note": ""})
+    rows = _synthetic_rows()
     _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
     assert verdict[0] == "ok", verdict[1]
-    assert "课型系数" in verdict[1] or "课型间" in verdict[1]
+    # 课型间 k 极差大不是停止理由 —— 报告里不该把它说成理由
+    assert "课型间" not in verdict[1] or "不算理由" in verdict[1]
+
+
+# ── 新门限：换算表可用性（逐课型评估）──────────────────────────────
+def test_skips_when_no_type_has_enough_samples_for_out_of_sample_eval():
+    """课型内 n 不足 → 判「样本不足」，不得假装能评估。
+
+    n=4 时每折只剩 3 点拟合 2 参数，误差估计本身没有精度。
+    「样本不足」是第三种状态，不能当成通过，也不能当成不通过。
+    """
+    # 「深蹲」8 点（够评估）、「卧推」3 点（不够）→ 至少一个课型不可评估
+    jitter = (0.0, 3.0, 1.0, 4.0, 2.0, 5.0, 1.5, 2.5)
+    rows = []
+    for t_i, (t, n) in enumerate([("深蹲", 8), ("卧推", 3)]):
+        for i in range(n):
+            rows.append({"date": "2026-01-%02d" % (t_i * 10 + i + 1),
+                         "session": "%s s%d" % (t, i), "type": t,
+                         "A": 9.0 + i * 0.3, "dur": 50.0 + i * 2 + jitter[i] * 0.3,
+                         "srpe": 3.0 + i * 0.12 + (50.0 + i * 2) * 0.002,
+                         "outcome": "全", "note": ""})
+    _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
+    assert verdict[0] == "skip", verdict[1]
+    assert "样本量不足" in verdict[1]
+    assert "不能算通过也不能算不通过" in verdict[1]
+    # 必须指名是哪个课型不够、还差多少
+    assert "卧推" in verdict[1] and "需 5" in verdict[1]
+
+
+def test_stops_when_A_alone_cannot_predict_AU():
+    """单用 A 预测 AU 远差于「A + 时长」→ 换算缺了时长那一半 → stop。
+
+    AU = sRPE × 时长，A 缺的那部分正是时长。固化 a、b 得到的阈值会系统性错。
+    这道门与「课型内 k 极差」不重合 —— k = AU/A，k 极差与 AU~A 的残差是同一件事，
+    而这里测的是「加进时长后能改善多少」。
+    """
+    jitter = (0.0, 3.0, 1.0, 4.0, 2.0, 5.0, 1.5, 2.5)
+    rows = []
+    for t_i, t in enumerate(["深蹲", "卧推"]):
+        for i in range(8):
+            a = 9.0 + i * 0.2
+            dur = 50.0 + i * 2 + jitter[i] * 0.3
+            # sRPE 主要是时长的函数 → AU 的散布来自时长，A 解释不了
+            srpe = 3.0 + i * 0.02 + dur * 0.02
+            rows.append({"date": "2026-01-%02d" % (t_i * 8 + i + 1),
+                         "session": "%s s%d" % (t, i), "type": t,
+                         "A": a, "dur": dur, "srpe": srpe,
+                         "outcome": "全", "note": ""})
+    _lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
+    assert verdict[0] == "stop", verdict[1]
+    assert "时长" in verdict[1] or "换算" in verdict[1]
+    assert "L3" in verdict[1]
+
+
+def test_ok_verdict_outputs_per_type_coefficients_not_one_global_line():
+    """放行后必须给**分课型**系数；跨课型全局直线只能作描述，不给反解资格。
+
+    旧版给的是一根跨课型的全局线，而课型间 b 可差 2 倍以上 ——
+    用它反解阈值会系统性错。这是本轮修掉的真漏洞。
+    """
+    rows = _synthetic_rows()
+    lines, verdict = cr.build_report(rows, 11.0, None, [], [], None, "test")
+    assert verdict[0] == "ok", verdict[1]
+    text = "\n".join(lines)
+    assert "分课型系数" in text
+    assert "仅描述，不用于反解" in text
+    # 每个课型各自一条线
+    assert text.count("·A") >= 2
+    # 且必须提示缺时长就不能换算
+    assert "缺时长" in text
+
+
+def test_report_always_shows_competing_model_check():
+    """竞争模型检验的明细必须出现在报告里 —— 无论判决 ok 还是 stop。
+
+    它本身就是结论的一部分：读者要能看到「A 的增量只有多少」，
+    而不只是看到一个结论词。
+    """
+    rows = _synthetic_rows()
+    lines, _v = cr.build_report(rows, 11.0, None, [], [], None, "test")
+    text = "\n".join(lines)
+    assert "换算表可用性检验" in text
+    assert "逐课型" in text
 
 
 # ── L2 时长口径门：课型内 vs 课型间 ────────────────────────────────────

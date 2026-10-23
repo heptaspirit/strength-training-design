@@ -41,6 +41,16 @@ K_RANGE_LIMIT = 1.5     # 隐含 k 极差上限（倍）。超过 → 停止拟�
 RHO_FIT_MIN = 0.7       # Spearman rho 达到此值才允许固化 k
 DURATION_TOL = 1.5      # 实测时长 / 模型时长 极差上限（倍）。超过 → 时长口径不可靠
 MIN_SAMPLES = 5         # 建立课型基线表的最小样本数（每课型）
+AU_DEGRADE_MAX = 2.0    # 分课型「AU ~ A」相对「AU ~ A + 时长」的样本外劣化倍数上限。
+                        # 超过此值说明 A 缺的那部分信息正是时长 —— 换算表是残缺的，
+                        # 使用者必须同时知道时长才敢用。
+                        # 这是 L5 唯一新增的实质门：它测的是「A 缺不缺时长」，
+                        # 与「课型内 k 极差」不重合（k = AU/A，k 极差与 AU~A
+                        # 的残差是同一件事的两种说法，故不再另设相对误差门）。
+MIN_FIT_SAMPLES = 5     # 课型内做样本外评估所需的最小样本数。
+                        # 低于此数，每折剩不到 3 点拟合 2 参数，误差估计本身
+                        # 没有精度 —— 那种课型的结论是「样本不足」，不是通过或不通过。
+                        # 两个阈值都是工程约定，见 individual-calibration.md §4。
 
 
 # ── 统计小工具 ────────────────────────────────────────────────────────
@@ -82,6 +92,118 @@ def ols(xs, ys):
         return None, None
     b = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sxx
     return my - b * mx, b
+
+
+def ols_multi(cols, y):
+    """多元最小二乘（含截距）。cols = [[x1_i], [x2_i], ...]，y = [y_i]。
+
+    返回 (截距, [斜率...], R²)，不可算时返回 None。
+    不可算的两种情形：样本量不足（自由度 ≤0）、或正规方程奇异（某列在样本内
+    与其他列完全共线 —— 这在「A 随周次线性涨、时长也随周次线性涨」的合成数据里
+    必然发生，所以必须有守卫而不是让它除零崩掉）。
+    """
+    n = len(y)
+    k = len(cols)
+    if n < k + 2:                     # 至少留 1 个自由度
+        return None
+    X = [[1.0] + [cols[j][i] for j in range(k)] for i in range(n)]
+    m = k + 1
+    A = [[sum(X[i][r] * X[i][c] for i in range(n)) for c in range(m)] for r in range(m)]
+    b = [sum(X[i][r] * y[i] for i in range(n)) for r in range(m)]
+    for c in range(m):
+        piv = max(range(c, m), key=lambda r: abs(A[r][c]))
+        if abs(A[piv][c]) < 1e-10:
+            return None
+        A[c], A[piv] = A[piv], A[c]
+        b[c], b[piv] = b[piv], b[c]
+        for r in range(m):
+            if r == c:
+                continue
+            f = A[r][c] / A[c][c]
+            for cc in range(c, m):
+                A[r][cc] -= f * A[c][cc]
+            b[r] -= f * b[c]
+    beta = [b[r] / A[r][r] for r in range(m)]
+    yhat = [sum(beta[r] * X[i][r] for r in range(m)) for i in range(n)]
+    sse = sum((y[i] - yhat[i]) ** 2 for i in range(n))
+    sst = sum((v - sum(y) / n) ** 2 for v in y)
+    if sst <= 0:
+        return None
+    return beta[0], beta[1:], 1 - sse / sst
+
+
+def loocv_rmse(cols, y):
+    """留一法 RMSE：每折用其余样本拟合，预测留出的那一点。
+
+    训练内 R² 会骗人 —— 加了变量几乎必然变好看。样本外误差才是模型有没有用的
+    唯一证据。样本量不够（每折自由度不足）或某折奇异时返回 None。
+    """
+    n = len(y)
+    if n < 4:
+        return None
+    errs = []
+    for i in range(n):
+        keep = [j for j in range(n) if j != i]
+        res = ols_multi([[c[j] for j in keep] for c in cols], [y[j] for j in keep])
+        if res is None:
+            return None
+        b0, bs, _ = res
+        pred = b0 + sum(bs[j] * cols[j][i] for j in range(len(cols)))
+        errs.append(y[i] - pred)
+    return math.sqrt(sum(e * e for e in errs) / len(errs))
+
+
+def per_type_fit_quality(rows):
+    """逐课型评估 L5 的产出「AU = a + b·A」靠不靠得住。
+
+    **必须在课型内做。** L5 的产物是分课型的换算表，那么「这张表靠不靠得住」
+    只能在课型内回答。跨课型评估时，课型间的量级差会主导残差，把课型内
+    的真实差异盖掉（实测：同样 n=4，卧推课型内相对误差 109%、深蹲 27%，
+    差 4 倍纯属噪声）。
+
+    每课型算：
+        AU ~ A          L5 的产物本身：LOOCV RMSE、相对误差（参考信息）
+        AU ~ A + 时长   参照模型：LOOCV RMSE。劣化倍数 = 前者 / 后者，
+                        这是「A 缺不缺时长」的唯一判据
+        样本量是否够做评估（n ≥ MIN_FIT_SAMPLES）
+
+    返回 {课型: {...}}。样本不足的课型其 rel_err / degrade 为 None ——
+    「样本不足」是第三种状态，不能当成通过。
+    """
+    out = {}
+    for t in sorted({r["type"] for r in rows}):
+        g = [r for r in rows if r["type"] == t]
+        a = [r["A"] for r in g]
+        dur = [r["dur"] for r in g]
+        au = [r["srpe"] * r["dur"] for r in g]     # AU 自己算，不依赖调用方预先填
+        m_a = ols_multi([a], au)
+        m_both = ols_multi([a, dur], au)
+        rec = {"n": len(g), "au_median": median(au)}
+        if m_a is not None:
+            rec["r2"] = m_a[2]
+            rec["a_coef"] = m_a[1][0]
+            rec["a_intercept"] = m_a[0]
+        if m_both is not None:
+            rec["r2_both"] = m_both[2]
+        l_a = loocv_rmse([a], au)
+        l_both = loocv_rmse([a, dur], au)
+        rec["loocv"] = l_a
+        rec["loocv_both"] = l_both
+        if l_a is not None and rec["au_median"]:
+            rec["rel_err"] = l_a / rec["au_median"]
+        else:
+            rec["rel_err"] = None
+        if l_a is not None and l_both:
+            rec["degrade"] = l_a / l_both
+        else:
+            rec["degrade"] = None
+        # 可评估 = 样本量够 + 主判据（相对误差）算得出来。
+        # 劣化倍数在 A 与时长共线时算不出来（参照模型奇异），那种情况下该门
+        # 不参与判决 —— 共线本身说明「加时长」没有额外信息可加。
+        rec["evaluable"] = (len(g) >= MIN_FIT_SAMPLES
+                            and rec.get("rel_err") is not None)
+        out[t] = rec
+    return out
 
 
 def ratio(vals):
@@ -614,22 +736,121 @@ def build_report(rows, anchor, filled, missed, ambiguous, one_rm_keys, source_no
                    "n=%d < 10：样本量不足，拟合出的曲线往往是这个周期的形状，"
                    "不是这个人的特征。停在 L3/L4。%s" % (len(complete), extra))
     else:
-        verdict = ("ok",
-                   "课型内方向一致 %d/%d、课型内 k 极差 ≤%.1f —— 可以固化 k = b，"
-                   "但只限课型内部，且仍禁止外推到其他周期结构。"
-                   "课型间 %.1f 倍差异用课型系数处理，不进回归。"
-                   % (w_agree, w_total, K_RANGE_LIMIT, between_range or 0.0))
+        # 竞争模型检验 + 样本外门槛 —— 放在 ok 之前，因为它们比任何训练内指标都强。
+        quality = per_type_fit_quality(complete)
+        evaluable = {t: q for t, q in quality.items() if q["evaluable"]}
+        not_eval = {t: q for t, q in quality.items() if not q["evaluable"]}
+        if not_eval:
+            # **所有**课型都必须可评估才算放行 —— L5 的产物是「一整张分课型换算表」，
+            # 缺一个课型的表就等于这张表有洞，用它反解会静默漏掉那个课型。
+            need = ", ".join("%s(需 %d，现 %d)" % (t, MIN_FIT_SAMPLES, q["n"])
+                             for t, q in sorted(not_eval.items()))
+            verdict = ("skip",
+                       "**样本量不足，无法评估完整的换算表。**"
+                       "样本外的误差估计要求课型内 n≥%d（每折至少留 3 点拟合 2 参数），"
+                       "当前不足的课型：%s。n 不足时结论只能是「样本不足」，"
+                       "不能算通过也不能算不通过。"
+                       "补齐这些课型的样本（或删掉它们）后重跑。停在 L3。"
+                       % (MIN_FIT_SAMPLES, need))
+        else:
+            bad_deg = [(t, q) for t, q in evaluable.items()
+                       if q.get("degrade") is not None and q["degrade"] > AU_DEGRADE_MAX]
+            if bad_deg:
+                t, q = max(bad_deg, key=lambda x: x[1]["degrade"])
+                verdict = (
+                    "stop",
+                    "**「A → AU」的换算缺了时长那一半：停止拟合。**"
+                    "「%s」课型内样本外误差：只用 A 时 %.0f AU，加上时长后 %.0f AU —— "
+                    "差 %.1f 倍（门槛 %.1f 倍）。AU = sRPE × 时长，"
+                    "A 缺的那部分正是时长，固化出来的表是残缺的。"
+                    "处置：改用 L3 查表（按课型记时长中位 + sRPE 中位 + 带宽）。"
+                    % (t, q["loocv"], q["loocv_both"], q["degrade"], AU_DEGRADE_MAX))
+            else:
+                degs = [(t, q) for t, q in evaluable.items() if q.get("degrade") is not None]
+                if degs:
+                    worst_d = max(degs, key=lambda x: x[1]["degrade"])
+                    deg_txt = "、劣化倍数最差 %.1f 倍（门槛 %.1f）" % (
+                        worst_d[1]["degrade"], AU_DEGRADE_MAX)
+                else:
+                    deg_txt = "、劣化倍数不可评估（A 与时长共线，参照模型奇异）"
+                verdict = ("ok",
+                           "课型内方向一致 %d/%d、课型内 k 极差 ≤%.1f、"
+                           "可评估课型 %d 个%s—— **分课型**固化系数可用。"
+                           % (w_agree, w_total, K_RANGE_LIMIT, len(evaluable), deg_txt))
     o("判定: %s" % verdict[1])
     o()
+
+    # 竞争模型检验的明细 —— 无论是否 ok 都报，它本身就是结论的一部分
+    quality = per_type_fit_quality(complete) if complete else {}
+    if quality:
+        o("  -- 换算表可用性检验（逐课型）--")
+        o("  L5 的产物是**一张只用 A 的分课型换算表**（反解时手上只有 A），")
+        o("  所以检验在**课型内**做：课型间的量级差会盖掉课型内的真实差异。")
+        o()
+        o("    %-10s%4s%8s%10s%10s%10s%8s"
+          % ("课型", "n", "R²", "LOOCV", "相对误差", "劣化倍数", "可评估"))
+        o("    " + "-" * 66)
+        for t in sorted(quality):
+            q = quality[t]
+            note = "是" if q["evaluable"] else "n<%d" % MIN_FIT_SAMPLES
+            o("    %-10s%4d%8s%10s%10s%10s%8s"
+              % (t, q["n"],
+                 "%.3f" % q["r2"] if q.get("r2") is not None else "-",
+                 "%.0f" % q["loocv"] if q.get("loocv") is not None else "-",
+                 "%.0f%%" % (q["rel_err"] * 100) if q.get("rel_err") is not None else "-",
+                 "%.1f" % q["degrade"] if q.get("degrade") is not None else "共线",
+                 note))
+        o()
+        o("    劣化倍数门槛 %.1f　可评估需课型内 n≥%d" % (AU_DEGRADE_MAX, MIN_FIT_SAMPLES))
+        o("    n 不足的课型：**样本不足**，既不算通过也不算不通过。")
+        o("    「共线」= A 与时长在课型内共线，「AU ~ A + 时长」参照模型奇异，")
+        o("      劣化倍数算不出来 —— 这时该门不参与判决，且共线本身说明"
+          "「加时长」没有额外信息可加。")
+        o("    相对误差一列是参考信息：它与「课型内 k 极差」测的是同一件事"
+          "（k = AU/A），故不另设门槛。")
+        o()
+
     if verdict[0] == "ok":
-        a0, b = ols(xs, ys)
-        if b:
-            o("  AU = %+.1f + %.1f·A" % (a0, b))
-            o("  单次上限 AU → A = (AU - %.1f) / %.1f" % (a0, b))
-            if anchor:
-                for au in (300, 400, 500, 600, 700, 800):
-                    a_val = (au - a0) / b
-                    o("    AU %4d -> A %7.2f -> A%% %6.1f" % (au, a_val, a_val / anchor * 100))
+        o("  -- 分课型系数（**这就是可用的产出**）--")
+        o("  每课型单独拟合 AU = a + b·A。跨课型不共用一根线：")
+        o()
+        o("  %-10s%5s%16s%8s%8s%14s"
+          % ("课型", "n", "AU = a + b·A", "R²", "b", "AU300 -> A"))
+        o("  " + "-" * 68)
+        for t in sorted(types):
+            g = [x for x in complete if x["type"] == t]
+            if len(g) < 3:
+                o("  %-10s%5d%s" % (t, len(g), "样本不足（需 >=3）"))
+                continue
+            ax = [x["A"] for x in g]
+            au = [x["AU"] for x in g]
+            a0, b = ols(ax, au)
+            if b is None:
+                o("  %-10s%5d%s" % (t, len(g), "A 无变异，无法拟合"))
+                continue
+            yh = [a0 + b * v for v in ax]
+            sse = sum((au[i] - yh[i]) ** 2 for i in range(len(au)))
+            sst = sum((v - sum(au) / len(au)) ** 2 for v in au)
+            r2 = 1 - sse / sst if sst > 0 else float("nan")
+            inv = "A %.1f" % ((300 - a0) / b) if b else "-"
+            o("  %-10s%5d%16s%8.3f%8.1f%14s"
+              % (t, len(g), "%.1f %+.1f·A" % (a0, b), r2, b, inv))
+        o()
+        o("  用法：拿到那节课的 A，先查它属于哪个课型，用**该课型**的 a、b 反解 AU。")
+        o("  ! 只在**同一课型 + 同一周期结构**内成立。容量期与力量期、减载周与"
+          "常规周的结构不同，系数不能跨阶段搬。")
+        o("  ! n<5 的课型上表只是示意，不足以固化。")
+        o("  ! AU = sRPE x 时长，缺时长就不能把 A 换算成 AU —— "
+          "反解时必须同时知道那节课的实测时长。")
+        o()
+        # 全局回归只作描述，明确不给它反解资格
+        a0g, bg = ols(xs, ys)
+        if bg:
+            o("  -- 跨课型全局回归（**仅描述，不用于反解**）--")
+            o("  AU = %.1f %+.1f·A" % (a0g, bg))
+            o("  它把若干条不同的线压成一个平均：分课型的 b 彼此可差 2 倍以上，")
+            o("  用它反解阈值会系统性错。列出来只为了让人看清「为什么不能这么用」。")
+            o()
     o()
     o("=" * 78)
     return o.lines, verdict
