@@ -6,6 +6,7 @@ Usage: python scripts/rpe_to_percentage.py --reps <N> --rpe <RPE> --one_rm <PR>
 """
 
 import argparse
+from itertools import pairwise
 
 # RPE 转 %1RM 表格（基于 JTS 数据）
 # Key: (reps, rpe) -> %1RM
@@ -34,6 +35,43 @@ def calculate_1rm_from_rpe(weight: float, reps: int, rpe: float) -> float:
     """根据 RPE 反推 1RM"""
     percentage = rpe_to_percentage(reps, rpe)
     return weight / (percentage / 100)
+
+
+# ── 组次与 %1RM 的可行域反查 ──────────────────────────────────────────
+# 用途：处方里 (次数, %1RM) 是被当成两个自由参数填的，但两者不独立。
+# 给定次数，%1RM 有上限（力竭点）；超过去就是「排了一组做不完的量」。
+
+def pct_at_failure(reps: int):
+    """该次数下做到力竭（RPE 10）对应的最高 %1RM。表只覆盖 1-5 次，其余返回 None。"""
+    return RPE_TABLE.get((reps, 10))
+
+
+def implied_rpe(reps: int, pct: float):
+    """由 (次数, %1RM) 反查 RPE。返回 (rpe, 是否越界)：
+    rpe > 10 表示该 %1RM 已超过该次数的力竭上限（不可能完成的处方）。
+    次数不在表内（>5）或 %1RM 低于表下界时，返回 (None, False)——不判。
+    """
+    if (reps, 10) not in RPE_TABLE:
+        return None, False
+    pts = sorted((RPE_TABLE[(reps, r)], r)
+                 for r in (7, 7.5, 8, 8.5, 9, 9.5, 10)
+                 if (reps, r) in RPE_TABLE)
+    if not pts:
+        return None, False
+    top_pct, top_rpe = pts[-1]
+    if pct > top_pct:
+        # 超力竭：按最后一档的斜率外推，仅用于排序与提示，不作精确值
+        slope = (pts[-1][1] - pts[-2][1]) / (pts[-1][0] - pts[-2][0]) if len(pts) > 1 else 0
+        return round(top_rpe + (pct - top_pct) * slope, 2), True
+    if pct < pts[0][0]:
+        return None, False
+    for (p0, r0), (p1, r1) in pairwise(pts):
+        if p0 <= pct <= p1:
+            if p1 == p0:
+                return r1, False
+            return round(r0 + (pct - p0) / (p1 - p0) * (r1 - r0), 2), False
+    return None, False
+
 
 def calculate_weight_from_1rm(one_rm: float, reps: int, rpe: float) -> float:
     """根据 1RM 和 RPE 计算训练重量"""

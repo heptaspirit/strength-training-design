@@ -36,9 +36,13 @@ import sys
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _SCRIPT_DIR)
 
-from rpe_to_percentage import calculate_weight_from_1rm  # noqa: E402
+from rpe_to_percentage import (calculate_weight_from_1rm, implied_rpe,  # noqa: E402
+                               pct_at_failure)
 from round_weight import round_weight  # noqa: E402
 from calculate_mrv import calculate_mrv_status  # noqa: E402
+
+# TS 的 RPE 上限（guardrails.md：TS 做到力竭无额外收益）
+TS_RPE_CAP = 9.0
 
 # ── 模板定义（v1：3/4/5 天经典）──────────────────────────────────────
 # 每个主项出现日（用于频率 / 48h 间隔校验）
@@ -106,6 +110,24 @@ def _day_idx(day):
     return DAY_ORDER.index(day)
 
 
+def check_reps_pct(exercise, reps, pct):
+    """校验 (次数, %1RM) 是否落在可行域内。
+
+    次数与 %1RM 不是两个自由参数：给定次数，%1RM 有力竭上限。处方同时给两者时，
+    必须验证它们自洽，否则会排出一组做不完的量（表现是 TS 在最后 1-2 次失败）。
+
+    返回 (implied_rpe, level)：level = None / "over_cap"（超 RPE 上限）/ "impossible"（超力竭）。
+    """
+    ir, beyond = implied_rpe(reps, pct)
+    if ir is None:
+        return None, None
+    if beyond:
+        return ir, "impossible"
+    if ir > TS_RPE_CAP:
+        return ir, "over_cap"
+    return ir, None
+
+
 def compute_lift(exercise, one_rm, reps, rpe=None, pct=None, plate_step=2.5,
                  deload_factor=1.0, tm=None, no_weight=False):
     """计算单个 lift：RPE→%→重量→取整，或直接 pct→重量→取整。
@@ -127,6 +149,21 @@ def compute_lift(exercise, one_rm, reps, rpe=None, pct=None, plate_step=2.5,
         }
     base = tm if tm is not None else one_rm
     if pct is not None:
+        ir, level = check_reps_pct(exercise, reps, pct)
+        if level == "impossible":
+            raise ValueError(
+                f"动作 {exercise}：{reps} 次 @ {pct}% 1RM 超过该次数的力竭上限"
+                f"（{reps} 次做到力竭 ≈ {pct_at_failure(reps)}%），这组排不完。"
+                f"改法二选一：%1RM 降到 ≤{pct_at_failure(reps)}%，或次数降到 {reps - 1} 次及以下（重量不动）。"
+            )
+        if level == "over_cap":
+            print(f"[warn] {exercise}: {reps} 次 @ {pct}% 1RM ≈ RPE {ir}，"
+                  f"超过 TS 上限 RPE {TS_RPE_CAP}。确认这是冲刺/测试组；"
+                  f"否则降 2.5-5% 1RM 或减 1 次。", file=sys.stderr)
+        if rpe is not None and ir is not None and abs(ir - rpe) > 0.5:
+            print(f"[warn] {exercise}: 标注 RPE {rpe} 与 {reps} 次 @ {pct}% 1RM "
+                  f"（≈RPE {ir}）不自洽，差 {abs(ir - rpe):.1f} 档。重量按 pct 算，"
+                  f"请确认标注的那一列要不要改。", file=sys.stderr)
         raw_pct = base * (pct / 100.0)
         rounded = round_weight(raw_pct * deload_factor, plate_step)
         return {

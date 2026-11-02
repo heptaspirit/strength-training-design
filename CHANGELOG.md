@@ -2,6 +2,23 @@
 
 本文档记录 `strength-training-design` skill 的版本变更。
 
+## [0.11.1] - 2026-11-02
+
+### fix: 组次与 %1RM 不做耦合校验 —— 能排出物理上做不完的 TS
+
+起因：一份 9 周计划的强度段把 TS 写成「5 次 @ 88% 1RM」，RPE 列标 8.5，执行到第 4 次失败。回查不是个案——`compute_lift` 把 `reps` 与 `pct` 当两个独立参数：pct 路径从不校验这个次数能不能做，RPE 路径也不回头核对标注的 RPE 与 pct 是否自洽。
+
+两者不独立。给定次数，%1RM 有一个力竭上限：5 次 ≈87%、3 次 ≈92%、1 次 100%。越线的处方在纸面上完全正常，错的是可行性，不是执行——所以它不会在设计阶段暴露，只在训练当天以「最后 1-2 次失败」的形式出现。
+
+**改法**
+
+- `rpe_to_percentage.py`：新增 `pct_at_failure(reps)` 与 `implied_rpe(reps, pct)`，由 `RPE_TABLE` 反查可行域（网点精确、网点间线性插值、越界外推并标 `beyond`）。
+- `design_program.py`：新增 `check_reps_pct()`；`compute_lift` 在 pct 路径上做三项校验——超力竭抛 `ValueError`、超 RPE 9 警告、标注 RPE 与推算 RPE 相差 >0.5 档警告（后者专抓「重量按 88% 算、RPE 却写 8.5」这类自相矛盾）。
+- `guardrails.md`：加一条反例；`references/intensity/rpe-reference-and-progressive-overload.md`：新增「一·补 组次与 %1RM 必须匹配」，给可行域表与 5/3/2 次的转换规则。
+- 测试：`dev/tests/test_reps_pct_coupling.py`，7 例，覆盖力竭上限、插值、外推、超力竭抛错与可行处方不受影响的边界。全量 99 passed。
+
+**不动**：`RPE_TABLE` 数值、A 公式、动作库系数。§1 的 RTS 版式表与代码表在多次区间差 2.5 个百分点，本轮只在 §一·补 里写明执行口径，未改表本身——两个口径并存是已知问题，收敛它需要一手数据核对，不夹在本次修复里。
+
 ## [0.11.0] - 2026-10-23
 
 ### fix: L5 判定与产出的三处漏洞 —— 判据分课型而产出跨课型、缺样本外检验、缺竞争模型检验
