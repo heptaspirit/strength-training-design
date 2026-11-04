@@ -9,7 +9,7 @@ load_condition: 功能三步骤4「GPP 与体能模块」设计有氧部分时�
 
 **来源**：基于 ACSM *Guidelines for Exercise Testing and Prescription* 12th ed.（心肺耐力运动处方）；NSCA *Essentials of Strength Training and Conditioning* 5th ed.（生物能量学与代谢特异性、有氧耐力训练处方）。
 
-**本文件的边界**：只讲"有氧怎么练、练多强"。GPP 的整体编排（周期落位、疲劳分档、与主项时序）见 `../methodology/gpp-framework.md`；干扰机制见 `../methodology/concurrent-training-interference.md`。
+**本文件的边界**：只讲"有氧怎么练、练多强"。GPP 的整体编排（周期落位、疲劳分档、与主项时序）见 `../methodology/gpp-framework.md`；干扰机制见 `../methodology/concurrent-training-interference.md`；把心肺负荷装进抗阻课的组织形式（循环、PHA、超级组）见 `training-density-methods.md`。
 
 ---
 

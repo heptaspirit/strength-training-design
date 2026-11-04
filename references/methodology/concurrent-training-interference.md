@@ -1,8 +1,8 @@
 ---
 skill: strength-training-design
 category: methodology
-description: 同期训练（concurrent training）的干扰效应——同时练抗阻+有氧耐力时的机制、证据与缓解安排。核心结论：最大力量不受显著干扰，爆发力受干扰且集中于同节完成时；缓解首推分节而非减量。基于 Schumann 2022 meta 与 NSCA Essentials 5th。
-load_condition: 用户同时练力量+有氧（如"我跑步/骑车同时也举铁""想减脂又不想掉力量"），或询问"有氧会不会掉肌肉/力量"时触发。
+description: 同期训练（concurrent training）的干扰效应——同时练抗阻+有氧耐力时的机制、证据与缓解安排。核心结论：干扰随训练水平上升而显现（未训练者无影响、训练有素者显著），且集中在同一次课内合并时；爆发力比最大力量更敏感。缓解首推分节而非减量。基于 Schumann (2022)、Petré (2021) 两项 meta 与 NSCA Essentials 5th。
+load_condition: 用户同时练力量+有氧（如"我跑步/骑车同时也举铁""想减脂又不想掉力量""有氧会不会掉肌肉/力量"）时触发；给训练有素者编排有氧落位时必读。
 ---
 
 # 同期训练干扰效应（Concurrent Training）
@@ -41,16 +41,35 @@ NSCA 明确区分三个相关但不同的概念：
 
 **这条结论改变了 GPP 的设计重点**：
 
-1. **最大力量其实扛得住有氧**，不需要为了保深蹲/硬拉成绩而把有氧压到极低。
-2. **真正被吃掉的是爆发力**（RFD、功率输出）——对做高翻/高拉的训练者，这才是必须保护的对象。
-3. 爆发力的干扰**主要集中在有氧与抗阻于同一节内完成时** ⇒ **第一缓解手段是分节/分天，而不是单纯砍有氧量**。
-4. 该分析还发现个体反应异质性并未增加，即不存在"某些人特别怕干扰"的可靠证据。
+1. **未训练与中等训练者扛得住有氧**，不必为了保深蹲/硬拉成绩把有氧压到极低。
+2. **训练有素者是例外**——合并有氧对其下肢 1RM 有实质损害，见本节末的分层数据。
+3. **真正被吃掉的是爆发力**（RFD、功率输出）——对做高翻/高拉的训练者，这才是必须保护的对象。
+4. 爆发力的干扰**主要集中在有氧与抗阻于同一节内完成时** ⇒ **第一缓解手段是分节/分天，而不是单纯砍有氧量**。
+5. 该分析还发现个体反应异质性并未增加，即不存在"某些人特别怕干扰"的可靠证据。
+
+#### 训练水平是调节变量（Petré 2021）
+
+Schumann 的效应量是各训练水平混合后的平均。按训练水平分层后，结论从"无显著干扰"变为"干扰随训练水平上升而显现"。
+
+Petré 等（*Sports Med*, 2021；27 项研究，只取下肢 1RM）的结果：
+
+| 人群 / 安排 | 效应量 | 判定 |
+|------------|--------|------|
+| 未训练 | ES +0.03（p=0.87） | 无影响 |
+| 中等训练 | ES −0.20（p=0.08） | 边缘，不显著 |
+| 训练有素 | ES −0.35（p<0.01） | **显著损害** |
+| 训练有素 · 同一次课内合并 | ES −0.66（p<0.01） | **损害放大** |
+| 训练有素 · 分在不同天 | ES −0.10（p=0.55） | 无影响 |
+
+两项 meta 的分歧来自人群构成：Schumann 纳入的研究以未训练与中度训练者为主，训练者身上的损害被平均值稀释。上肢力量两项结论一致（干扰小）；下肢 1RM 必须按分层结果处理。
+
+**判据**：给训练有素者编排有氧，默认走"分天"；只有在确认其下肢力量不处于发展优先期时，才考虑同天不同节。训练水平按经验年限与相对力量综合判断，不按自我标签。
 
 ### 1.2 早期研究（历史脉络）
 
 - **Hickson 1982** 经典研究：重阻力 + 渐进跑步/骑车，深蹲力量前 7 周显著增长，随后 2 周平台，最后 2 周**下降**。注意该研究的有氧量为渐进式的高容量跑步+骑车，远超力量训练者的常规 GPP 量。
 - **Wilson 等 2012**（21 项研究 / 422 效应量）：合并训练削弱肌围度、最大力量与爆发力，且**干扰随有氧的频率与时长递增**（时长相关系数 −0.29 ~ −0.75）；跑步造成显著衰减而骑行未造成。
-- 早期研究样本量与异质性较大，Schumann 2022 将证据基础扩大约一倍后，肌肥大与最大力量两项干扰未通过显著性检验。
+- 早期研究样本量与异质性较大，Schumann 2022 将证据基础扩大约一倍后，肌肥大与最大力量两项干扰在**混合样本**中未通过显著性检验。训练有素者的下肢力量是例外，见上一节的分层数据。
 
 ### 1.3 剂量阈值（实操边界）
 
@@ -81,7 +100,7 @@ NSCA 明确区分三个相关但不同的概念：
 
 按优先级处理，顺序不可颠倒：
 
-1. **分节优先于减量**：既然最大力量对有氧并不敏感（Schumann 2022），而爆发力的干扰集中在同节完成时，**先把有氧挪出主项课**，收益大于削减有氧量。时序：分天 > 同天间隔 ≥6 h > 同节抗阻在前。
+1. **分节优先于减量**：未训练与中等训练者的最大力量对有氧不敏感（Schumann 2022），训练有素者只在分天时不受损（Petré 2021），而爆发力的干扰集中在同节完成时——**先把有氧挪出主项课**，收益大于削减有氧量。时序：分天 > 同天间隔 ≥6 h > 同节抗阻在前。
 2. **保护爆发力课**：高翻/高拉/速度课所在的训练日不放中高强度有氧；该类课前后 24 h 内避免下肢主导有氧（尤其跑步）。
 3. **单次 ≤30 min**：低强度 30 min 以内基本不产生急性力量衰减，超过则风险上升。
 4. **选低冲击模态**：骑行/划船/椭圆优先于跑步。
@@ -99,17 +118,18 @@ NSCA 明确区分三个相关但不同的概念：
 
 ## 3. 一句话总结
 
-> 有氧不是不能练，是**别让它和主项抢同一节**。最新证据表明最大力量扛得住有氧，真正掉的是爆发力——所以第一优先级是**分节/分天**，其次才是控量（单次 ≤30 min、低冲击模态）。耐力优先 → 力量保底 2–3 练/周。
+> 有氧不是不能练，是**别让它和主项抢同一节**。未训练与中等训练者的最大力量扛得住有氧，训练有素者只在分天时不受损；两者共同受影响的是爆发力。所以第一优先级是**分节/分天**，其次才是控量（单次 ≤30 min、低冲击模态）。耐力优先 → 力量保底 2–3 练/周。
 
 ---
 
 ## 参考文献
 
-1. **Schumann M, et al.** (2022). Compatibility of Concurrent Aerobic and Strength Training for Skeletal Muscle Size and Function: An Updated Systematic Review and Meta-Analysis. *Sports Med* 52:601–612.（43 项研究 / 1090 人；本文件主要依据）
-2. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Chapters on metabolic specificity, anaerobic & aerobic training adaptations, concurrent training.
-3. **Hickson RC, et al.** (1982). 经典 concurrent training 力量平台/下降研究（引于 NSCA 5th）。
-4. **Wilson JM, et al.** (2012). Concurrent training: a meta-analysis examining interference of aerobic and resistance exercises. *J Strength Cond Res* 26(8):2293–2307.
-5. 急性干扰：有氧先于抗阻会削弱随后力量表现，低强度 ≤30 min 未观察到损害（*Eur J Appl Physiol*，PMC9124655）。
-6. **Häkkinen K, et al.** — 力量发展率（RFD）在合并训练下不增（引于 NSCA 5th）。
-7. **Kraemer WJ, et al.** — 合并组肌功率不增（引于 NSCA 5th）。
-8. 交叉：`gpp-framework.md`（编排与周期落位）、`../exercises/aerobic-training.md`（有氧怎么练）、`../volume-recovery/mrv-audit.md`、`periodization-taxonomy.md`（maintenance 区间）。
+1. **Schumann M, et al.** (2022). Compatibility of Concurrent Aerobic and Strength Training for Skeletal Muscle Size and Function: An Updated Systematic Review and Meta-Analysis. *Sports Med* 52:601–612.（43 项研究 / 1090 人；全人群混合值）
+2. **Petré H, Hemmingsson E, Rosdahl H, Psilander N.** (2021). Development of Maximal Dynamic Strength During Concurrent Resistance and Endurance Training in Untrained, Moderately Trained, and Trained Individuals: A Systematic Review and Meta-analysis. *Sports Med* 51(5):991–1010.（27 项研究；训练水平分层与同节/分天分层，本文件训练者判据的依据）
+3. **NSCA** — *Essentials of Strength Training and Conditioning* 5th ed. (Haff & Triplett). Chapters on metabolic specificity, anaerobic & aerobic training adaptations, concurrent training.
+4. **Hickson RC, et al.** (1982). 经典 concurrent training 力量平台/下降研究（引于 NSCA 5th）。
+5. **Wilson JM, et al.** (2012). Concurrent training: a meta-analysis examining interference of aerobic and resistance exercises. *J Strength Cond Res* 26(8):2293–2307.
+6. 急性干扰：有氧先于抗阻会削弱随后力量表现，低强度 ≤30 min 未观察到损害（*Eur J Appl Physiol*，PMC9124655）。
+7. **Häkkinen K, et al.** — 力量发展率（RFD）在合并训练下不增（引于 NSCA 5th）。
+8. **Kraemer WJ, et al.** — 合并组肌功率不增（引于 NSCA 5th）。
+9. 交叉：`gpp-framework.md`（编排与周期落位）、`../exercises/aerobic-training.md`（有氧怎么练）、`../exercises/training-density-methods.md`（用什么组织形式压缩时间）、`../volume-recovery/mrv-audit.md`、`periodization-taxonomy.md`（maintenance 区间）。
